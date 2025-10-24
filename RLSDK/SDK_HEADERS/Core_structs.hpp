@@ -542,38 +542,27 @@ struct FUniqueNetId
 	uint8_t                                            SplitscreenID;                                 // 0x0041 (0x0001) [0x0000000000000000]               
 };
 
-// ScriptStruct Core._Types_Core.MessagePayload
-// 0x0080
-struct FMessagePayload
+// ScriptStruct Core._Types_Core.ProductHashID
+// 0x0004
+struct FProductHashID
 {
-	struct FUniqueNetId                                SenderId;                                      // 0x0000 (0x0048) [0x0000000000400000] (CPF_NeedCtorLink)
-	class FString                                      RoomId;                                        // 0x0048 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	class FString                                      MessageText;                                   // 0x0058 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	uint64_t                                           TimeStamp;                                     // 0x0068 (0x0008) [0x0000000000000000]               
-	int32_t                                            SequenceNumber;                                // 0x0070 (0x0004) [0x0000000000000000]               
-	uint32_t                                           bWantsToRecord : 1;                            // 0x0074 (0x0004) [0x0000000000000000] [0x00000001] 
-	uint8_t                                            ChannelType;                                   // 0x0078 (0x0001) [0x0000000000000000]               
-	uint8_t                                           UnknownData00[0x3];                               		// 0x0079 (0x0003) MISSED OFFSET
-	int32_t                                            MessageId;                                     // 0x007C (0x0004) [0x0000000000000000]               
+	int32_t                                            Id;                                            // 0x0000 (0x0004) [0x0000000000000000]               
 };
 
-// ScriptStruct Core._Types_Core.SignedMessageData
-// 0x00B8
-struct FSignedMessageData
+// ScriptStruct Core._Types_Core.EncryptedKeyIndex
+// 0x0004
+struct FEncryptedKeyIndex
 {
-	struct FMessagePayload                             Payload;                                       // 0x0000 (0x0080) [0x0000000000400000] (CPF_NeedCtorLink)
-	class FString                                      Signature;                                     // 0x0080 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	uint64_t                                           ReceivingTimestamp;                            // 0x0090 (0x0008) [0x0000000000000000]               
-	class FString                                      SanitizedReceivedTextMessage;                  // 0x0098 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	class FString                                      PublicKey;                                     // 0x00A8 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	int32_t                                            Index;                                         // 0x0000 (0x0004) [0x0000000000000000]               
 };
 
-// ScriptStruct Core._Types_Core.ProductInstanceID
-// 0x0010
-struct FProductInstanceID
+// ScriptStruct Core._Types_Core.VoiceAudioDevice
+// 0x0024
+struct FVoiceAudioDevice
 {
-	uint64_t                                           UpperBits;                                     // 0x0000 (0x0008) [0x0000000000000000]               
-	uint64_t                                           LowerBits;                                     // 0x0008 (0x0008) [0x0000000000000000]               
+	class FString                                      Id;                                            // 0x0000 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      Name;                                          // 0x0010 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	uint32_t                                           bDefault : 1;                                  // 0x0020 (0x0004) [0x0000000040000000] [0x00000001] (CPF_EditInlineNotify)
 };
 
 // ScriptStruct Core._Types_Core.VoiceRoomMemberStatus
@@ -588,27 +577,12 @@ struct FVoiceRoomMemberStatus
 	uint32_t                                           bBlocked : 1;                                  // 0x0000 (0x0004) [0x0000000000000000] [0x00000020] 
 };
 
-// ScriptStruct Core._Types_Core.VoiceAudioDevice
-// 0x0024
-struct FVoiceAudioDevice
+// ScriptStruct Core._Types_Core.ProductInstanceID
+// 0x0010
+struct FProductInstanceID
 {
-	class FString                                      Id;                                            // 0x0000 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      Name;                                          // 0x0010 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	uint32_t                                           bDefault : 1;                                  // 0x0020 (0x0004) [0x0000000040000000] [0x00000001] (CPF_EditInlineNotify)
-};
-
-// ScriptStruct Core._Types_Core.EncryptedKeyIndex
-// 0x0004
-struct FEncryptedKeyIndex
-{
-	int32_t                                            Index;                                         // 0x0000 (0x0004) [0x0000000000000000]               
-};
-
-// ScriptStruct Core._Types_Core.ProductHashID
-// 0x0004
-struct FProductHashID
-{
-	int32_t                                            Id;                                            // 0x0000 (0x0004) [0x0000000000000000]               
+	uint64_t                                           UpperBits;                                     // 0x0000 (0x0008) [0x0000000000000000]               
+	uint64_t                                           LowerBits;                                     // 0x0008 (0x0008) [0x0000000000000000]               
 };
 
 // ScriptStruct Core.AutomationTest.ScriptWarning

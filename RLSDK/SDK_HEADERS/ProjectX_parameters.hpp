@@ -1893,6 +1893,12 @@ struct UCheatManager_X_execDisableCCD_Params
 {
 };
 
+// Function ProjectX.CheatManager_X.TriggerDDoSPreventionSystem
+// [0x00020401] 
+struct UCheatManager_X_execTriggerDDoSPreventionSystem_Params
+{
+};
+
 // Function ProjectX.CheatManager_X.SetNetServerMaxTickRate
 // [0x00020401] 
 struct UCheatManager_X_execSetNetServerMaxTickRate_Params
@@ -2925,19 +2931,11 @@ struct UOnlinePlayer_X_execCanPlayOnline_Params
 	// uint8_t                                            HintPrivLevel;                                    		// 0x0001 (0x0001) [0x0000000000000000]               
 };
 
-// Function ProjectX.OnlinePlayer_X.HandlePlayerCountryReceived
-// [0x00020003] 
-struct UOnlinePlayer_X_execHandlePlayerCountryReceived_Params
-{
-	struct FUniqueNetId                                InPlayerID;                                       		// 0x0000 (0x0048) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	class FString                                      Country;                                          		// 0x0048 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-};
-
 // Function ProjectX.OnlinePlayer_X.GetPlayerCountry
-// [0x00020003] 
+// [0x00020002] 
 struct UOnlinePlayer_X_execGetPlayerCountry_Params
 {
-	struct FScriptDelegate                             Handler;                                          		// 0x0000 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      ReturnValue;                                      		// 0x0000 (0x0010) [0x0000000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
 };
 
 // Function ProjectX.OnlinePlayer_X.CanCommunicateVoice
@@ -3234,13 +3232,6 @@ struct UOnlinePlayer_X_execEventShowKeyboardComplete_Params
 struct UOnlinePlayer_X_execEventCanPlayOnlineChanged_Params
 {
 	class UOnlinePlayer_X*                             Player;                                           		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
-};
-
-// Function ProjectX.OnlinePlayer_X.EventCountryUpdated
-// [0x00120001] 
-struct UOnlinePlayer_X_execEventCountryUpdated_Params
-{
-	class FString                                      Country;                                          		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 };
 
 // Function ProjectX.OnlinePlayer_X.EventLoginStatusChanged
@@ -3661,10 +3652,9 @@ struct UOnlinePlayerAuthentication_X_execRequiresAuthTicket_Params
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.ReLogin
-// [0x00024003] 
+// [0x00020003] 
 struct UOnlinePlayerAuthentication_X_execReLogin_Params
 {
-	uint32_t                                           bCleanUpConsecutiveAuthFailures : 1;              		// 0x0000 (0x0004) [0x0000000000000090] [0x00000001] (CPF_OptionalParm | CPF_Parm)
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.Logout
@@ -3681,10 +3671,9 @@ struct UOnlinePlayerAuthentication_X_execSetAuthLoginError_Params
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.UpdateLoginState
-// [0x00084002] 
+// [0x00080002] 
 struct UOnlinePlayerAuthentication_X_execUpdateLoginState_Params
 {
-	uint32_t                                           _ : 1;                                            		// 0x0000 (0x0004) [0x0000000000000090] [0x00000001] (CPF_OptionalParm | CPF_Parm)
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.GetAuthLoginError
@@ -7024,6 +7013,15 @@ struct UOnlineLegalTextEOS_X_execSync_Params
 	// class FString                                      URL;                                              		// 0x0008 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
+// Function ProjectX.OnlineLegalTextEOS_X.RequestKey
+// [0x00040003] 
+struct UOnlineLegalTextEOS_X_execRequestKey_Params
+{
+	struct FScriptDelegate                             Callback;                                         		// 0x0000 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	// class UOnlinePlayer_X*                             OnlinePlayer;                                     		// 0x0018 (0x0008) [0x0000000000000000]               
+	// class U__OnlineLegalTextEOS_X__RequestKey_0x1*     _0x1;                                             		// 0x0020 (0x0008) [0x0000000000000000]               
+};
+
 // Function ProjectX.OnlineLegalTextEOS_X.HandleTextResponse
 // [0x00040003] 
 struct UOnlineLegalTextEOS_X_execHandleTextResponse_Params
@@ -7044,6 +7042,12 @@ struct UOnlineLegalTextEOS_X_execSyncOnlyText_Params
 // Function ProjectX.OnlineLegalTextEOS_X.Construct
 // [0x400020802] 
 struct UOnlineLegalTextEOS_X_eventConstruct_Params
+{
+};
+
+// Function ProjectX.OnlineLegalTextEOS_X.EventKeyReceived
+// [0x00120001] 
+struct UOnlineLegalTextEOS_X_execEventKeyReceived_Params
 {
 };
 
@@ -7840,12 +7844,11 @@ struct UPsyNetConnection_X_execClearAuthDisabledError_Params
 };
 
 // Function ProjectX.PsyNetConnection_X.SetAuthDisabledError
-// [0x00044003] 
+// [0x00040003] 
 struct UPsyNetConnection_X_execSetAuthDisabledError_Params
 {
 	class UError*                                      Error;                                            		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
-	uint32_t                                           bIgnoreRetryCooldown : 1;                         		// 0x0008 (0x0004) [0x0000000000000090] [0x00000001] (CPF_OptionalParm | CPF_Parm)
-	// float                                              RetryDelay;                                       		// 0x000C (0x0004) [0x0000000000000000]               
+	// float                                              RetryDelay;                                       		// 0x0008 (0x0004) [0x0000000000000000]               
 };
 
 // Function ProjectX.PsyNetConnection_X.ConditionalSetAuthRetryDelay
@@ -7891,11 +7894,10 @@ struct UPsyNetConnection_X_eventAddDisabledError_Params
 };
 
 // Function ProjectX.PsyNetConnection_X.RemoveDisabledError
-// [0x00024003] 
+// [0x00020003] 
 struct UPsyNetConnection_X_execRemoveDisabledError_Params
 {
 	class UError*                                      Error;                                            		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
-	uint32_t                                           bCleanUpConsecutiveAuthFailures : 1;              		// 0x0008 (0x0004) [0x0000000000000090] [0x00000001] (CPF_OptionalParm | CPF_Parm)
 };
 
 // Function ProjectX.PsyNetConnection_X.Flush
@@ -9407,6 +9409,13 @@ struct UOnlineGame_X_execPrintDebugInfo_Params
 	// int32_t                                            PlayerIdx;                                        		// 0x0008 (0x0004) [0x0000000000000000]               
 };
 
+// Function ProjectX.OnlineGame_X.IsMatureLanguageFiltered
+// [0x00020002] 
+struct UOnlineGame_X_execIsMatureLanguageFiltered_Params
+{
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0000 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
 // Function ProjectX.OnlineGame_X.GetOnlinePlayerFromPlayerId
 // [0x00020003] 
 struct UOnlineGame_X_execGetOnlinePlayerFromPlayerId_Params
@@ -9717,11 +9726,42 @@ struct UOnlineGameDedicatedServer_X_execHandlePsyNetDataLoaded_Params
 	class UPsyNetStaticData_X*                         D;                                                		// 0x0000 (0x0008) [0x0000000004000080] (CPF_Parm | CPF_EditInline)
 };
 
+// Function ProjectX.OnlineGameDedicatedServer_X.SpinDownDDoSService
+// [0x00080003] 
+struct UOnlineGameDedicatedServer_X_execSpinDownDDoSService_Params
+{
+};
+
 // Function ProjectX.OnlineGameDedicatedServer_X.PrintDebugInfo
 // [0x400020102] 
 struct UOnlineGameDedicatedServer_X_execPrintDebugInfo_Params
 {
 	class UDebugDrawer*                                Drawer;                                           		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.WaitForLogAttackDetected
+// [0x00040001] 
+struct UOnlineGameDedicatedServer_X_execWaitForLogAttackDetected_Params
+{
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.DDoSAttackDetected
+// [0x00080803] 
+struct UOnlineGameDedicatedServer_X_eventDDoSAttackDetected_Params
+{
+	TArray<class FString>                              ConnectionIPs;                                    		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.ClearDDoSAttackEvent
+// [0x00080401] 
+struct UOnlineGameDedicatedServer_X_execClearDDoSAttackEvent_Params
+{
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.SubscribeToDDoSAttackEvent
+// [0x00080401] 
+struct UOnlineGameDedicatedServer_X_execSubscribeToDDoSAttackEvent_Params
+{
 };
 
 // Function ProjectX.OnlineGameDedicatedServer_X.SendRecordMatchRPC
@@ -10896,6 +10936,7 @@ struct UOnlineGameReservations_X_execHackForceNotServerTravelling_Params
 struct UOnlineGameReservations_X_execSwapTeams_Params
 {
 	// int32_t                                            PlayerIdx;                                        		// 0x0000 (0x0004) [0x0000000000000000]               
+	// TArray<struct FUniqueNetId>                        TempPlayers;                                      		// 0x0008 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
 // Function ProjectX.OnlineGameReservations_X.SetServerTraveling
@@ -11111,6 +11152,12 @@ struct UOnlineGameReservations_X_execHandleReservationDisconnected_Params
 // Function ProjectX.OnlineGameReservations_X.ClearTeamHistory
 // [0x00020003] 
 struct UOnlineGameReservations_X_execClearTeamHistory_Params
+{
+};
+
+// Function ProjectX.OnlineGameReservations_X.ClearPsynetReservationsTeams
+// [0x00020003] 
+struct UOnlineGameReservations_X_execClearPsynetReservationsTeams_Params
 {
 };
 
@@ -11661,6 +11708,7 @@ struct UOnlineGameReservations_X_execHandleCreatePrivateReservation_Params
 struct UOnlineGameReservations_X_execHandleBackfillReservation_Params
 {
 	class UPsyNetService_Backfill_X*                   Notification;                                     		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
+	// class UGameSettingPlaylist_X*                      ReservationPlaylist;                              		// 0x0008 (0x0008) [0x0000000000000000]               
 };
 
 // Function ProjectX.OnlineGameReservations_X.HandleNewGameReservation
@@ -11668,6 +11716,7 @@ struct UOnlineGameReservations_X_execHandleBackfillReservation_Params
 struct UOnlineGameReservations_X_execHandleNewGameReservation_Params
 {
 	class UPsyNetService_NewGame_X*                    Notification;                                     		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
+	// class UGameSettingPlaylist_X*                      ReservationPlaylist;                              		// 0x0008 (0x0008) [0x0000000000000000]               
 };
 
 // Function ProjectX.OnlineGameReservations_X.StartBeacons
@@ -13869,9 +13918,9 @@ struct U__CrossplayConfig_X__GetDisabledCrossplayGroup_0x1_exec__CrossplayConfig
 	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 };
 
-// Function ProjectX.__EOSHelpers_X__RequestEASAuth_0x1.__EOSHelpers_X__RequestEASAuth_0x1
+// Function ProjectX.__EOSHelpers_X__RequestEOSToken_0x1.__EOSHelpers_X__RequestEOSToken_0x1
 // [0x00020003] 
-struct U__EOSHelpers_X__RequestEASAuth_0x1_exec__EOSHelpers_X__RequestEASAuth_0x1_Params
+struct U__EOSHelpers_X__RequestEOSToken_0x1_exec__EOSHelpers_X__RequestEOSToken_0x1_Params
 {
 	class UWebRequest_X*                               Response;                                         		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
 	// class FString                                      ResponseAsJSON;                                   		// 0x0008 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
@@ -13901,9 +13950,9 @@ struct UEOSHelpers_X_execSendHTTPRequestSelectAuth_Params
 	// class U__EOSHelpers_X__SendHTTPRequestSelectAuth_0x1* _0x1;                                             		// 0x00E8 (0x0008) [0x0000000000000000]               
 };
 
-// Function ProjectX.EOSHelpers_X.SendHTTPRequestEASAuth
-// [0x00026003] 
-struct UEOSHelpers_X_execSendHTTPRequestEASAuth_Params
+// Function ProjectX.EOSHelpers_X.SendHTTPRequestEOSToken
+// [0x00826003] 
+struct UEOSHelpers_X_execSendHTTPRequestEOSToken_Params
 {
 	class FString                                      Verb;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 	class FString                                      URL;                                              		// 0x0010 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
@@ -13913,26 +13962,25 @@ struct UEOSHelpers_X_execSendHTTPRequestEASAuth_Params
 	struct FScriptDelegate                             ConvertErrorNew;                                  		// 0x0048 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 	class UOnlineSubsystem*                            EOS;                                              		// 0x0060 (0x0008) [0x0000000000000080] (CPF_Parm)    
 	int32_t                                            LocalPlayerNum;                                   		// 0x0068 (0x0004) [0x0000000000000080] (CPF_Parm)    
-	class FString                                      AuthURL;                                          		// 0x0070 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	class FString                                      BodyJson;                                         		// 0x0080 (0x0010) [0x0000000000400090] (CPF_OptionalParm | CPF_Parm | CPF_NeedCtorLink)
-	class FString                                      Continuation;                                     		// 0x0090 (0x0010) [0x0000000000400090] (CPF_OptionalParm | CPF_Parm | CPF_NeedCtorLink)
-	// class FString                                      ClientID;                                         		// 0x00A0 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      ClientSecret;                                     		// 0x00B0 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      ClientCredentials;                                		// 0x00C0 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class U__EOSHelpers_X__SendHTTPRequestEASAuth_0x1* _0x1;                                             		// 0x00D0 (0x0008) [0x0000000000000000]               
+	class FString                                      BodyJson;                                         		// 0x0070 (0x0010) [0x0000000000400090] (CPF_OptionalParm | CPF_Parm | CPF_NeedCtorLink)
+	// uint8_t                                            LoginStatus;                                      		// 0x0080 (0x0001) [0x0000000000000000]               
+	// struct FUniqueNetId                                PlayerNetId;                                      		// 0x0088 (0x0048) [0x0000000000400000] (CPF_NeedCtorLink)
+	// uint32_t                                           bInvalidEpicAccountId : 1;                        		// 0x00D0 (0x0004) [0x0000000000000000] [0x00000001] 
+	// class U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2* _0x1;                                             		// 0x00D8 (0x0008) [0x0000000000000000]               
 };
 
-// Function ProjectX.EOSHelpers_X.RequestEASAuth
+// Function ProjectX.EOSHelpers_X.RequestEOSToken
 // [0x00022003] 
-struct UEOSHelpers_X_execRequestEASAuth_Params
+struct UEOSHelpers_X_execRequestEOSToken_Params
 {
 	class FString                                      URL;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 	class FString                                      ClientCredentials;                                		// 0x0010 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	class FString                                      ClientID;                                         		// 0x0020 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	class FString                                      ClientSecret;                                     		// 0x0030 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	struct FScriptDelegate                             Callback;                                         		// 0x0040 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	// class UWebRequest_X*                               Request;                                          		// 0x0058 (0x0008) [0x0000000000000000]               
-	// class U__EOSHelpers_X__RequestEASAuth_0x1*         _0x1;                                             		// 0x0060 (0x0008) [0x0000000000000000]               
+	class FString                                      EASAuthToken;                                     		// 0x0020 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FScriptDelegate                             Callback;                                         		// 0x0030 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	// class UWebRequest_X*                               Request;                                          		// 0x0048 (0x0008) [0x0000000000000000]               
+	// class UEpicConfig_X*                               EpicConfig;                                       		// 0x0050 (0x0008) [0x0000000000000000]               
+	// class FString                                      ContentString;                                    		// 0x0058 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class U__EOSHelpers_X__RequestEOSToken_0x1*        _0x1;                                             		// 0x0068 (0x0008) [0x0000000000000000]               
 };
 
 // Function ProjectX.EOSHelpers_X.SendHTTPRequest
@@ -13981,13 +14029,47 @@ struct U__EOSHelpers_X__SendHTTPRequest_0x1_exec__EOSHelpers_X__SendHTTPRequest_
 	// uint32_t                                           bInvalidAuthToken : 1;                            		// 0x0018 (0x0004) [0x0000000000000000] [0x00000001] 
 };
 
-// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEASAuth_0x1.__EOSHelpers_X__SendHTTPRequestEASAuth_0x1
-// [0x00020003] 
-struct U__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_exec__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params
+// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1
+// [0x40040003] 
+struct U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_exec____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params
 {
 	uint32_t                                           bSuccess : 1;                                     		// 0x0000 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
 	class FString                                      EASAuthTicket;                                    		// 0x0008 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 	// uint32_t                                           bInvalidAuthToken : 1;                            		// 0x0018 (0x0004) [0x0000000000000000] [0x00000001] 
+};
+
+// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.__EOSHelpers_X__SendHTTPRequestEOSToken_0x1
+// [0x00020003] 
+struct U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_exec__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params
+{
+	uint32_t                                           bSuccess : 1;                                     		// 0x0000 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
+	class FString                                      EOSAuthTicket;                                    		// 0x0008 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	// class FString                                      AuthURL;                                          		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      ClientCredentials;                                		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2
+// [0x00020003] 
+struct U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_exec__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params
+{
+	uint32_t                                           bSuccess : 1;                                     		// 0x0000 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
+	class FString                                      EASAuthTicket;                                    		// 0x0008 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	// uint32_t                                           bInvalidAuthToken : 1;                            		// 0x0018 (0x0004) [0x0000000000000000] [0x00000001] 
+};
+
+// Function ProjectX.EpicConfig_X.GetChatPermissionLevel
+// [0x00020003] 
+struct UEpicConfig_X_execGetChatPermissionLevel_Params
+{
+	class FString                                      PermissionLabel;                                  		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	EChatPermissionLevel                               ReturnValue;                                      		// 0x0010 (0x0001) [0x0000000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            PermissionIndex;                                  		// 0x0014 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.EpicConfig_X.Apply
+// [0x400020002] 
+struct UEpicConfig_X_execApply_Params
+{
 };
 
 // Function ProjectX.__EOSHelpers_X__SendHTTPRequestSelectAuth_0x1.__EOSHelpers_X__SendHTTPRequestSelectAuth_0x1
@@ -14048,21 +14130,6 @@ struct U__EpicFriendsPlugin_X__RemoveFriend_0x1_exec__EpicFriendsPlugin_X__Remov
 // Function ProjectX.__EpicLogin_X__HandleLoginChanged_0x1.__EpicLogin_X__HandleLoginChanged_0x1
 // [0x00020003] 
 struct U__EpicLogin_X__HandleLoginChanged_0x1_exec__EpicLogin_X__HandleLoginChanged_0x1_Params
-{
-};
-
-// Function ProjectX.EpicConfig_X.GetChatPermissionLevel
-// [0x00020003] 
-struct UEpicConfig_X_execGetChatPermissionLevel_Params
-{
-	class FString                                      PermissionLabel;                                  		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	EChatPermissionLevel                               ReturnValue;                                      		// 0x0010 (0x0001) [0x0000000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            PermissionIndex;                                  		// 0x0014 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.EpicConfig_X.Apply
-// [0x400020002] 
-struct UEpicConfig_X_execApply_Params
 {
 };
 
@@ -18415,6 +18482,13 @@ struct UParties_X_execHandleChatNotification_Params
 	class UPsyNetService_PartyChat_X*                  Notifications;                                    		// 0x0000 (0x0008) [0x0000400000000080] (CPF_Parm)    
 };
 
+// Function ProjectX.Parties_X.HandleSignedChatNotification
+// [0x20040003] 
+struct UParties_X_execHandleSignedChatNotification_Params
+{
+	class UPsyNetService_SignedPartyChat_X*            Notification;                                     		// 0x0000 (0x0008) [0x0001400000000080] (CPF_Parm)    
+};
+
 // Function ProjectX.Parties_X.HandleSystemNotification
 // [0x20040003] 
 struct UParties_X_execHandleSystemNotification_Params
@@ -18861,6 +18935,21 @@ struct UParties_X_execSendLobbyBinaryData_Params
 	// class FString                                      Message;                                          		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
+// Function ProjectX.Parties_X.HandleSignedLobbyMessageFailed
+// [0x20040003] 
+struct UParties_X_execHandleSignedLobbyMessageFailed_Params
+{
+	class URPC_SignedPartyChat_X*                      RPC;                                              		// 0x0000 (0x0008) [0x0001400000000080] (CPF_Parm)    
+};
+
+// Function ProjectX.Parties_X.SendSignedLobbyMessage
+// [0x00420003] 
+struct UParties_X_execSendSignedLobbyMessage_Params
+{
+	struct FUniqueLobbyId                              LobbyId;                                          		// 0x0000 (0x0010) [0x0001000000000182] (CPF_Const | CPF_Parm | CPF_OutParm)
+	class USignedMessageObject_X*                      MessageObject;                                    		// 0x0010 (0x0008) [0x0001000000000080] (CPF_Parm)    
+};
+
 // Function ProjectX.Parties_X.HandleLobbyMessageFailed
 // [0x20040003] 
 struct UParties_X_execHandleLobbyMessageFailed_Params
@@ -18996,6 +19085,15 @@ struct UParties_X_execCreateLobby_Params
 	uint8_t                                            Type;                                             		// 0x0008 (0x0001) [0x0000000000000090] (CPF_OptionalParm | CPF_Parm)
 	TArray<struct FLobbyMetaData>                      InitialSettings;                                  		// 0x0010 (0x0010) [0x0000000000400090] (CPF_OptionalParm | CPF_Parm | CPF_NeedCtorLink)
 	uint32_t                                           ReturnValue : 1;                                  		// 0x0020 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.Parties_X.EventSignedPartyChatRecieved
+// [0x00120001] 
+struct UParties_X_execEventSignedPartyChatRecieved_Params
+{
+	struct FUniqueNetId                                RecipientId;                                      		// 0x0000 (0x0048) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FUniqueNetId                                SenderId;                                         		// 0x0048 (0x0048) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class USignedMessageObject_X*                      MessageObject;                                    		// 0x0090 (0x0008) [0x0001000000000080] (CPF_Parm)    
 };
 
 // Function ProjectX.Parties_X.EventLobbyMessageFailed
@@ -20889,6 +20987,15 @@ struct U__OnlineLegalTextEOS_X__HandleEOSInitialized_0x1_exec__OnlineLegalTextEO
 	uint8_t                                            InLocalPlayerNum;                                 		// 0x0000 (0x0001) [0x0000000000000080] (CPF_Parm)    
 	// uint8_t                                            NewLoginStatus;                                   		// 0x0001 (0x0001) [0x0000000000000000]               
 	// class UOnlinePlayer_X*                             PrimaryPlayer;                                    		// 0x0008 (0x0008) [0x0000000000000000]               
+};
+
+// Function ProjectX.__OnlineLegalTextEOS_X__RequestKey_0x1.__OnlineLegalTextEOS_X__RequestKey_0x1
+// [0x00020003] 
+struct U__OnlineLegalTextEOS_X__RequestKey_0x1_exec__OnlineLegalTextEOS_X__RequestKey_0x1_Params
+{
+	class UKeyRequestResponse*                         Response;                                         		// 0x0000 (0x0008) [0x0000000000000082] (CPF_Const | CPF_Parm)
+	class UError*                                      Error;                                            		// 0x0008 (0x0008) [0x0000000000000080] (CPF_Parm)    
+	int32_t                                            ResponseCode;                                     		// 0x0010 (0x0004) [0x0000000000000080] (CPF_Parm)    
 };
 
 // Function ProjectX.__OnlinePlayerFriends_X__AcceptEpicFriendInvite_0x1.__OnlinePlayerFriends_X__AcceptEpicFriendInvite_0x1
@@ -23886,29 +23993,30 @@ struct U__TAsyncResult__Texture2DDynamic__SetResultWhen_0x1_exec__TAsyncResult__
 // [0x00020003] 
 struct U__TitleConfig_X__GetClubTitleData_0x1_exec__TitleConfig_X__GetClubTitleData_0x1_Params
 {
-	struct FPlayerTitleData                            Title;                                            		// 0x0000 (0x0028) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0028 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	struct FPlayerTitleData                            Title;                                            		// 0x0000 (0x0030) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0030 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 };
 
 // Function ProjectX.TitleConfig_X.SortTitles
 // [0x00822003] 
 struct UTitleConfig_X_execSortTitles_Params
 {
-	struct FPlayerTitleData                            A;                                                		// 0x0000 (0x0028) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	struct FPlayerTitleData                            B;                                                		// 0x0028 (0x0028) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	int32_t                                            ReturnValue;                                      		// 0x0050 (0x0004) [0x0000000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// struct FColor                                      DefaultColor;                                     		// 0x0054 (0x0004) [0x0000000000000000]               
-	// class FString                                      ColorA;                                           		// 0x0058 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      ColorB;                                           		// 0x0068 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FPlayerTitleData                            A;                                                		// 0x0000 (0x0030) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FPlayerTitleData                            B;                                                		// 0x0030 (0x0030) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	int32_t                                            ReturnValue;                                      		// 0x0060 (0x0004) [0x0000000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            SortPriorityDiff;                                 		// 0x0064 (0x0004) [0x0000000000000000]               
+	// struct FColor                                      DefaultColor;                                     		// 0x0068 (0x0004) [0x0000000000000000]               
+	// class FString                                      ColorA;                                           		// 0x0070 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      ColorB;                                           		// 0x0080 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
 // Function ProjectX.TitleConfig_X.InitTitleColors
 // [0x00840003] 
 struct UTitleConfig_X_execInitTitleColors_Params
 {
-	struct FPlayerTitleData                            Data;                                             		// 0x0000 (0x0028) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	struct FPlayerTitleData                            ReturnValue;                                      		// 0x0028 (0x0028) [0x0000000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
-	// struct FPlayerTitleCategory                        Category;                                         		// 0x0050 (0x0028) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FPlayerTitleData                            Data;                                             		// 0x0000 (0x0030) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FPlayerTitleData                            ReturnValue;                                      		// 0x0030 (0x0030) [0x0000000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+	// struct FPlayerTitleCategory                        Category;                                         		// 0x0060 (0x0028) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
 // Function ProjectX.TitleConfig_X.GetClubTitleData
@@ -23916,8 +24024,8 @@ struct UTitleConfig_X_execInitTitleColors_Params
 struct UTitleConfig_X_execGetClubTitleData_Params
 {
 	struct FName                                       TitleId;                                          		// 0x0000 (0x0008) [0x0001000000000080] (CPF_Parm)    
-	struct FPlayerTitleData                            ReturnValue;                                      		// 0x0008 (0x0028) [0x0001000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
-	// class U__TitleConfig_X__GetClubTitleData_0x1*      _0x1;                                             		// 0x0030 (0x0008) [0x0000000000000000]               
+	struct FPlayerTitleData                            ReturnValue;                                      		// 0x0008 (0x0030) [0x0001000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+	// class U__TitleConfig_X__GetClubTitleData_0x1*      _0x1;                                             		// 0x0038 (0x0008) [0x0000000000000000]               
 };
 
 // Function ProjectX.TitleConfig_X.GetTitleData
@@ -23925,8 +24033,8 @@ struct UTitleConfig_X_execGetClubTitleData_Params
 struct UTitleConfig_X_execGetTitleData_Params
 {
 	struct FName                                       TitleId;                                          		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
-	struct FPlayerTitleData                            ReturnValue;                                      		// 0x0008 (0x0028) [0x0000000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
-	// class U__TitleConfig_X__GetTitleData_0x1*          _0x1;                                             		// 0x0030 (0x0008) [0x0000000000000000]               
+	struct FPlayerTitleData                            ReturnValue;                                      		// 0x0008 (0x0030) [0x0000000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+	// class U__TitleConfig_X__GetTitleData_0x1*          _0x1;                                             		// 0x0038 (0x0008) [0x0000000000000000]               
 };
 
 // Function ProjectX.TitleConfig_X.GetCategory
@@ -23945,18 +24053,18 @@ struct UTitleConfig_X_execApply_Params
 {
 	// struct FPlayerTitleCategory                        StructInitializer_0x1;                            		// 0x0000 (0x0028) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
 	// struct FPlayerTitleCategory                        StructInitializer_0x2;                            		// 0x0028 (0x0028) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
-	// struct FPlayerTitleData                            StructInitializer_0x3;                            		// 0x0050 (0x0028) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
-	// struct FPlayerTitleData                            StructInitializer_0x4;                            		// 0x0078 (0x0028) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
-	// TArray<struct FPlayerTitleData>                    MapLocal_0x1;                                     		// 0x00A0 (0x0010) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
-	// TArray<struct FPlayerTitleData>                    MapLocal_0x2;                                     		// 0x00B0 (0x0010) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
+	// struct FPlayerTitleData                            StructInitializer_0x3;                            		// 0x0050 (0x0030) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
+	// struct FPlayerTitleData                            StructInitializer_0x4;                            		// 0x0080 (0x0030) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
+	// TArray<struct FPlayerTitleData>                    MapLocal_0x1;                                     		// 0x00B0 (0x0010) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
+	// TArray<struct FPlayerTitleData>                    MapLocal_0x2;                                     		// 0x00C0 (0x0010) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
 };
 
 // Function ProjectX.__TitleConfig_X__GetTitleData_0x1.__TitleConfig_X__GetTitleData_0x1
 // [0x00020003] 
 struct U__TitleConfig_X__GetTitleData_0x1_exec__TitleConfig_X__GetTitleData_0x1_Params
 {
-	struct FPlayerTitleData                            Title;                                            		// 0x0000 (0x0028) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0028 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	struct FPlayerTitleData                            Title;                                            		// 0x0000 (0x0030) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0030 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 };
 
 // Function ProjectX.__WebCache_X__DownloadData_0x1.__WebCache_X__DownloadData_0x1
@@ -25386,6 +25494,354 @@ struct UConnectionInfoMessage_X_execIsConnectionInfoValid_Params
 {
 	struct FServerConnectionInfo                       ServerInfo;                                       		// 0x0000 (0x0030) [0x0000000000400182] (CPF_Const | CPF_Parm | CPF_OutParm | CPF_NeedCtorLink)
 	uint32_t                                           ReturnValue : 1;                                  		// 0x0030 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.DDoSService_X.__DDoSService_X__EndDDoSService_0x1
+// [0x40040003] 
+struct UDDoSService_X_exec__DDoSService_X__EndDDoSService_0x1_Params
+{
+	class UWebRequest_X*                               Request;                                          		// 0x0000 (0x0008) [0x0001000000000080] (CPF_Parm)    
+};
+
+// Function ProjectX.DDoSService_X.__DDoSService_X__StartDDoSService_0x1
+// [0x40040003] 
+struct UDDoSService_X_exec__DDoSService_X__StartDDoSService_0x1_Params
+{
+	class UWebRequest_X*                               Request;                                          		// 0x0000 (0x0008) [0x0001000000000080] (CPF_Parm)    
+};
+
+// Function ProjectX.DDoSService_X.IsPayloadValid
+// [0x00080003] 
+struct UDDoSService_X_execIsPayloadValid_Params
+{
+	struct FDDoSServicePayloadStruct                   Payload;                                          		// 0x0000 (0x0038) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0038 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class FString                                      IpAddress;                                        		// 0x0040 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.DDoSService_X.GetDDoSServiceURL
+// [0x00020003] 
+struct UDDoSService_X_execGetDDoSServiceURL_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      ReturnValue;                                      		// 0x0010 (0x0010) [0x0001000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+};
+
+// Function ProjectX.DDoSService_X.CreateDDoSServiceWebRequest
+// [0x00880003] 
+struct UDDoSService_X_execCreateDDoSServiceWebRequest_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      GamePort;                                         		// 0x0010 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	TArray<class FString>                              ClientIPs;                                        		// 0x0020 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      DedicatedServerInstanceId;                        		// 0x0030 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           bEnabled : 1;                                     		// 0x0040 (0x0004) [0x0001000000000080] [0x00000001] (CPF_Parm)
+	class UWebRequest_X*                               ReturnValue;                                      		// 0x0048 (0x0008) [0x0001000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class UWebRequest_X*                               Request;                                          		// 0x0050 (0x0008) [0x0000000000000000]               
+	// struct FDDoSServicePayloadStruct                   Payload;                                          		// 0x0058 (0x0038) [0x0001000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.DDoSService_X.StartDDoSService
+// [0x00080002] 
+struct UDDoSService_X_execStartDDoSService_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      GamePort;                                         		// 0x0010 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	TArray<class FString>                              ClientIPs;                                        		// 0x0020 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      DedicatedServerInstanceId;                        		// 0x0030 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0040 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class UWebRequest_X*                               Request;                                          		// 0x0048 (0x0008) [0x0000000000000000]               
+};
+
+// Function ProjectX.DDoSService_X.EndDDoSService
+// [0x00080002] 
+struct UDDoSService_X_execEndDDoSService_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      GamePort;                                         		// 0x0010 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      DedicatedServerInstanceId;                        		// 0x0020 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0030 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class UWebRequest_X*                               Request;                                          		// 0x0038 (0x0008) [0x0000000000000000]               
+};
+
+// Function ProjectX.DDoSService_X.DDoSPreventionSystemEnabled
+// [0x00020002] 
+struct UDDoSService_X_execDDoSPreventionSystemEnabled_Params
+{
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0000 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.DDoSService_X.HandleDDoSServiceEndComplete
+// [0x00080000] 
+struct UDDoSService_X_execHandleDDoSServiceEndComplete_Params
+{
+	uint32_t                                           Success : 1;                                      		// 0x0000 (0x0004) [0x0001000000000080] [0x00000001] (CPF_Parm)
+};
+
+// Function ProjectX.DDoSService_X.HandleDDoSServiceStartComplete
+// [0x00080000] 
+struct UDDoSService_X_execHandleDDoSServiceStartComplete_Params
+{
+	uint32_t                                           Success : 1;                                      		// 0x0000 (0x0004) [0x0001000000000080] [0x00000001] (CPF_Parm)
+};
+
+// Function ProjectX.DDoSService_X.SendDDoSServiceEnd
+// [0x00020000] 
+struct UDDoSService_X_execSendDDoSServiceEnd_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      GamePort;                                         		// 0x0010 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      DedicatedServerInstanceId;                        		// 0x0020 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
+// Function ProjectX.DDoSService_X.SendDDosServiceEndInternal
+// [0x00040003] 
+struct UDDoSService_X_execSendDDosServiceEndInternal_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      GamePort;                                         		// 0x0010 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      DedicatedServerInstanceId;                        		// 0x0020 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FName                                       NextState;                                        		// 0x0030 (0x0008) [0x0001000000000080] (CPF_Parm)    
+	// TArray<class FString>                              ArrayInitializer_0x1;                             		// 0x0038 (0x0010) [0x0001000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
+};
+
+// Function ProjectX.DDoSService_X.SendDDoSServiceStartInternal
+// [0x00040003] 
+struct UDDoSService_X_execSendDDoSServiceStartInternal_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      GamePort;                                         		// 0x0010 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	TArray<class FString>                              ClientIPs;                                        		// 0x0020 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      DedicatedServerInstanceId;                        		// 0x0030 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FName                                       NextState;                                        		// 0x0040 (0x0008) [0x0001000000000080] (CPF_Parm)    
+};
+
+// Function ProjectX.DDoSService_X.SendDDoSServiceStart
+// [0x00020000] 
+struct UDDoSService_X_execSendDDoSServiceStart_Params
+{
+	class FString                                      ServicePort;                                      		// 0x0000 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      GamePort;                                         		// 0x0010 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	TArray<class FString>                              ClientIPs;                                        		// 0x0020 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	class FString                                      DedicatedServerInstanceId;                        		// 0x0030 (0x0010) [0x0001000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
+// Function ProjectX.DDoSService_X.Init
+// [0x00020003] 
+struct UDDoSService_X_execInit_Params
+{
+};
+
+// Function ProjectX.URLValidator_X.AreCharsUrlSafe
+// [0x00022003] 
+struct UURLValidator_X_execAreCharsUrlSafe_Params
+{
+	class FString                                      Str;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.URLValidator_X.IsQueryValid
+// [0x00022003] 
+struct UURLValidator_X_execIsQueryValid_Params
+{
+	class FString                                      Query;                                            		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class FString                                      Pair;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      Key;                                              		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      Value;                                            		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// int32_t                                            EqualPos;                                         		// 0x0048 (0x0004) [0x0000000000000000]               
+	// class FString                                      KVPs;                                             		// 0x0050 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// TArray<class FString>                              Params;                                           		// 0x0060 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.IsCharUrlSafe
+// [0x00022003] 
+struct UURLValidator_X_execIsCharUrlSafe_Params
+{
+	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.URLValidator_X.IsPathValid
+// [0x00022003] 
+struct UURLValidator_X_execIsPathValid_Params
+{
+	class FString                                      Path;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class FString                                      Char;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// int32_t                                            I;                                                		// 0x0028 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.URLValidator_X.IsAlpha
+// [0x00022003] 
+struct UURLValidator_X_execIsAlpha_Params
+{
+	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.URLValidator_X.IsHexChar
+// [0x00022003] 
+struct UURLValidator_X_execIsHexChar_Params
+{
+	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.URLValidator_X.IsHostnameValid
+// [0x00022003] 
+struct UURLValidator_X_execIsHostnameValid_Params
+{
+	class FString                                      Host;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
+	// class FString                                      Char;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.IsHostnameAndPortValid
+// [0x00022003] 
+struct UURLValidator_X_execIsHostnameAndPortValid_Params
+{
+	class FString                                      HostnameAndPort;                                  		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// TArray<class FString>                              HostnameAndPortArray;                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.AreAllHex
+// [0x00022003] 
+struct UURLValidator_X_execAreAllHex_Params
+{
+	class FString                                      Str;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.URLValidator_X.IsIPv6GroupValid
+// [0x00022003] 
+struct UURLValidator_X_execIsIPv6GroupValid_Params
+{
+	class FString                                      GroupStr;                                         		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.URLValidator_X.AreAllIPv6GroupsValid
+// [0x00022003] 
+struct UURLValidator_X_execAreAllIPv6GroupsValid_Params
+{
+	TArray<class FString>                              GroupsArray;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class FString                                      Group;                                            		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.IsIPv6AddressValid
+// [0x00022003] 
+struct UURLValidator_X_execIsIPv6AddressValid_Params
+{
+	class FString                                      Host;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// TArray<class FString>                              ConsecutiveGroupsArray;                           		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// TArray<class FString>                              GroupsArray;                                      		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// TArray<class FString>                              LHSConsecutiveGroupsArray;                        		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// TArray<class FString>                              RHSConsecutiveGroupsArray;                        		// 0x0048 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// int32_t                                            TotalNumGroups;                                   		// 0x0058 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.URLValidator_X.IsIPv6AndPortValid
+// [0x00022003] 
+struct UURLValidator_X_execIsIPv6AndPortValid_Params
+{
+	class FString                                      HostAndPort;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            pos;                                              		// 0x0014 (0x0004) [0x0000000000000000]               
+	// class FString                                      Host;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      PortStr;                                          		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.IsDigit
+// [0x00022003] 
+struct UURLValidator_X_execIsDigit_Params
+{
+	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.URLValidator_X.AreAllDigits
+// [0x00022003] 
+struct UURLValidator_X_execAreAllDigits_Params
+{
+	class FString                                      Str;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.URLValidator_X.IsPortValid
+// [0x00022003] 
+struct UURLValidator_X_execIsPortValid_Params
+{
+	class FString                                      PortStr;                                          		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            Port;                                             		// 0x0014 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.URLValidator_X.IsIPv4OctetValid
+// [0x00022003] 
+struct UURLValidator_X_execIsIPv4OctetValid_Params
+{
+	class FString                                      OctetStr;                                         		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// int32_t                                            Value;                                            		// 0x0014 (0x0004) [0x0000000000000000]               
+};
+
+// Function ProjectX.URLValidator_X.IsIPv4AddressValid
+// [0x00022003] 
+struct UURLValidator_X_execIsIPv4AddressValid_Params
+{
+	class FString                                      Host;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// TArray<class FString>                              Octets;                                           		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.IsIPv4AndPortValid
+// [0x00022003] 
+struct UURLValidator_X_execIsIPv4AndPortValid_Params
+{
+	class FString                                      HostAndPort;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// TArray<class FString>                              HostAndPortArray;                                 		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.HostLooksLikeIPv4
+// [0x00022003] 
+struct UURLValidator_X_execHostLooksLikeIPv4_Params
+{
+	class FString                                      HostAndPort;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// TArray<class FString>                              HostAndPortArray;                                 		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// TArray<class FString>                              Octets;                                           		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      Octet;                                            		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
+// Function ProjectX.URLValidator_X.IsSchemeValid
+// [0x00022003] 
+struct UURLValidator_X_execIsSchemeValid_Params
+{
+	class FString                                      Scheme;                                           		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.URLValidator_X.IsURLValid
+// [0x00022003] 
+struct UURLValidator_X_execIsURLValid_Params
+{
+	class FString                                      URL;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+	// class FString                                      HostAndPort;                                      		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      Path;                                             		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      Query;                                            		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// int32_t                                            pos;                                              		// 0x0048 (0x0004) [0x0000000000000000]               
+	// class FString                                      Scheme;                                           		// 0x0050 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// class FString                                      Rest;                                             		// 0x0060 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
 // Function ProjectX.DebugDrawer_X.DrawHeader
@@ -28699,6 +29155,14 @@ struct URPC_UpdateLeaderboard_X_execSetUpdates_Params
 	class URPC_UpdateLeaderboard_X*                    ReturnValue;                                      		// 0x0010 (0x0008) [0x0000000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 };
 
+// Function ProjectX.WordFilterConfig_X.AllowMatureLanguageForUsage
+// [0x00020003] 
+struct UWordFilterConfig_X_execAllowMatureLanguageForUsage_Params
+{
+	uint8_t                                            Usage;                                            		// 0x0000 (0x0001) [0x0001000000000080] (CPF_Parm)    
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0004 (0x0004) [0x0001000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
 // Function ProjectX.UserBugReportComponent_X.Start
 // [0x00020000] 
 struct UUserBugReportComponent_X_execStart_Params
@@ -29178,6 +29642,14 @@ struct URPC_PartyChat_X_execSetText_Params
 {
 	class FString                                      InText;                                           		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 	class URPC_PartyChat_X*                            ReturnValue;                                      		// 0x0010 (0x0008) [0x0000000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function ProjectX.RPC_SignedPartyChat_X.SetSignedMessageData
+// [0x00020003] 
+struct URPC_SignedPartyChat_X_execSetSignedMessageData_Params
+{
+	class USignedMessageObject_X*                      InMessageData;                                    		// 0x0000 (0x0008) [0x0001000000000080] (CPF_Parm)    
+	class URPC_SignedPartyChat_X*                      ReturnValue;                                      		// 0x0008 (0x0008) [0x0001000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 };
 
 // Function ProjectX.RPC_PartyChangeOwner_X.SetNewOwnerId
@@ -30182,6 +30654,20 @@ struct USmoothDynamicValue_X_eventConstruct_Params
 {
 };
 
+// Function ProjectX.StringUtil_X.SplitStringIntoMaxSizePieces
+// [0x00022003] 
+struct UStringUtil_X_execSplitStringIntoMaxSizePieces_Params
+{
+	class FString                                      OriginalString;                                   		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	int32_t                                            MaxStringSize;                                    		// 0x0010 (0x0004) [0x0000000000000080] (CPF_Parm)    
+	TArray<class FString>                              ReturnValue;                                      		// 0x0018 (0x0010) [0x0000000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+	// TArray<class FString>                              ArrayInitializer_0x1;                             		// 0x0028 (0x0010) [0x0000000000400102] (CPF_Const | CPF_OutParm | CPF_NeedCtorLink)
+	// TArray<class FString>                              StringArray;                                      		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	// int32_t                                            LeftIndex;                                        		// 0x0048 (0x0004) [0x0000000000000000]               
+	// int32_t                                            OriginalStringLength;                             		// 0x004C (0x0004) [0x0000000000000000]               
+	// class FString                                      StringSection;                                    		// 0x0050 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
 // Function ProjectX.StringUtil_X.IsStringEmptyOrWhiteSpace
 // [0x00022003] 
 struct UStringUtil_X_execIsStringEmptyOrWhiteSpace_Params
@@ -30305,218 +30791,6 @@ struct UUdpLanServer_X_execSetServerMetaData_Params
 // [0x400020802] 
 struct UUdpLanServer_X_eventConstruct_Params
 {
-};
-
-// Function ProjectX.URLValidator_X.AreCharsUrlSafe
-// [0x00022003] 
-struct UURLValidator_X_execAreCharsUrlSafe_Params
-{
-	class FString                                      Str;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.URLValidator_X.IsQueryValid
-// [0x00022003] 
-struct UURLValidator_X_execIsQueryValid_Params
-{
-	class FString                                      Query;                                            		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// class FString                                      Pair;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      Key;                                              		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      Value;                                            		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// int32_t                                            EqualPos;                                         		// 0x0048 (0x0004) [0x0000000000000000]               
-	// class FString                                      KVPs;                                             		// 0x0050 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// TArray<class FString>                              Params;                                           		// 0x0060 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.IsCharUrlSafe
-// [0x00022003] 
-struct UURLValidator_X_execIsCharUrlSafe_Params
-{
-	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-};
-
-// Function ProjectX.URLValidator_X.IsPathValid
-// [0x00022003] 
-struct UURLValidator_X_execIsPathValid_Params
-{
-	class FString                                      Path;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// class FString                                      Char;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// int32_t                                            I;                                                		// 0x0028 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.URLValidator_X.IsAlpha
-// [0x00022003] 
-struct UURLValidator_X_execIsAlpha_Params
-{
-	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-};
-
-// Function ProjectX.URLValidator_X.IsHexChar
-// [0x00022003] 
-struct UURLValidator_X_execIsHexChar_Params
-{
-	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-};
-
-// Function ProjectX.URLValidator_X.IsHostnameValid
-// [0x00022003] 
-struct UURLValidator_X_execIsHostnameValid_Params
-{
-	class FString                                      Host;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
-	// class FString                                      Char;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.IsHostnameAndPortValid
-// [0x00022003] 
-struct UURLValidator_X_execIsHostnameAndPortValid_Params
-{
-	class FString                                      HostnameAndPort;                                  		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// TArray<class FString>                              HostnameAndPortArray;                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.AreAllHex
-// [0x00022003] 
-struct UURLValidator_X_execAreAllHex_Params
-{
-	class FString                                      Str;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.URLValidator_X.IsIPv6GroupValid
-// [0x00022003] 
-struct UURLValidator_X_execIsIPv6GroupValid_Params
-{
-	class FString                                      GroupStr;                                         		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-};
-
-// Function ProjectX.URLValidator_X.AreAllIPv6GroupsValid
-// [0x00022003] 
-struct UURLValidator_X_execAreAllIPv6GroupsValid_Params
-{
-	TArray<class FString>                              GroupsArray;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// class FString                                      Group;                                            		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.IsIPv6AddressValid
-// [0x00022003] 
-struct UURLValidator_X_execIsIPv6AddressValid_Params
-{
-	class FString                                      Host;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// TArray<class FString>                              ConsecutiveGroupsArray;                           		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// TArray<class FString>                              GroupsArray;                                      		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// TArray<class FString>                              LHSConsecutiveGroupsArray;                        		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// TArray<class FString>                              RHSConsecutiveGroupsArray;                        		// 0x0048 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// int32_t                                            TotalNumGroups;                                   		// 0x0058 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.URLValidator_X.IsIPv6AndPortValid
-// [0x00022003] 
-struct UURLValidator_X_execIsIPv6AndPortValid_Params
-{
-	class FString                                      HostAndPort;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            pos;                                              		// 0x0014 (0x0004) [0x0000000000000000]               
-	// class FString                                      Host;                                             		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      PortStr;                                          		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.IsDigit
-// [0x00022003] 
-struct UURLValidator_X_execIsDigit_Params
-{
-	class FString                                      Char;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-};
-
-// Function ProjectX.URLValidator_X.AreAllDigits
-// [0x00022003] 
-struct UURLValidator_X_execAreAllDigits_Params
-{
-	class FString                                      Str;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            I;                                                		// 0x0014 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.URLValidator_X.IsPortValid
-// [0x00022003] 
-struct UURLValidator_X_execIsPortValid_Params
-{
-	class FString                                      PortStr;                                          		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            Port;                                             		// 0x0014 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.URLValidator_X.IsIPv4OctetValid
-// [0x00022003] 
-struct UURLValidator_X_execIsIPv4OctetValid_Params
-{
-	class FString                                      OctetStr;                                         		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// int32_t                                            Value;                                            		// 0x0014 (0x0004) [0x0000000000000000]               
-};
-
-// Function ProjectX.URLValidator_X.IsIPv4AddressValid
-// [0x00022003] 
-struct UURLValidator_X_execIsIPv4AddressValid_Params
-{
-	class FString                                      Host;                                             		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// TArray<class FString>                              Octets;                                           		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.IsIPv4AndPortValid
-// [0x00022003] 
-struct UURLValidator_X_execIsIPv4AndPortValid_Params
-{
-	class FString                                      HostAndPort;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// TArray<class FString>                              HostAndPortArray;                                 		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.HostLooksLikeIPv4
-// [0x00022003] 
-struct UURLValidator_X_execHostLooksLikeIPv4_Params
-{
-	class FString                                      HostAndPort;                                      		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// TArray<class FString>                              HostAndPortArray;                                 		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// TArray<class FString>                              Octets;                                           		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      Octet;                                            		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-};
-
-// Function ProjectX.URLValidator_X.IsSchemeValid
-// [0x00022003] 
-struct UURLValidator_X_execIsSchemeValid_Params
-{
-	class FString                                      Scheme;                                           		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-};
-
-// Function ProjectX.URLValidator_X.IsURLValid
-// [0x00022003] 
-struct UURLValidator_X_execIsURLValid_Params
-{
-	class FString                                      URL;                                              		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	uint32_t                                           ReturnValue : 1;                                  		// 0x0010 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-	// class FString                                      HostAndPort;                                      		// 0x0018 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      Path;                                             		// 0x0028 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      Query;                                            		// 0x0038 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// int32_t                                            pos;                                              		// 0x0048 (0x0004) [0x0000000000000000]               
-	// class FString                                      Scheme;                                           		// 0x0050 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	// class FString                                      Rest;                                             		// 0x0060 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
 /*

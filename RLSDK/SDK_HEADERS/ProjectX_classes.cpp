@@ -5620,6 +5620,27 @@ void UCheatManager_X::DisableCCD()
 	uFnDisableCCD->FunctionFlags |= 0x400;
 };
 
+// Function ProjectX.CheatManager_X.TriggerDDoSPreventionSystem
+// [0x00020401] (FUNC_Final | FUNC_Native | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+
+void UCheatManager_X::TriggerDDoSPreventionSystem()
+{
+	static UFunction* uFnTriggerDDoSPreventionSystem = nullptr;
+
+	if (!uFnTriggerDDoSPreventionSystem)
+	{
+		uFnTriggerDDoSPreventionSystem = UFunction::FindFunction("Function ProjectX.CheatManager_X.TriggerDDoSPreventionSystem");
+	}
+
+	UCheatManager_X_execTriggerDDoSPreventionSystem_Params TriggerDDoSPreventionSystem_Params;
+	memset(&TriggerDDoSPreventionSystem_Params, 0, sizeof(TriggerDDoSPreventionSystem_Params));
+
+	uFnTriggerDDoSPreventionSystem->FunctionFlags &= ~0x400;
+	this->ProcessEvent(uFnTriggerDDoSPreventionSystem, &TriggerDDoSPreventionSystem_Params, nullptr);
+	uFnTriggerDDoSPreventionSystem->FunctionFlags |= 0x400;
+};
+
 // Function ProjectX.CheatManager_X.SetNetServerMaxTickRate
 // [0x00020401] (FUNC_Final | FUNC_Native | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
@@ -8845,35 +8866,12 @@ EFeaturePrivilegeLevel UOnlinePlayer_X::CanPlayOnline()
 	return CanPlayOnline_Params.ReturnValue;
 };
 
-// Function ProjectX.OnlinePlayer_X.HandlePlayerCountryReceived
-// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// struct FUniqueNetId            InPlayerID                     (CPF_Parm | CPF_NeedCtorLink)
-// class FString                  Country                        (CPF_Parm | CPF_NeedCtorLink)
-
-void UOnlinePlayer_X::HandlePlayerCountryReceived(struct FUniqueNetId InPlayerID, class FString Country)
-{
-	static UFunction* uFnHandlePlayerCountryReceived = nullptr;
-
-	if (!uFnHandlePlayerCountryReceived)
-	{
-		uFnHandlePlayerCountryReceived = UFunction::FindFunction("Function ProjectX.OnlinePlayer_X.HandlePlayerCountryReceived");
-	}
-
-	UOnlinePlayer_X_execHandlePlayerCountryReceived_Params HandlePlayerCountryReceived_Params;
-	memset(&HandlePlayerCountryReceived_Params, 0, sizeof(HandlePlayerCountryReceived_Params));
-	memcpy_s(&HandlePlayerCountryReceived_Params.InPlayerID, sizeof(HandlePlayerCountryReceived_Params.InPlayerID), &InPlayerID, sizeof(InPlayerID));
-	memcpy_s(&HandlePlayerCountryReceived_Params.Country, sizeof(HandlePlayerCountryReceived_Params.Country), &Country, sizeof(Country));
-
-	this->ProcessEvent(uFnHandlePlayerCountryReceived, &HandlePlayerCountryReceived_Params, nullptr);
-};
-
 // Function ProjectX.OnlinePlayer_X.GetPlayerCountry
-// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// [0x00020002] (FUNC_Defined | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
-// struct FScriptDelegate         Handler                        (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
 
-void UOnlinePlayer_X::GetPlayerCountry(struct FScriptDelegate Handler)
+class FString UOnlinePlayer_X::GetPlayerCountry()
 {
 	static UFunction* uFnGetPlayerCountry = nullptr;
 
@@ -8884,9 +8882,10 @@ void UOnlinePlayer_X::GetPlayerCountry(struct FScriptDelegate Handler)
 
 	UOnlinePlayer_X_execGetPlayerCountry_Params GetPlayerCountry_Params;
 	memset(&GetPlayerCountry_Params, 0, sizeof(GetPlayerCountry_Params));
-	memcpy_s(&GetPlayerCountry_Params.Handler, sizeof(GetPlayerCountry_Params.Handler), &Handler, sizeof(Handler));
 
 	this->ProcessEvent(uFnGetPlayerCountry, &GetPlayerCountry_Params, nullptr);
+
+	return GetPlayerCountry_Params.ReturnValue;
 };
 
 // Function ProjectX.OnlinePlayer_X.CanCommunicateVoice
@@ -9744,27 +9743,6 @@ void UOnlinePlayer_X::EventCanPlayOnlineChanged(class UOnlinePlayer_X* Player)
 	memcpy_s(&EventCanPlayOnlineChanged_Params.Player, sizeof(EventCanPlayOnlineChanged_Params.Player), &Player, sizeof(Player));
 
 	this->ProcessEvent(uFnEventCanPlayOnlineChanged, &EventCanPlayOnlineChanged_Params, nullptr);
-};
-
-// Function ProjectX.OnlinePlayer_X.EventCountryUpdated
-// [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
-// Parameter Info:
-// class FString                  Country                        (CPF_Parm | CPF_NeedCtorLink)
-
-void UOnlinePlayer_X::EventCountryUpdated(class FString Country)
-{
-	static UFunction* uFnEventCountryUpdated = nullptr;
-
-	if (!uFnEventCountryUpdated)
-	{
-		uFnEventCountryUpdated = UFunction::FindFunction("Function ProjectX.OnlinePlayer_X.EventCountryUpdated");
-	}
-
-	UOnlinePlayer_X_execEventCountryUpdated_Params EventCountryUpdated_Params;
-	memset(&EventCountryUpdated_Params, 0, sizeof(EventCountryUpdated_Params));
-	memcpy_s(&EventCountryUpdated_Params.Country, sizeof(EventCountryUpdated_Params.Country), &Country, sizeof(Country));
-
-	this->ProcessEvent(uFnEventCountryUpdated, &EventCountryUpdated_Params, nullptr);
 };
 
 // Function ProjectX.OnlinePlayer_X.EventLoginStatusChanged
@@ -10975,11 +10953,10 @@ bool UOnlinePlayerAuthentication_X::RequiresAuthTicket()
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.ReLogin
-// [0x00024003] (FUNC_Final | FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Public | FUNC_AllFlags)
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
-// bool                           bCleanUpConsecutiveAuthFailures (CPF_OptionalParm | CPF_Parm)
 
-void UOnlinePlayerAuthentication_X::ReLogin(bool bCleanUpConsecutiveAuthFailures)
+void UOnlinePlayerAuthentication_X::ReLogin()
 {
 	static UFunction* uFnReLogin = nullptr;
 
@@ -10990,7 +10967,6 @@ void UOnlinePlayerAuthentication_X::ReLogin(bool bCleanUpConsecutiveAuthFailures
 
 	UOnlinePlayerAuthentication_X_execReLogin_Params ReLogin_Params;
 	memset(&ReLogin_Params, 0, sizeof(ReLogin_Params));
-	ReLogin_Params.bCleanUpConsecutiveAuthFailures = bCleanUpConsecutiveAuthFailures;
 
 	this->ProcessEvent(uFnReLogin, &ReLogin_Params, nullptr);
 };
@@ -11036,11 +11012,10 @@ void UOnlinePlayerAuthentication_X::SetAuthLoginError(class UError* E)
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.UpdateLoginState
-// [0x00084002] (FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Protected | FUNC_AllFlags)
+// [0x00080002] (FUNC_Defined | FUNC_Protected | FUNC_AllFlags)
 // Parameter Info:
-// bool                           _                              (CPF_OptionalParm | CPF_Parm)
 
-void UOnlinePlayerAuthentication_X::UpdateLoginState(bool _)
+void UOnlinePlayerAuthentication_X::UpdateLoginState()
 {
 	static UFunction* uFnUpdateLoginState = nullptr;
 
@@ -11051,7 +11026,6 @@ void UOnlinePlayerAuthentication_X::UpdateLoginState(bool _)
 
 	UOnlinePlayerAuthentication_X_execUpdateLoginState_Params UpdateLoginState_Params;
 	memset(&UpdateLoginState_Params, 0, sizeof(UpdateLoginState_Params));
-	UpdateLoginState_Params._ = _;
 
 	this->ProcessEvent(uFnUpdateLoginState, &UpdateLoginState_Params, nullptr);
 };
@@ -21062,6 +21036,27 @@ void UOnlineLegalTextEOS_X::Sync()
 	this->ProcessEvent(uFnSync, &Sync_Params, nullptr);
 };
 
+// Function ProjectX.OnlineLegalTextEOS_X.RequestKey
+// [0x00040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_AllFlags)
+// Parameter Info:
+// struct FScriptDelegate         Callback                       (CPF_Parm | CPF_NeedCtorLink)
+
+void UOnlineLegalTextEOS_X::RequestKey(struct FScriptDelegate Callback)
+{
+	static UFunction* uFnRequestKey = nullptr;
+
+	if (!uFnRequestKey)
+	{
+		uFnRequestKey = UFunction::FindFunction("Function ProjectX.OnlineLegalTextEOS_X.RequestKey");
+	}
+
+	UOnlineLegalTextEOS_X_execRequestKey_Params RequestKey_Params;
+	memset(&RequestKey_Params, 0, sizeof(RequestKey_Params));
+	memcpy_s(&RequestKey_Params.Callback, sizeof(RequestKey_Params.Callback), &Callback, sizeof(Callback));
+
+	this->ProcessEvent(uFnRequestKey, &RequestKey_Params, nullptr);
+};
+
 // Function ProjectX.OnlineLegalTextEOS_X.HandleTextResponse
 // [0x00040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_AllFlags)
 // Parameter Info:
@@ -21123,6 +21118,25 @@ void UOnlineLegalTextEOS_X::eventConstruct()
 	memset(&Construct_Params, 0, sizeof(Construct_Params));
 
 	this->ProcessEvent(uFnConstruct, &Construct_Params, nullptr);
+};
+
+// Function ProjectX.OnlineLegalTextEOS_X.EventKeyReceived
+// [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
+// Parameter Info:
+
+void UOnlineLegalTextEOS_X::EventKeyReceived()
+{
+	static UFunction* uFnEventKeyReceived = nullptr;
+
+	if (!uFnEventKeyReceived)
+	{
+		uFnEventKeyReceived = UFunction::FindFunction("Function ProjectX.OnlineLegalTextEOS_X.EventKeyReceived");
+	}
+
+	UOnlineLegalTextEOS_X_execEventKeyReceived_Params EventKeyReceived_Params;
+	memset(&EventKeyReceived_Params, 0, sizeof(EventKeyReceived_Params));
+
+	this->ProcessEvent(uFnEventKeyReceived, &EventKeyReceived_Params, nullptr);
 };
 
 // Function ProjectX.OnlineLegalTextEOS_X.EventHandleSyncResponse
@@ -23575,12 +23589,11 @@ void UPsyNetConnection_X::ClearAuthDisabledError()
 };
 
 // Function ProjectX.PsyNetConnection_X.SetAuthDisabledError
-// [0x00044003] (FUNC_Final | FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Private | FUNC_AllFlags)
+// [0x00040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_AllFlags)
 // Parameter Info:
 // class UError*                  Error                          (CPF_Parm)
-// bool                           bIgnoreRetryCooldown           (CPF_OptionalParm | CPF_Parm)
 
-void UPsyNetConnection_X::SetAuthDisabledError(class UError* Error, bool bIgnoreRetryCooldown)
+void UPsyNetConnection_X::SetAuthDisabledError(class UError* Error)
 {
 	static UFunction* uFnSetAuthDisabledError = nullptr;
 
@@ -23592,7 +23605,6 @@ void UPsyNetConnection_X::SetAuthDisabledError(class UError* Error, bool bIgnore
 	UPsyNetConnection_X_execSetAuthDisabledError_Params SetAuthDisabledError_Params;
 	memset(&SetAuthDisabledError_Params, 0, sizeof(SetAuthDisabledError_Params));
 	memcpy_s(&SetAuthDisabledError_Params.Error, sizeof(SetAuthDisabledError_Params.Error), &Error, sizeof(Error));
-	SetAuthDisabledError_Params.bIgnoreRetryCooldown = bIgnoreRetryCooldown;
 
 	this->ProcessEvent(uFnSetAuthDisabledError, &SetAuthDisabledError_Params, nullptr);
 };
@@ -23716,12 +23728,11 @@ void UPsyNetConnection_X::eventAddDisabledError(class UError* Error)
 };
 
 // Function ProjectX.PsyNetConnection_X.RemoveDisabledError
-// [0x00024003] (FUNC_Final | FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Public | FUNC_AllFlags)
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
 // class UError*                  Error                          (CPF_Parm)
-// bool                           bCleanUpConsecutiveAuthFailures (CPF_OptionalParm | CPF_Parm)
 
-void UPsyNetConnection_X::RemoveDisabledError(class UError* Error, bool bCleanUpConsecutiveAuthFailures)
+void UPsyNetConnection_X::RemoveDisabledError(class UError* Error)
 {
 	static UFunction* uFnRemoveDisabledError = nullptr;
 
@@ -23733,7 +23744,6 @@ void UPsyNetConnection_X::RemoveDisabledError(class UError* Error, bool bCleanUp
 	UPsyNetConnection_X_execRemoveDisabledError_Params RemoveDisabledError_Params;
 	memset(&RemoveDisabledError_Params, 0, sizeof(RemoveDisabledError_Params));
 	memcpy_s(&RemoveDisabledError_Params.Error, sizeof(RemoveDisabledError_Params.Error), &Error, sizeof(Error));
-	RemoveDisabledError_Params.bCleanUpConsecutiveAuthFailures = bCleanUpConsecutiveAuthFailures;
 
 	this->ProcessEvent(uFnRemoveDisabledError, &RemoveDisabledError_Params, nullptr);
 };
@@ -28229,6 +28239,28 @@ void UOnlineGame_X::PrintDebugInfo(class UDebugDrawer* Drawer)
 	this->ProcessEvent(uFnPrintDebugInfo, &PrintDebugInfo_Params, nullptr);
 };
 
+// Function ProjectX.OnlineGame_X.IsMatureLanguageFiltered
+// [0x00020002] (FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+
+bool UOnlineGame_X::IsMatureLanguageFiltered()
+{
+	static UFunction* uFnIsMatureLanguageFiltered = nullptr;
+
+	if (!uFnIsMatureLanguageFiltered)
+	{
+		uFnIsMatureLanguageFiltered = UFunction::FindFunction("Function ProjectX.OnlineGame_X.IsMatureLanguageFiltered");
+	}
+
+	UOnlineGame_X_execIsMatureLanguageFiltered_Params IsMatureLanguageFiltered_Params;
+	memset(&IsMatureLanguageFiltered_Params, 0, sizeof(IsMatureLanguageFiltered_Params));
+
+	this->ProcessEvent(uFnIsMatureLanguageFiltered, &IsMatureLanguageFiltered_Params, nullptr);
+
+	return IsMatureLanguageFiltered_Params.ReturnValue;
+};
+
 // Function ProjectX.OnlineGame_X.GetOnlinePlayerFromPlayerId
 // [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
@@ -29121,6 +29153,25 @@ void UOnlineGameDedicatedServer_X::HandlePsyNetDataLoaded(class UPsyNetStaticDat
 	this->ProcessEvent(uFnHandlePsyNetDataLoaded, &HandlePsyNetDataLoaded_Params, nullptr);
 };
 
+// Function ProjectX.OnlineGameDedicatedServer_X.SpinDownDDoSService
+// [0x00080003] (FUNC_Final | FUNC_Defined | FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+
+void UOnlineGameDedicatedServer_X::SpinDownDDoSService()
+{
+	static UFunction* uFnSpinDownDDoSService = nullptr;
+
+	if (!uFnSpinDownDDoSService)
+	{
+		uFnSpinDownDDoSService = UFunction::FindFunction("Function ProjectX.OnlineGameDedicatedServer_X.SpinDownDDoSService");
+	}
+
+	UOnlineGameDedicatedServer_X_execSpinDownDDoSService_Params SpinDownDDoSService_Params;
+	memset(&SpinDownDDoSService_Params, 0, sizeof(SpinDownDDoSService_Params));
+
+	this->ProcessEvent(uFnSpinDownDDoSService, &SpinDownDDoSService_Params, nullptr);
+};
+
 // Function ProjectX.OnlineGameDedicatedServer_X.PrintDebugInfo
 // [0x400020102] (FUNC_Defined | FUNC_Simulated | FUNC_Public | FUNC_NetValidate | FUNC_AllFlags)
 // Parameter Info:
@@ -29140,6 +29191,88 @@ void UOnlineGameDedicatedServer_X::PrintDebugInfo(class UDebugDrawer* Drawer)
 	memcpy_s(&PrintDebugInfo_Params.Drawer, sizeof(PrintDebugInfo_Params.Drawer), &Drawer, sizeof(Drawer));
 
 	this->ProcessEvent(uFnPrintDebugInfo, &PrintDebugInfo_Params, nullptr);
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.WaitForLogAttackDetected
+// [0x00040001] (FUNC_Final | FUNC_Private | FUNC_AllFlags)
+// Parameter Info:
+
+void UOnlineGameDedicatedServer_X::WaitForLogAttackDetected()
+{
+	static UFunction* uFnWaitForLogAttackDetected = nullptr;
+
+	if (!uFnWaitForLogAttackDetected)
+	{
+		uFnWaitForLogAttackDetected = UFunction::FindFunction("Function ProjectX.OnlineGameDedicatedServer_X.WaitForLogAttackDetected");
+	}
+
+	UOnlineGameDedicatedServer_X_execWaitForLogAttackDetected_Params WaitForLogAttackDetected_Params;
+	memset(&WaitForLogAttackDetected_Params, 0, sizeof(WaitForLogAttackDetected_Params));
+
+	this->ProcessEvent(uFnWaitForLogAttackDetected, &WaitForLogAttackDetected_Params, nullptr);
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.DDoSAttackDetected
+// [0x00080803] (FUNC_Final | FUNC_Defined | FUNC_Event | FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+// TArray<class FString>          ConnectionIPs                  (CPF_Parm | CPF_NeedCtorLink)
+
+void UOnlineGameDedicatedServer_X::eventDDoSAttackDetected(TArray<class FString> ConnectionIPs)
+{
+	static UFunction* uFnDDoSAttackDetected = nullptr;
+
+	if (!uFnDDoSAttackDetected)
+	{
+		uFnDDoSAttackDetected = UFunction::FindFunction("Function ProjectX.OnlineGameDedicatedServer_X.DDoSAttackDetected");
+	}
+
+	UOnlineGameDedicatedServer_X_eventDDoSAttackDetected_Params DDoSAttackDetected_Params;
+	memset(&DDoSAttackDetected_Params, 0, sizeof(DDoSAttackDetected_Params));
+	memcpy_s(&DDoSAttackDetected_Params.ConnectionIPs, sizeof(DDoSAttackDetected_Params.ConnectionIPs), &ConnectionIPs, sizeof(ConnectionIPs));
+
+	this->ProcessEvent(uFnDDoSAttackDetected, &DDoSAttackDetected_Params, nullptr);
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.ClearDDoSAttackEvent
+// [0x00080401] (FUNC_Final | FUNC_Native | FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+
+void UOnlineGameDedicatedServer_X::ClearDDoSAttackEvent()
+{
+	static UFunction* uFnClearDDoSAttackEvent = nullptr;
+
+	if (!uFnClearDDoSAttackEvent)
+	{
+		uFnClearDDoSAttackEvent = UFunction::FindFunction("Function ProjectX.OnlineGameDedicatedServer_X.ClearDDoSAttackEvent");
+	}
+
+	UOnlineGameDedicatedServer_X_execClearDDoSAttackEvent_Params ClearDDoSAttackEvent_Params;
+	memset(&ClearDDoSAttackEvent_Params, 0, sizeof(ClearDDoSAttackEvent_Params));
+
+	uFnClearDDoSAttackEvent->FunctionFlags &= ~0x400;
+	this->ProcessEvent(uFnClearDDoSAttackEvent, &ClearDDoSAttackEvent_Params, nullptr);
+	uFnClearDDoSAttackEvent->FunctionFlags |= 0x400;
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.SubscribeToDDoSAttackEvent
+// [0x00080401] (FUNC_Final | FUNC_Native | FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+
+void UOnlineGameDedicatedServer_X::SubscribeToDDoSAttackEvent()
+{
+	static UFunction* uFnSubscribeToDDoSAttackEvent = nullptr;
+
+	if (!uFnSubscribeToDDoSAttackEvent)
+	{
+		uFnSubscribeToDDoSAttackEvent = UFunction::FindFunction("Function ProjectX.OnlineGameDedicatedServer_X.SubscribeToDDoSAttackEvent");
+	}
+
+	UOnlineGameDedicatedServer_X_execSubscribeToDDoSAttackEvent_Params SubscribeToDDoSAttackEvent_Params;
+	memset(&SubscribeToDDoSAttackEvent_Params, 0, sizeof(SubscribeToDDoSAttackEvent_Params));
+
+	uFnSubscribeToDDoSAttackEvent->FunctionFlags &= ~0x400;
+	this->ProcessEvent(uFnSubscribeToDDoSAttackEvent, &SubscribeToDDoSAttackEvent_Params, nullptr);
+	uFnSubscribeToDDoSAttackEvent->FunctionFlags |= 0x400;
 };
 
 // Function ProjectX.OnlineGameDedicatedServer_X.SendRecordMatchRPC
@@ -32980,6 +33113,25 @@ void UOnlineGameReservations_X::ClearTeamHistory()
 	memset(&ClearTeamHistory_Params, 0, sizeof(ClearTeamHistory_Params));
 
 	this->ProcessEvent(uFnClearTeamHistory, &ClearTeamHistory_Params, nullptr);
+};
+
+// Function ProjectX.OnlineGameReservations_X.ClearPsynetReservationsTeams
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+
+void UOnlineGameReservations_X::ClearPsynetReservationsTeams()
+{
+	static UFunction* uFnClearPsynetReservationsTeams = nullptr;
+
+	if (!uFnClearPsynetReservationsTeams)
+	{
+		uFnClearPsynetReservationsTeams = UFunction::FindFunction("Function ProjectX.OnlineGameReservations_X.ClearPsynetReservationsTeams");
+	}
+
+	UOnlineGameReservations_X_execClearPsynetReservationsTeams_Params ClearPsynetReservationsTeams_Params;
+	memset(&ClearPsynetReservationsTeams_Params, 0, sizeof(ClearPsynetReservationsTeams_Params));
+
+	this->ProcessEvent(uFnClearPsynetReservationsTeams, &ClearPsynetReservationsTeams_Params, nullptr);
 };
 
 // Function ProjectX.OnlineGameReservations_X.ClearReservations
@@ -40860,25 +41012,25 @@ bool U__CrossplayConfig_X__GetDisabledCrossplayGroup_0x1::__CrossplayConfig_X__G
 	return __CrossplayConfig_X__GetDisabledCrossplayGroup_0x1_Params.ReturnValue;
 };
 
-// Function ProjectX.__EOSHelpers_X__RequestEASAuth_0x1.__EOSHelpers_X__RequestEASAuth_0x1
+// Function ProjectX.__EOSHelpers_X__RequestEOSToken_0x1.__EOSHelpers_X__RequestEOSToken_0x1
 // [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
 // class UWebRequest_X*           Response                       (CPF_Parm)
 
-void U__EOSHelpers_X__RequestEASAuth_0x1::__EOSHelpers_X__RequestEASAuth_0x1(class UWebRequest_X* Response)
+void U__EOSHelpers_X__RequestEOSToken_0x1::__EOSHelpers_X__RequestEOSToken_0x1(class UWebRequest_X* Response)
 {
-	static UFunction* uFn__EOSHelpers_X__RequestEASAuth_0x1 = nullptr;
+	static UFunction* uFn__EOSHelpers_X__RequestEOSToken_0x1 = nullptr;
 
-	if (!uFn__EOSHelpers_X__RequestEASAuth_0x1)
+	if (!uFn__EOSHelpers_X__RequestEOSToken_0x1)
 	{
-		uFn__EOSHelpers_X__RequestEASAuth_0x1 = UFunction::FindFunction("Function ProjectX.__EOSHelpers_X__RequestEASAuth_0x1.__EOSHelpers_X__RequestEASAuth_0x1");
+		uFn__EOSHelpers_X__RequestEOSToken_0x1 = UFunction::FindFunction("Function ProjectX.__EOSHelpers_X__RequestEOSToken_0x1.__EOSHelpers_X__RequestEOSToken_0x1");
 	}
 
-	U__EOSHelpers_X__RequestEASAuth_0x1_exec__EOSHelpers_X__RequestEASAuth_0x1_Params __EOSHelpers_X__RequestEASAuth_0x1_Params;
-	memset(&__EOSHelpers_X__RequestEASAuth_0x1_Params, 0, sizeof(__EOSHelpers_X__RequestEASAuth_0x1_Params));
-	memcpy_s(&__EOSHelpers_X__RequestEASAuth_0x1_Params.Response, sizeof(__EOSHelpers_X__RequestEASAuth_0x1_Params.Response), &Response, sizeof(Response));
+	U__EOSHelpers_X__RequestEOSToken_0x1_exec__EOSHelpers_X__RequestEOSToken_0x1_Params __EOSHelpers_X__RequestEOSToken_0x1_Params;
+	memset(&__EOSHelpers_X__RequestEOSToken_0x1_Params, 0, sizeof(__EOSHelpers_X__RequestEOSToken_0x1_Params));
+	memcpy_s(&__EOSHelpers_X__RequestEOSToken_0x1_Params.Response, sizeof(__EOSHelpers_X__RequestEOSToken_0x1_Params.Response), &Response, sizeof(Response));
 
-	this->ProcessEvent(uFn__EOSHelpers_X__RequestEASAuth_0x1, &__EOSHelpers_X__RequestEASAuth_0x1_Params, nullptr);
+	this->ProcessEvent(uFn__EOSHelpers_X__RequestEOSToken_0x1, &__EOSHelpers_X__RequestEOSToken_0x1_Params, nullptr);
 };
 
 // Function ProjectX.EOSHelpers_X.SendHTTPRequestSelectAuth
@@ -40928,8 +41080,8 @@ void UEOSHelpers_X::SendHTTPRequestSelectAuth(class FString Verb, class FString 
 	UEOSHelpers_X::StaticClass()->ProcessEvent(uFnSendHTTPRequestSelectAuth, &SendHTTPRequestSelectAuth_Params, nullptr);
 };
 
-// Function ProjectX.EOSHelpers_X.SendHTTPRequestEASAuth
-// [0x00026003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_NoExport | FUNC_OptionalParm | FUNC_Public | FUNC_AllFlags)
+// Function ProjectX.EOSHelpers_X.SendHTTPRequestEOSToken
+// [0x00826003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_NoExport | FUNC_OptionalParm | FUNC_Public | FUNC_HasDefaults | FUNC_AllFlags)
 // Parameter Info:
 // class FString                  Verb                           (CPF_Parm | CPF_NeedCtorLink)
 // class FString                  URL                            (CPF_Parm | CPF_NeedCtorLink)
@@ -40939,63 +41091,57 @@ void UEOSHelpers_X::SendHTTPRequestSelectAuth(class FString Verb, class FString 
 // struct FScriptDelegate         ConvertErrorNew                (CPF_Parm | CPF_NeedCtorLink)
 // class UOnlineSubsystem*        EOS                            (CPF_Parm)
 // int32_t                        LocalPlayerNum                 (CPF_Parm)
-// class FString                  AuthURL                        (CPF_Parm | CPF_NeedCtorLink)
 // class FString                  BodyJson                       (CPF_OptionalParm | CPF_Parm | CPF_NeedCtorLink)
-// class FString                  Continuation                   (CPF_OptionalParm | CPF_Parm | CPF_NeedCtorLink)
 
-void UEOSHelpers_X::SendHTTPRequestEASAuth(class FString Verb, class FString URL, bool bAddContentTypeHeader, class UClass* ResponseClass, struct FScriptDelegate Callback, struct FScriptDelegate ConvertErrorNew, class UOnlineSubsystem* EOS, int32_t LocalPlayerNum, class FString AuthURL, class FString BodyJson, class FString Continuation)
+void UEOSHelpers_X::SendHTTPRequestEOSToken(class FString Verb, class FString URL, bool bAddContentTypeHeader, class UClass* ResponseClass, struct FScriptDelegate Callback, struct FScriptDelegate ConvertErrorNew, class UOnlineSubsystem* EOS, int32_t LocalPlayerNum, class FString BodyJson)
 {
-	static UFunction* uFnSendHTTPRequestEASAuth = nullptr;
+	static UFunction* uFnSendHTTPRequestEOSToken = nullptr;
 
-	if (!uFnSendHTTPRequestEASAuth)
+	if (!uFnSendHTTPRequestEOSToken)
 	{
-		uFnSendHTTPRequestEASAuth = UFunction::FindFunction("Function ProjectX.EOSHelpers_X.SendHTTPRequestEASAuth");
+		uFnSendHTTPRequestEOSToken = UFunction::FindFunction("Function ProjectX.EOSHelpers_X.SendHTTPRequestEOSToken");
 	}
 
-	UEOSHelpers_X_execSendHTTPRequestEASAuth_Params SendHTTPRequestEASAuth_Params;
-	memset(&SendHTTPRequestEASAuth_Params, 0, sizeof(SendHTTPRequestEASAuth_Params));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.Verb, sizeof(SendHTTPRequestEASAuth_Params.Verb), &Verb, sizeof(Verb));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.URL, sizeof(SendHTTPRequestEASAuth_Params.URL), &URL, sizeof(URL));
-	SendHTTPRequestEASAuth_Params.bAddContentTypeHeader = bAddContentTypeHeader;
-	memcpy_s(&SendHTTPRequestEASAuth_Params.ResponseClass, sizeof(SendHTTPRequestEASAuth_Params.ResponseClass), &ResponseClass, sizeof(ResponseClass));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.Callback, sizeof(SendHTTPRequestEASAuth_Params.Callback), &Callback, sizeof(Callback));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.ConvertErrorNew, sizeof(SendHTTPRequestEASAuth_Params.ConvertErrorNew), &ConvertErrorNew, sizeof(ConvertErrorNew));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.EOS, sizeof(SendHTTPRequestEASAuth_Params.EOS), &EOS, sizeof(EOS));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.LocalPlayerNum, sizeof(SendHTTPRequestEASAuth_Params.LocalPlayerNum), &LocalPlayerNum, sizeof(LocalPlayerNum));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.AuthURL, sizeof(SendHTTPRequestEASAuth_Params.AuthURL), &AuthURL, sizeof(AuthURL));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.BodyJson, sizeof(SendHTTPRequestEASAuth_Params.BodyJson), &BodyJson, sizeof(BodyJson));
-	memcpy_s(&SendHTTPRequestEASAuth_Params.Continuation, sizeof(SendHTTPRequestEASAuth_Params.Continuation), &Continuation, sizeof(Continuation));
+	UEOSHelpers_X_execSendHTTPRequestEOSToken_Params SendHTTPRequestEOSToken_Params;
+	memset(&SendHTTPRequestEOSToken_Params, 0, sizeof(SendHTTPRequestEOSToken_Params));
+	memcpy_s(&SendHTTPRequestEOSToken_Params.Verb, sizeof(SendHTTPRequestEOSToken_Params.Verb), &Verb, sizeof(Verb));
+	memcpy_s(&SendHTTPRequestEOSToken_Params.URL, sizeof(SendHTTPRequestEOSToken_Params.URL), &URL, sizeof(URL));
+	SendHTTPRequestEOSToken_Params.bAddContentTypeHeader = bAddContentTypeHeader;
+	memcpy_s(&SendHTTPRequestEOSToken_Params.ResponseClass, sizeof(SendHTTPRequestEOSToken_Params.ResponseClass), &ResponseClass, sizeof(ResponseClass));
+	memcpy_s(&SendHTTPRequestEOSToken_Params.Callback, sizeof(SendHTTPRequestEOSToken_Params.Callback), &Callback, sizeof(Callback));
+	memcpy_s(&SendHTTPRequestEOSToken_Params.ConvertErrorNew, sizeof(SendHTTPRequestEOSToken_Params.ConvertErrorNew), &ConvertErrorNew, sizeof(ConvertErrorNew));
+	memcpy_s(&SendHTTPRequestEOSToken_Params.EOS, sizeof(SendHTTPRequestEOSToken_Params.EOS), &EOS, sizeof(EOS));
+	memcpy_s(&SendHTTPRequestEOSToken_Params.LocalPlayerNum, sizeof(SendHTTPRequestEOSToken_Params.LocalPlayerNum), &LocalPlayerNum, sizeof(LocalPlayerNum));
+	memcpy_s(&SendHTTPRequestEOSToken_Params.BodyJson, sizeof(SendHTTPRequestEOSToken_Params.BodyJson), &BodyJson, sizeof(BodyJson));
 
-	UEOSHelpers_X::StaticClass()->ProcessEvent(uFnSendHTTPRequestEASAuth, &SendHTTPRequestEASAuth_Params, nullptr);
+	UEOSHelpers_X::StaticClass()->ProcessEvent(uFnSendHTTPRequestEOSToken, &SendHTTPRequestEOSToken_Params, nullptr);
 };
 
-// Function ProjectX.EOSHelpers_X.RequestEASAuth
+// Function ProjectX.EOSHelpers_X.RequestEOSToken
 // [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
 // class FString                  URL                            (CPF_Parm | CPF_NeedCtorLink)
 // class FString                  ClientCredentials              (CPF_Parm | CPF_NeedCtorLink)
-// class FString                  ClientID                       (CPF_Parm | CPF_NeedCtorLink)
-// class FString                  ClientSecret                   (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  EASAuthToken                   (CPF_Parm | CPF_NeedCtorLink)
 // struct FScriptDelegate         Callback                       (CPF_Parm | CPF_NeedCtorLink)
 
-void UEOSHelpers_X::RequestEASAuth(class FString URL, class FString ClientCredentials, class FString ClientID, class FString ClientSecret, struct FScriptDelegate Callback)
+void UEOSHelpers_X::RequestEOSToken(class FString URL, class FString ClientCredentials, class FString EASAuthToken, struct FScriptDelegate Callback)
 {
-	static UFunction* uFnRequestEASAuth = nullptr;
+	static UFunction* uFnRequestEOSToken = nullptr;
 
-	if (!uFnRequestEASAuth)
+	if (!uFnRequestEOSToken)
 	{
-		uFnRequestEASAuth = UFunction::FindFunction("Function ProjectX.EOSHelpers_X.RequestEASAuth");
+		uFnRequestEOSToken = UFunction::FindFunction("Function ProjectX.EOSHelpers_X.RequestEOSToken");
 	}
 
-	UEOSHelpers_X_execRequestEASAuth_Params RequestEASAuth_Params;
-	memset(&RequestEASAuth_Params, 0, sizeof(RequestEASAuth_Params));
-	memcpy_s(&RequestEASAuth_Params.URL, sizeof(RequestEASAuth_Params.URL), &URL, sizeof(URL));
-	memcpy_s(&RequestEASAuth_Params.ClientCredentials, sizeof(RequestEASAuth_Params.ClientCredentials), &ClientCredentials, sizeof(ClientCredentials));
-	memcpy_s(&RequestEASAuth_Params.ClientID, sizeof(RequestEASAuth_Params.ClientID), &ClientID, sizeof(ClientID));
-	memcpy_s(&RequestEASAuth_Params.ClientSecret, sizeof(RequestEASAuth_Params.ClientSecret), &ClientSecret, sizeof(ClientSecret));
-	memcpy_s(&RequestEASAuth_Params.Callback, sizeof(RequestEASAuth_Params.Callback), &Callback, sizeof(Callback));
+	UEOSHelpers_X_execRequestEOSToken_Params RequestEOSToken_Params;
+	memset(&RequestEOSToken_Params, 0, sizeof(RequestEOSToken_Params));
+	memcpy_s(&RequestEOSToken_Params.URL, sizeof(RequestEOSToken_Params.URL), &URL, sizeof(URL));
+	memcpy_s(&RequestEOSToken_Params.ClientCredentials, sizeof(RequestEOSToken_Params.ClientCredentials), &ClientCredentials, sizeof(ClientCredentials));
+	memcpy_s(&RequestEOSToken_Params.EASAuthToken, sizeof(RequestEOSToken_Params.EASAuthToken), &EASAuthToken, sizeof(EASAuthToken));
+	memcpy_s(&RequestEOSToken_Params.Callback, sizeof(RequestEOSToken_Params.Callback), &Callback, sizeof(Callback));
 
-	UEOSHelpers_X::StaticClass()->ProcessEvent(uFnRequestEASAuth, &RequestEASAuth_Params, nullptr);
+	UEOSHelpers_X::StaticClass()->ProcessEvent(uFnRequestEOSToken, &RequestEOSToken_Params, nullptr);
 };
 
 // Function ProjectX.EOSHelpers_X.SendHTTPRequest
@@ -41110,27 +41256,116 @@ void U__EOSHelpers_X__SendHTTPRequest_0x1::__EOSHelpers_X__SendHTTPRequest_0x1(b
 	this->ProcessEvent(uFn__EOSHelpers_X__SendHTTPRequest_0x1, &__EOSHelpers_X__SendHTTPRequest_0x1_Params, nullptr);
 };
 
-// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEASAuth_0x1.__EOSHelpers_X__SendHTTPRequestEASAuth_0x1
+// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1
+// [0x40040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_Lambda | FUNC_AllFlags)
+// Parameter Info:
+// bool                           bSuccess                       (CPF_Parm)
+// class FString                  EASAuthTicket                  (CPF_Parm | CPF_NeedCtorLink)
+
+void U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2::____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1(bool bSuccess, class FString EASAuthTicket)
+{
+	static UFunction* uFn____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1 = nullptr;
+
+	if (!uFn____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1)
+	{
+		uFn____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1 = UFunction::FindFunction("Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1");
+	}
+
+	U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_exec____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params ____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params;
+	memset(&____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params, 0, sizeof(____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params));
+	____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params.bSuccess = bSuccess;
+	memcpy_s(&____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params.EASAuthTicket, sizeof(____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params.EASAuthTicket), &EASAuthTicket, sizeof(EASAuthTicket));
+
+	this->ProcessEvent(uFn____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1, &____EOSHelpers_X__SendHTTPRequestEOSToken_0x2____EOSHelpers_X__SendHTTPRequestEOSToken_0x1_0x1_Params, nullptr);
+};
+
+// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.__EOSHelpers_X__SendHTTPRequestEOSToken_0x1
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           bSuccess                       (CPF_Parm)
+// class FString                  EOSAuthTicket                  (CPF_Parm | CPF_NeedCtorLink)
+
+void U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2::__EOSHelpers_X__SendHTTPRequestEOSToken_0x1(bool bSuccess, class FString EOSAuthTicket)
+{
+	static UFunction* uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x1 = nullptr;
+
+	if (!uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x1)
+	{
+		uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x1 = UFunction::FindFunction("Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.__EOSHelpers_X__SendHTTPRequestEOSToken_0x1");
+	}
+
+	U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_exec__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params __EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params;
+	memset(&__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params, 0, sizeof(__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params));
+	__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params.bSuccess = bSuccess;
+	memcpy_s(&__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params.EOSAuthTicket, sizeof(__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params.EOSAuthTicket), &EOSAuthTicket, sizeof(EOSAuthTicket));
+
+	this->ProcessEvent(uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x1, &__EOSHelpers_X__SendHTTPRequestEOSToken_0x1_Params, nullptr);
+};
+
+// Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2
 // [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
 // bool                           bSuccess                       (CPF_Parm)
 // class FString                  EASAuthTicket                  (CPF_Parm | CPF_NeedCtorLink)
 
-void U__EOSHelpers_X__SendHTTPRequestEASAuth_0x1::__EOSHelpers_X__SendHTTPRequestEASAuth_0x1(bool bSuccess, class FString EASAuthTicket)
+void U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2::__EOSHelpers_X__SendHTTPRequestEOSToken_0x2(bool bSuccess, class FString EASAuthTicket)
 {
-	static UFunction* uFn__EOSHelpers_X__SendHTTPRequestEASAuth_0x1 = nullptr;
+	static UFunction* uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x2 = nullptr;
 
-	if (!uFn__EOSHelpers_X__SendHTTPRequestEASAuth_0x1)
+	if (!uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x2)
 	{
-		uFn__EOSHelpers_X__SendHTTPRequestEASAuth_0x1 = UFunction::FindFunction("Function ProjectX.__EOSHelpers_X__SendHTTPRequestEASAuth_0x1.__EOSHelpers_X__SendHTTPRequestEASAuth_0x1");
+		uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x2 = UFunction::FindFunction("Function ProjectX.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2.__EOSHelpers_X__SendHTTPRequestEOSToken_0x2");
 	}
 
-	U__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_exec__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params __EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params;
-	memset(&__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params, 0, sizeof(__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params));
-	__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params.bSuccess = bSuccess;
-	memcpy_s(&__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params.EASAuthTicket, sizeof(__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params.EASAuthTicket), &EASAuthTicket, sizeof(EASAuthTicket));
+	U__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_exec__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params __EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params;
+	memset(&__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params, 0, sizeof(__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params));
+	__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params.bSuccess = bSuccess;
+	memcpy_s(&__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params.EASAuthTicket, sizeof(__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params.EASAuthTicket), &EASAuthTicket, sizeof(EASAuthTicket));
 
-	this->ProcessEvent(uFn__EOSHelpers_X__SendHTTPRequestEASAuth_0x1, &__EOSHelpers_X__SendHTTPRequestEASAuth_0x1_Params, nullptr);
+	this->ProcessEvent(uFn__EOSHelpers_X__SendHTTPRequestEOSToken_0x2, &__EOSHelpers_X__SendHTTPRequestEOSToken_0x2_Params, nullptr);
+};
+
+// Function ProjectX.EpicConfig_X.GetChatPermissionLevel
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// EChatPermissionLevel           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  PermissionLabel                (CPF_Parm | CPF_NeedCtorLink)
+
+EChatPermissionLevel UEpicConfig_X::GetChatPermissionLevel(class FString PermissionLabel)
+{
+	static UFunction* uFnGetChatPermissionLevel = nullptr;
+
+	if (!uFnGetChatPermissionLevel)
+	{
+		uFnGetChatPermissionLevel = UFunction::FindFunction("Function ProjectX.EpicConfig_X.GetChatPermissionLevel");
+	}
+
+	UEpicConfig_X_execGetChatPermissionLevel_Params GetChatPermissionLevel_Params;
+	memset(&GetChatPermissionLevel_Params, 0, sizeof(GetChatPermissionLevel_Params));
+	memcpy_s(&GetChatPermissionLevel_Params.PermissionLabel, sizeof(GetChatPermissionLevel_Params.PermissionLabel), &PermissionLabel, sizeof(PermissionLabel));
+
+	this->ProcessEvent(uFnGetChatPermissionLevel, &GetChatPermissionLevel_Params, nullptr);
+
+	return GetChatPermissionLevel_Params.ReturnValue;
+};
+
+// Function ProjectX.EpicConfig_X.Apply
+// [0x400020002] (FUNC_Defined | FUNC_Public | FUNC_NetValidate | FUNC_AllFlags)
+// Parameter Info:
+
+void UEpicConfig_X::Apply()
+{
+	static UFunction* uFnApply = nullptr;
+
+	if (!uFnApply)
+	{
+		uFnApply = UFunction::FindFunction("Function ProjectX.EpicConfig_X.Apply");
+	}
+
+	UEpicConfig_X_execApply_Params Apply_Params;
+	memset(&Apply_Params, 0, sizeof(Apply_Params));
+
+	this->ProcessEvent(uFnApply, &Apply_Params, nullptr);
 };
 
 // Function ProjectX.__EOSHelpers_X__SendHTTPRequestSelectAuth_0x1.__EOSHelpers_X__SendHTTPRequestSelectAuth_0x1
@@ -41296,49 +41531,6 @@ void U__EpicLogin_X__HandleLoginChanged_0x1::__EpicLogin_X__HandleLoginChanged_0
 	memset(&__EpicLogin_X__HandleLoginChanged_0x1_Params, 0, sizeof(__EpicLogin_X__HandleLoginChanged_0x1_Params));
 
 	this->ProcessEvent(uFn__EpicLogin_X__HandleLoginChanged_0x1, &__EpicLogin_X__HandleLoginChanged_0x1_Params, nullptr);
-};
-
-// Function ProjectX.EpicConfig_X.GetChatPermissionLevel
-// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// EChatPermissionLevel           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  PermissionLabel                (CPF_Parm | CPF_NeedCtorLink)
-
-EChatPermissionLevel UEpicConfig_X::GetChatPermissionLevel(class FString PermissionLabel)
-{
-	static UFunction* uFnGetChatPermissionLevel = nullptr;
-
-	if (!uFnGetChatPermissionLevel)
-	{
-		uFnGetChatPermissionLevel = UFunction::FindFunction("Function ProjectX.EpicConfig_X.GetChatPermissionLevel");
-	}
-
-	UEpicConfig_X_execGetChatPermissionLevel_Params GetChatPermissionLevel_Params;
-	memset(&GetChatPermissionLevel_Params, 0, sizeof(GetChatPermissionLevel_Params));
-	memcpy_s(&GetChatPermissionLevel_Params.PermissionLabel, sizeof(GetChatPermissionLevel_Params.PermissionLabel), &PermissionLabel, sizeof(PermissionLabel));
-
-	this->ProcessEvent(uFnGetChatPermissionLevel, &GetChatPermissionLevel_Params, nullptr);
-
-	return GetChatPermissionLevel_Params.ReturnValue;
-};
-
-// Function ProjectX.EpicConfig_X.Apply
-// [0x400020002] (FUNC_Defined | FUNC_Public | FUNC_NetValidate | FUNC_AllFlags)
-// Parameter Info:
-
-void UEpicConfig_X::Apply()
-{
-	static UFunction* uFnApply = nullptr;
-
-	if (!uFnApply)
-	{
-		uFnApply = UFunction::FindFunction("Function ProjectX.EpicConfig_X.Apply");
-	}
-
-	UEpicConfig_X_execApply_Params Apply_Params;
-	memset(&Apply_Params, 0, sizeof(Apply_Params));
-
-	this->ProcessEvent(uFnApply, &Apply_Params, nullptr);
 };
 
 // Function ProjectX.__EpicLogin_X__TriggerAuthTicketDelegate_0x1.__EpicLogin_X__TriggerAuthTicketDelegate_0x1
@@ -53710,6 +53902,27 @@ void UParties_X::HandleChatNotification(class UPsyNetService_PartyChat_X* Notifi
 	this->ProcessEvent(uFnHandleChatNotification, &HandleChatNotification_Params, nullptr);
 };
 
+// Function ProjectX.Parties_X.HandleSignedChatNotification
+// [0x20040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_EditorOnly | FUNC_AllFlags)
+// Parameter Info:
+// class UPsyNetService_SignedPartyChat_X* Notification                   (CPF_Parm)
+
+void UParties_X::HandleSignedChatNotification(class UPsyNetService_SignedPartyChat_X* Notification)
+{
+	static UFunction* uFnHandleSignedChatNotification = nullptr;
+
+	if (!uFnHandleSignedChatNotification)
+	{
+		uFnHandleSignedChatNotification = UFunction::FindFunction("Function ProjectX.Parties_X.HandleSignedChatNotification");
+	}
+
+	UParties_X_execHandleSignedChatNotification_Params HandleSignedChatNotification_Params;
+	memset(&HandleSignedChatNotification_Params, 0, sizeof(HandleSignedChatNotification_Params));
+	memcpy_s(&HandleSignedChatNotification_Params.Notification, sizeof(HandleSignedChatNotification_Params.Notification), &Notification, sizeof(Notification));
+
+	this->ProcessEvent(uFnHandleSignedChatNotification, &HandleSignedChatNotification_Params, nullptr);
+};
+
 // Function ProjectX.Parties_X.HandleSystemNotification
 // [0x20040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_EditorOnly | FUNC_AllFlags)
 // Parameter Info:
@@ -55011,6 +55224,52 @@ bool UParties_X::SendLobbyBinaryData(struct FUniqueLobbyId& LobbyId, TArray<uint
 	return SendLobbyBinaryData_Params.ReturnValue;
 };
 
+// Function ProjectX.Parties_X.HandleSignedLobbyMessageFailed
+// [0x20040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_EditorOnly | FUNC_AllFlags)
+// Parameter Info:
+// class URPC_SignedPartyChat_X*  RPC                            (CPF_Parm)
+
+void UParties_X::HandleSignedLobbyMessageFailed(class URPC_SignedPartyChat_X* RPC)
+{
+	static UFunction* uFnHandleSignedLobbyMessageFailed = nullptr;
+
+	if (!uFnHandleSignedLobbyMessageFailed)
+	{
+		uFnHandleSignedLobbyMessageFailed = UFunction::FindFunction("Function ProjectX.Parties_X.HandleSignedLobbyMessageFailed");
+	}
+
+	UParties_X_execHandleSignedLobbyMessageFailed_Params HandleSignedLobbyMessageFailed_Params;
+	memset(&HandleSignedLobbyMessageFailed_Params, 0, sizeof(HandleSignedLobbyMessageFailed_Params));
+	memcpy_s(&HandleSignedLobbyMessageFailed_Params.RPC, sizeof(HandleSignedLobbyMessageFailed_Params.RPC), &RPC, sizeof(RPC));
+
+	this->ProcessEvent(uFnHandleSignedLobbyMessageFailed, &HandleSignedLobbyMessageFailed_Params, nullptr);
+};
+
+// Function ProjectX.Parties_X.SendSignedLobbyMessage
+// [0x00420003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_HasOutParms | FUNC_AllFlags)
+// Parameter Info:
+// class USignedMessageObject_X*  MessageObject                  (CPF_Parm)
+// struct FUniqueLobbyId          LobbyId                        (CPF_Const | CPF_Parm | CPF_OutParm)
+
+void UParties_X::SendSignedLobbyMessage(class USignedMessageObject_X* MessageObject, struct FUniqueLobbyId& LobbyId)
+{
+	static UFunction* uFnSendSignedLobbyMessage = nullptr;
+
+	if (!uFnSendSignedLobbyMessage)
+	{
+		uFnSendSignedLobbyMessage = UFunction::FindFunction("Function ProjectX.Parties_X.SendSignedLobbyMessage");
+	}
+
+	UParties_X_execSendSignedLobbyMessage_Params SendSignedLobbyMessage_Params;
+	memset(&SendSignedLobbyMessage_Params, 0, sizeof(SendSignedLobbyMessage_Params));
+	memcpy_s(&SendSignedLobbyMessage_Params.MessageObject, sizeof(SendSignedLobbyMessage_Params.MessageObject), &MessageObject, sizeof(MessageObject));
+	memcpy_s(&SendSignedLobbyMessage_Params.LobbyId, sizeof(SendSignedLobbyMessage_Params.LobbyId), &LobbyId, sizeof(LobbyId));
+
+	this->ProcessEvent(uFnSendSignedLobbyMessage, &SendSignedLobbyMessage_Params, nullptr);
+
+	memcpy_s(&LobbyId, sizeof(LobbyId), &SendSignedLobbyMessage_Params.LobbyId, sizeof(SendSignedLobbyMessage_Params.LobbyId));
+};
+
 // Function ProjectX.Parties_X.HandleLobbyMessageFailed
 // [0x20040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_EditorOnly | FUNC_AllFlags)
 // Parameter Info:
@@ -55393,6 +55652,31 @@ bool UParties_X::CreateLobby(int32_t LocalPlayerNum, int32_t MaxPlayers, ELobbyV
 	this->ProcessEvent(uFnCreateLobby, &CreateLobby_Params, nullptr);
 
 	return CreateLobby_Params.ReturnValue;
+};
+
+// Function ProjectX.Parties_X.EventSignedPartyChatRecieved
+// [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
+// Parameter Info:
+// struct FUniqueNetId            RecipientId                    (CPF_Parm | CPF_NeedCtorLink)
+// struct FUniqueNetId            SenderId                       (CPF_Parm | CPF_NeedCtorLink)
+// class USignedMessageObject_X*  MessageObject                  (CPF_Parm)
+
+void UParties_X::EventSignedPartyChatRecieved(struct FUniqueNetId RecipientId, struct FUniqueNetId SenderId, class USignedMessageObject_X* MessageObject)
+{
+	static UFunction* uFnEventSignedPartyChatRecieved = nullptr;
+
+	if (!uFnEventSignedPartyChatRecieved)
+	{
+		uFnEventSignedPartyChatRecieved = UFunction::FindFunction("Function ProjectX.Parties_X.EventSignedPartyChatRecieved");
+	}
+
+	UParties_X_execEventSignedPartyChatRecieved_Params EventSignedPartyChatRecieved_Params;
+	memset(&EventSignedPartyChatRecieved_Params, 0, sizeof(EventSignedPartyChatRecieved_Params));
+	memcpy_s(&EventSignedPartyChatRecieved_Params.RecipientId, sizeof(EventSignedPartyChatRecieved_Params.RecipientId), &RecipientId, sizeof(RecipientId));
+	memcpy_s(&EventSignedPartyChatRecieved_Params.SenderId, sizeof(EventSignedPartyChatRecieved_Params.SenderId), &SenderId, sizeof(SenderId));
+	memcpy_s(&EventSignedPartyChatRecieved_Params.MessageObject, sizeof(EventSignedPartyChatRecieved_Params.MessageObject), &MessageObject, sizeof(MessageObject));
+
+	this->ProcessEvent(uFnEventSignedPartyChatRecieved, &EventSignedPartyChatRecieved_Params, nullptr);
 };
 
 // Function ProjectX.Parties_X.EventLobbyMessageFailed
@@ -60744,6 +61028,31 @@ void U__OnlineLegalTextEOS_X__HandleEOSInitialized_0x1::__OnlineLegalTextEOS_X__
 	memcpy_s(&__OnlineLegalTextEOS_X__HandleEOSInitialized_0x1_Params.InLocalPlayerNum, sizeof(__OnlineLegalTextEOS_X__HandleEOSInitialized_0x1_Params.InLocalPlayerNum), &InLocalPlayerNum, sizeof(InLocalPlayerNum));
 
 	this->ProcessEvent(uFn__OnlineLegalTextEOS_X__HandleEOSInitialized_0x1, &__OnlineLegalTextEOS_X__HandleEOSInitialized_0x1_Params, nullptr);
+};
+
+// Function ProjectX.__OnlineLegalTextEOS_X__RequestKey_0x1.__OnlineLegalTextEOS_X__RequestKey_0x1
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// class UKeyRequestResponse*     Response                       (CPF_Const | CPF_Parm)
+// class UError*                  Error                          (CPF_Parm)
+// int32_t                        ResponseCode                   (CPF_Parm)
+
+void U__OnlineLegalTextEOS_X__RequestKey_0x1::__OnlineLegalTextEOS_X__RequestKey_0x1(class UKeyRequestResponse* Response, class UError* Error, int32_t ResponseCode)
+{
+	static UFunction* uFn__OnlineLegalTextEOS_X__RequestKey_0x1 = nullptr;
+
+	if (!uFn__OnlineLegalTextEOS_X__RequestKey_0x1)
+	{
+		uFn__OnlineLegalTextEOS_X__RequestKey_0x1 = UFunction::FindFunction("Function ProjectX.__OnlineLegalTextEOS_X__RequestKey_0x1.__OnlineLegalTextEOS_X__RequestKey_0x1");
+	}
+
+	U__OnlineLegalTextEOS_X__RequestKey_0x1_exec__OnlineLegalTextEOS_X__RequestKey_0x1_Params __OnlineLegalTextEOS_X__RequestKey_0x1_Params;
+	memset(&__OnlineLegalTextEOS_X__RequestKey_0x1_Params, 0, sizeof(__OnlineLegalTextEOS_X__RequestKey_0x1_Params));
+	memcpy_s(&__OnlineLegalTextEOS_X__RequestKey_0x1_Params.Response, sizeof(__OnlineLegalTextEOS_X__RequestKey_0x1_Params.Response), &Response, sizeof(Response));
+	memcpy_s(&__OnlineLegalTextEOS_X__RequestKey_0x1_Params.Error, sizeof(__OnlineLegalTextEOS_X__RequestKey_0x1_Params.Error), &Error, sizeof(Error));
+	memcpy_s(&__OnlineLegalTextEOS_X__RequestKey_0x1_Params.ResponseCode, sizeof(__OnlineLegalTextEOS_X__RequestKey_0x1_Params.ResponseCode), &ResponseCode, sizeof(ResponseCode));
+
+	this->ProcessEvent(uFn__OnlineLegalTextEOS_X__RequestKey_0x1, &__OnlineLegalTextEOS_X__RequestKey_0x1_Params, nullptr);
 };
 
 // Function ProjectX.__OnlinePlayerFriends_X__AcceptEpicFriendInvite_0x1.__OnlinePlayerFriends_X__AcceptEpicFriendInvite_0x1
@@ -73277,6 +73586,905 @@ bool UConnectionInfoMessage_X::IsConnectionInfoValid(struct FServerConnectionInf
 	return IsConnectionInfoValid_Params.ReturnValue;
 };
 
+// Function ProjectX.DDoSService_X.__DDoSService_X__EndDDoSService_0x1
+// [0x40040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_Lambda | FUNC_AllFlags)
+// Parameter Info:
+// class UWebRequest_X*           Request                        (CPF_Parm)
+
+void UDDoSService_X::__DDoSService_X__EndDDoSService_0x1(class UWebRequest_X* Request)
+{
+	static UFunction* uFn__DDoSService_X__EndDDoSService_0x1 = nullptr;
+
+	if (!uFn__DDoSService_X__EndDDoSService_0x1)
+	{
+		uFn__DDoSService_X__EndDDoSService_0x1 = UFunction::FindFunction("Function ProjectX.DDoSService_X.__DDoSService_X__EndDDoSService_0x1");
+	}
+
+	UDDoSService_X_exec__DDoSService_X__EndDDoSService_0x1_Params __DDoSService_X__EndDDoSService_0x1_Params;
+	memset(&__DDoSService_X__EndDDoSService_0x1_Params, 0, sizeof(__DDoSService_X__EndDDoSService_0x1_Params));
+	memcpy_s(&__DDoSService_X__EndDDoSService_0x1_Params.Request, sizeof(__DDoSService_X__EndDDoSService_0x1_Params.Request), &Request, sizeof(Request));
+
+	this->ProcessEvent(uFn__DDoSService_X__EndDDoSService_0x1, &__DDoSService_X__EndDDoSService_0x1_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.__DDoSService_X__StartDDoSService_0x1
+// [0x40040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_Lambda | FUNC_AllFlags)
+// Parameter Info:
+// class UWebRequest_X*           Request                        (CPF_Parm)
+
+void UDDoSService_X::__DDoSService_X__StartDDoSService_0x1(class UWebRequest_X* Request)
+{
+	static UFunction* uFn__DDoSService_X__StartDDoSService_0x1 = nullptr;
+
+	if (!uFn__DDoSService_X__StartDDoSService_0x1)
+	{
+		uFn__DDoSService_X__StartDDoSService_0x1 = UFunction::FindFunction("Function ProjectX.DDoSService_X.__DDoSService_X__StartDDoSService_0x1");
+	}
+
+	UDDoSService_X_exec__DDoSService_X__StartDDoSService_0x1_Params __DDoSService_X__StartDDoSService_0x1_Params;
+	memset(&__DDoSService_X__StartDDoSService_0x1_Params, 0, sizeof(__DDoSService_X__StartDDoSService_0x1_Params));
+	memcpy_s(&__DDoSService_X__StartDDoSService_0x1_Params.Request, sizeof(__DDoSService_X__StartDDoSService_0x1_Params.Request), &Request, sizeof(Request));
+
+	this->ProcessEvent(uFn__DDoSService_X__StartDDoSService_0x1, &__DDoSService_X__StartDDoSService_0x1_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.IsPayloadValid
+// [0x00080003] (FUNC_Final | FUNC_Defined | FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// struct FDDoSServicePayloadStruct Payload                        (CPF_Parm | CPF_NeedCtorLink)
+
+bool UDDoSService_X::IsPayloadValid(struct FDDoSServicePayloadStruct Payload)
+{
+	static UFunction* uFnIsPayloadValid = nullptr;
+
+	if (!uFnIsPayloadValid)
+	{
+		uFnIsPayloadValid = UFunction::FindFunction("Function ProjectX.DDoSService_X.IsPayloadValid");
+	}
+
+	UDDoSService_X_execIsPayloadValid_Params IsPayloadValid_Params;
+	memset(&IsPayloadValid_Params, 0, sizeof(IsPayloadValid_Params));
+	memcpy_s(&IsPayloadValid_Params.Payload, sizeof(IsPayloadValid_Params.Payload), &Payload, sizeof(Payload));
+
+	this->ProcessEvent(uFnIsPayloadValid, &IsPayloadValid_Params, nullptr);
+
+	return IsPayloadValid_Params.ReturnValue;
+};
+
+// Function ProjectX.DDoSService_X.GetDDoSServiceURL
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// class FString                  ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+
+class FString UDDoSService_X::GetDDoSServiceURL(class FString ServicePort)
+{
+	static UFunction* uFnGetDDoSServiceURL = nullptr;
+
+	if (!uFnGetDDoSServiceURL)
+	{
+		uFnGetDDoSServiceURL = UFunction::FindFunction("Function ProjectX.DDoSService_X.GetDDoSServiceURL");
+	}
+
+	UDDoSService_X_execGetDDoSServiceURL_Params GetDDoSServiceURL_Params;
+	memset(&GetDDoSServiceURL_Params, 0, sizeof(GetDDoSServiceURL_Params));
+	memcpy_s(&GetDDoSServiceURL_Params.ServicePort, sizeof(GetDDoSServiceURL_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+
+	this->ProcessEvent(uFnGetDDoSServiceURL, &GetDDoSServiceURL_Params, nullptr);
+
+	return GetDDoSServiceURL_Params.ReturnValue;
+};
+
+// Function ProjectX.DDoSService_X.CreateDDoSServiceWebRequest
+// [0x00880003] (FUNC_Final | FUNC_Defined | FUNC_Protected | FUNC_HasDefaults | FUNC_AllFlags)
+// Parameter Info:
+// class UWebRequest_X*           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  GamePort                       (CPF_Parm | CPF_NeedCtorLink)
+// TArray<class FString>          ClientIPs                      (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  DedicatedServerInstanceId      (CPF_Parm | CPF_NeedCtorLink)
+// bool                           bEnabled                       (CPF_Parm)
+
+class UWebRequest_X* UDDoSService_X::CreateDDoSServiceWebRequest(class FString ServicePort, class FString GamePort, TArray<class FString> ClientIPs, class FString DedicatedServerInstanceId, bool bEnabled)
+{
+	static UFunction* uFnCreateDDoSServiceWebRequest = nullptr;
+
+	if (!uFnCreateDDoSServiceWebRequest)
+	{
+		uFnCreateDDoSServiceWebRequest = UFunction::FindFunction("Function ProjectX.DDoSService_X.CreateDDoSServiceWebRequest");
+	}
+
+	UDDoSService_X_execCreateDDoSServiceWebRequest_Params CreateDDoSServiceWebRequest_Params;
+	memset(&CreateDDoSServiceWebRequest_Params, 0, sizeof(CreateDDoSServiceWebRequest_Params));
+	memcpy_s(&CreateDDoSServiceWebRequest_Params.ServicePort, sizeof(CreateDDoSServiceWebRequest_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+	memcpy_s(&CreateDDoSServiceWebRequest_Params.GamePort, sizeof(CreateDDoSServiceWebRequest_Params.GamePort), &GamePort, sizeof(GamePort));
+	memcpy_s(&CreateDDoSServiceWebRequest_Params.ClientIPs, sizeof(CreateDDoSServiceWebRequest_Params.ClientIPs), &ClientIPs, sizeof(ClientIPs));
+	memcpy_s(&CreateDDoSServiceWebRequest_Params.DedicatedServerInstanceId, sizeof(CreateDDoSServiceWebRequest_Params.DedicatedServerInstanceId), &DedicatedServerInstanceId, sizeof(DedicatedServerInstanceId));
+	CreateDDoSServiceWebRequest_Params.bEnabled = bEnabled;
+
+	this->ProcessEvent(uFnCreateDDoSServiceWebRequest, &CreateDDoSServiceWebRequest_Params, nullptr);
+
+	return CreateDDoSServiceWebRequest_Params.ReturnValue;
+};
+
+// Function ProjectX.DDoSService_X.StartDDoSService
+// [0x00080002] (FUNC_Defined | FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  GamePort                       (CPF_Parm | CPF_NeedCtorLink)
+// TArray<class FString>          ClientIPs                      (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  DedicatedServerInstanceId      (CPF_Parm | CPF_NeedCtorLink)
+
+bool UDDoSService_X::StartDDoSService(class FString ServicePort, class FString GamePort, TArray<class FString> ClientIPs, class FString DedicatedServerInstanceId)
+{
+	static UFunction* uFnStartDDoSService = nullptr;
+
+	if (!uFnStartDDoSService)
+	{
+		uFnStartDDoSService = UFunction::FindFunction("Function ProjectX.DDoSService_X.StartDDoSService");
+	}
+
+	UDDoSService_X_execStartDDoSService_Params StartDDoSService_Params;
+	memset(&StartDDoSService_Params, 0, sizeof(StartDDoSService_Params));
+	memcpy_s(&StartDDoSService_Params.ServicePort, sizeof(StartDDoSService_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+	memcpy_s(&StartDDoSService_Params.GamePort, sizeof(StartDDoSService_Params.GamePort), &GamePort, sizeof(GamePort));
+	memcpy_s(&StartDDoSService_Params.ClientIPs, sizeof(StartDDoSService_Params.ClientIPs), &ClientIPs, sizeof(ClientIPs));
+	memcpy_s(&StartDDoSService_Params.DedicatedServerInstanceId, sizeof(StartDDoSService_Params.DedicatedServerInstanceId), &DedicatedServerInstanceId, sizeof(DedicatedServerInstanceId));
+
+	this->ProcessEvent(uFnStartDDoSService, &StartDDoSService_Params, nullptr);
+
+	return StartDDoSService_Params.ReturnValue;
+};
+
+// Function ProjectX.DDoSService_X.EndDDoSService
+// [0x00080002] (FUNC_Defined | FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  GamePort                       (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  DedicatedServerInstanceId      (CPF_Parm | CPF_NeedCtorLink)
+
+bool UDDoSService_X::EndDDoSService(class FString ServicePort, class FString GamePort, class FString DedicatedServerInstanceId)
+{
+	static UFunction* uFnEndDDoSService = nullptr;
+
+	if (!uFnEndDDoSService)
+	{
+		uFnEndDDoSService = UFunction::FindFunction("Function ProjectX.DDoSService_X.EndDDoSService");
+	}
+
+	UDDoSService_X_execEndDDoSService_Params EndDDoSService_Params;
+	memset(&EndDDoSService_Params, 0, sizeof(EndDDoSService_Params));
+	memcpy_s(&EndDDoSService_Params.ServicePort, sizeof(EndDDoSService_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+	memcpy_s(&EndDDoSService_Params.GamePort, sizeof(EndDDoSService_Params.GamePort), &GamePort, sizeof(GamePort));
+	memcpy_s(&EndDDoSService_Params.DedicatedServerInstanceId, sizeof(EndDDoSService_Params.DedicatedServerInstanceId), &DedicatedServerInstanceId, sizeof(DedicatedServerInstanceId));
+
+	this->ProcessEvent(uFnEndDDoSService, &EndDDoSService_Params, nullptr);
+
+	return EndDDoSService_Params.ReturnValue;
+};
+
+// Function ProjectX.DDoSService_X.DDoSPreventionSystemEnabled
+// [0x00020002] (FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+
+bool UDDoSService_X::DDoSPreventionSystemEnabled()
+{
+	static UFunction* uFnDDoSPreventionSystemEnabled = nullptr;
+
+	if (!uFnDDoSPreventionSystemEnabled)
+	{
+		uFnDDoSPreventionSystemEnabled = UFunction::FindFunction("Function ProjectX.DDoSService_X.DDoSPreventionSystemEnabled");
+	}
+
+	UDDoSService_X_execDDoSPreventionSystemEnabled_Params DDoSPreventionSystemEnabled_Params;
+	memset(&DDoSPreventionSystemEnabled_Params, 0, sizeof(DDoSPreventionSystemEnabled_Params));
+
+	this->ProcessEvent(uFnDDoSPreventionSystemEnabled, &DDoSPreventionSystemEnabled_Params, nullptr);
+
+	return DDoSPreventionSystemEnabled_Params.ReturnValue;
+};
+
+// Function ProjectX.DDoSService_X.HandleDDoSServiceEndComplete
+// [0x00080000] (FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+// bool                           Success                        (CPF_Parm)
+
+void UDDoSService_X::HandleDDoSServiceEndComplete(bool Success)
+{
+	static UFunction* uFnHandleDDoSServiceEndComplete = nullptr;
+
+	if (!uFnHandleDDoSServiceEndComplete)
+	{
+		uFnHandleDDoSServiceEndComplete = UFunction::FindFunction("Function ProjectX.DDoSService_X.HandleDDoSServiceEndComplete");
+	}
+
+	UDDoSService_X_execHandleDDoSServiceEndComplete_Params HandleDDoSServiceEndComplete_Params;
+	memset(&HandleDDoSServiceEndComplete_Params, 0, sizeof(HandleDDoSServiceEndComplete_Params));
+	HandleDDoSServiceEndComplete_Params.Success = Success;
+
+	this->ProcessEvent(uFnHandleDDoSServiceEndComplete, &HandleDDoSServiceEndComplete_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.HandleDDoSServiceStartComplete
+// [0x00080000] (FUNC_Protected | FUNC_AllFlags)
+// Parameter Info:
+// bool                           Success                        (CPF_Parm)
+
+void UDDoSService_X::HandleDDoSServiceStartComplete(bool Success)
+{
+	static UFunction* uFnHandleDDoSServiceStartComplete = nullptr;
+
+	if (!uFnHandleDDoSServiceStartComplete)
+	{
+		uFnHandleDDoSServiceStartComplete = UFunction::FindFunction("Function ProjectX.DDoSService_X.HandleDDoSServiceStartComplete");
+	}
+
+	UDDoSService_X_execHandleDDoSServiceStartComplete_Params HandleDDoSServiceStartComplete_Params;
+	memset(&HandleDDoSServiceStartComplete_Params, 0, sizeof(HandleDDoSServiceStartComplete_Params));
+	HandleDDoSServiceStartComplete_Params.Success = Success;
+
+	this->ProcessEvent(uFnHandleDDoSServiceStartComplete, &HandleDDoSServiceStartComplete_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.SendDDoSServiceEnd
+// [0x00020000] (FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  GamePort                       (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  DedicatedServerInstanceId      (CPF_Parm | CPF_NeedCtorLink)
+
+void UDDoSService_X::SendDDoSServiceEnd(class FString ServicePort, class FString GamePort, class FString DedicatedServerInstanceId)
+{
+	static UFunction* uFnSendDDoSServiceEnd = nullptr;
+
+	if (!uFnSendDDoSServiceEnd)
+	{
+		uFnSendDDoSServiceEnd = UFunction::FindFunction("Function ProjectX.DDoSService_X.SendDDoSServiceEnd");
+	}
+
+	UDDoSService_X_execSendDDoSServiceEnd_Params SendDDoSServiceEnd_Params;
+	memset(&SendDDoSServiceEnd_Params, 0, sizeof(SendDDoSServiceEnd_Params));
+	memcpy_s(&SendDDoSServiceEnd_Params.ServicePort, sizeof(SendDDoSServiceEnd_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+	memcpy_s(&SendDDoSServiceEnd_Params.GamePort, sizeof(SendDDoSServiceEnd_Params.GamePort), &GamePort, sizeof(GamePort));
+	memcpy_s(&SendDDoSServiceEnd_Params.DedicatedServerInstanceId, sizeof(SendDDoSServiceEnd_Params.DedicatedServerInstanceId), &DedicatedServerInstanceId, sizeof(DedicatedServerInstanceId));
+
+	this->ProcessEvent(uFnSendDDoSServiceEnd, &SendDDoSServiceEnd_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.SendDDosServiceEndInternal
+// [0x00040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_AllFlags)
+// Parameter Info:
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  GamePort                       (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  DedicatedServerInstanceId      (CPF_Parm | CPF_NeedCtorLink)
+// struct FName                   NextState                      (CPF_Parm)
+
+void UDDoSService_X::SendDDosServiceEndInternal(class FString ServicePort, class FString GamePort, class FString DedicatedServerInstanceId, struct FName NextState)
+{
+	static UFunction* uFnSendDDosServiceEndInternal = nullptr;
+
+	if (!uFnSendDDosServiceEndInternal)
+	{
+		uFnSendDDosServiceEndInternal = UFunction::FindFunction("Function ProjectX.DDoSService_X.SendDDosServiceEndInternal");
+	}
+
+	UDDoSService_X_execSendDDosServiceEndInternal_Params SendDDosServiceEndInternal_Params;
+	memset(&SendDDosServiceEndInternal_Params, 0, sizeof(SendDDosServiceEndInternal_Params));
+	memcpy_s(&SendDDosServiceEndInternal_Params.ServicePort, sizeof(SendDDosServiceEndInternal_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+	memcpy_s(&SendDDosServiceEndInternal_Params.GamePort, sizeof(SendDDosServiceEndInternal_Params.GamePort), &GamePort, sizeof(GamePort));
+	memcpy_s(&SendDDosServiceEndInternal_Params.DedicatedServerInstanceId, sizeof(SendDDosServiceEndInternal_Params.DedicatedServerInstanceId), &DedicatedServerInstanceId, sizeof(DedicatedServerInstanceId));
+	memcpy_s(&SendDDosServiceEndInternal_Params.NextState, sizeof(SendDDosServiceEndInternal_Params.NextState), &NextState, sizeof(NextState));
+
+	this->ProcessEvent(uFnSendDDosServiceEndInternal, &SendDDosServiceEndInternal_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.SendDDoSServiceStartInternal
+// [0x00040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_AllFlags)
+// Parameter Info:
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  GamePort                       (CPF_Parm | CPF_NeedCtorLink)
+// TArray<class FString>          ClientIPs                      (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  DedicatedServerInstanceId      (CPF_Parm | CPF_NeedCtorLink)
+// struct FName                   NextState                      (CPF_Parm)
+
+void UDDoSService_X::SendDDoSServiceStartInternal(class FString ServicePort, class FString GamePort, TArray<class FString> ClientIPs, class FString DedicatedServerInstanceId, struct FName NextState)
+{
+	static UFunction* uFnSendDDoSServiceStartInternal = nullptr;
+
+	if (!uFnSendDDoSServiceStartInternal)
+	{
+		uFnSendDDoSServiceStartInternal = UFunction::FindFunction("Function ProjectX.DDoSService_X.SendDDoSServiceStartInternal");
+	}
+
+	UDDoSService_X_execSendDDoSServiceStartInternal_Params SendDDoSServiceStartInternal_Params;
+	memset(&SendDDoSServiceStartInternal_Params, 0, sizeof(SendDDoSServiceStartInternal_Params));
+	memcpy_s(&SendDDoSServiceStartInternal_Params.ServicePort, sizeof(SendDDoSServiceStartInternal_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+	memcpy_s(&SendDDoSServiceStartInternal_Params.GamePort, sizeof(SendDDoSServiceStartInternal_Params.GamePort), &GamePort, sizeof(GamePort));
+	memcpy_s(&SendDDoSServiceStartInternal_Params.ClientIPs, sizeof(SendDDoSServiceStartInternal_Params.ClientIPs), &ClientIPs, sizeof(ClientIPs));
+	memcpy_s(&SendDDoSServiceStartInternal_Params.DedicatedServerInstanceId, sizeof(SendDDoSServiceStartInternal_Params.DedicatedServerInstanceId), &DedicatedServerInstanceId, sizeof(DedicatedServerInstanceId));
+	memcpy_s(&SendDDoSServiceStartInternal_Params.NextState, sizeof(SendDDoSServiceStartInternal_Params.NextState), &NextState, sizeof(NextState));
+
+	this->ProcessEvent(uFnSendDDoSServiceStartInternal, &SendDDoSServiceStartInternal_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.SendDDoSServiceStart
+// [0x00020000] (FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// class FString                  ServicePort                    (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  GamePort                       (CPF_Parm | CPF_NeedCtorLink)
+// TArray<class FString>          ClientIPs                      (CPF_Parm | CPF_NeedCtorLink)
+// class FString                  DedicatedServerInstanceId      (CPF_Parm | CPF_NeedCtorLink)
+
+void UDDoSService_X::SendDDoSServiceStart(class FString ServicePort, class FString GamePort, TArray<class FString> ClientIPs, class FString DedicatedServerInstanceId)
+{
+	static UFunction* uFnSendDDoSServiceStart = nullptr;
+
+	if (!uFnSendDDoSServiceStart)
+	{
+		uFnSendDDoSServiceStart = UFunction::FindFunction("Function ProjectX.DDoSService_X.SendDDoSServiceStart");
+	}
+
+	UDDoSService_X_execSendDDoSServiceStart_Params SendDDoSServiceStart_Params;
+	memset(&SendDDoSServiceStart_Params, 0, sizeof(SendDDoSServiceStart_Params));
+	memcpy_s(&SendDDoSServiceStart_Params.ServicePort, sizeof(SendDDoSServiceStart_Params.ServicePort), &ServicePort, sizeof(ServicePort));
+	memcpy_s(&SendDDoSServiceStart_Params.GamePort, sizeof(SendDDoSServiceStart_Params.GamePort), &GamePort, sizeof(GamePort));
+	memcpy_s(&SendDDoSServiceStart_Params.ClientIPs, sizeof(SendDDoSServiceStart_Params.ClientIPs), &ClientIPs, sizeof(ClientIPs));
+	memcpy_s(&SendDDoSServiceStart_Params.DedicatedServerInstanceId, sizeof(SendDDoSServiceStart_Params.DedicatedServerInstanceId), &DedicatedServerInstanceId, sizeof(DedicatedServerInstanceId));
+
+	this->ProcessEvent(uFnSendDDoSServiceStart, &SendDDoSServiceStart_Params, nullptr);
+};
+
+// Function ProjectX.DDoSService_X.Init
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+
+void UDDoSService_X::Init()
+{
+	static UFunction* uFnInit = nullptr;
+
+	if (!uFnInit)
+	{
+		uFnInit = UFunction::FindFunction("Function ProjectX.DDoSService_X.Init");
+	}
+
+	UDDoSService_X_execInit_Params Init_Params;
+	memset(&Init_Params, 0, sizeof(Init_Params));
+
+	this->ProcessEvent(uFnInit, &Init_Params, nullptr);
+};
+
+// Function ProjectX.URLValidator_X.AreCharsUrlSafe
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Str                            (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::AreCharsUrlSafe(class FString Str)
+{
+	static UFunction* uFnAreCharsUrlSafe = nullptr;
+
+	if (!uFnAreCharsUrlSafe)
+	{
+		uFnAreCharsUrlSafe = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreCharsUrlSafe");
+	}
+
+	UURLValidator_X_execAreCharsUrlSafe_Params AreCharsUrlSafe_Params;
+	memset(&AreCharsUrlSafe_Params, 0, sizeof(AreCharsUrlSafe_Params));
+	memcpy_s(&AreCharsUrlSafe_Params.Str, sizeof(AreCharsUrlSafe_Params.Str), &Str, sizeof(Str));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreCharsUrlSafe, &AreCharsUrlSafe_Params, nullptr);
+
+	return AreCharsUrlSafe_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsQueryValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Query                          (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsQueryValid(class FString Query)
+{
+	static UFunction* uFnIsQueryValid = nullptr;
+
+	if (!uFnIsQueryValid)
+	{
+		uFnIsQueryValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsQueryValid");
+	}
+
+	UURLValidator_X_execIsQueryValid_Params IsQueryValid_Params;
+	memset(&IsQueryValid_Params, 0, sizeof(IsQueryValid_Params));
+	memcpy_s(&IsQueryValid_Params.Query, sizeof(IsQueryValid_Params.Query), &Query, sizeof(Query));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsQueryValid, &IsQueryValid_Params, nullptr);
+
+	return IsQueryValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsCharUrlSafe
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsCharUrlSafe(class FString Char)
+{
+	static UFunction* uFnIsCharUrlSafe = nullptr;
+
+	if (!uFnIsCharUrlSafe)
+	{
+		uFnIsCharUrlSafe = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsCharUrlSafe");
+	}
+
+	UURLValidator_X_execIsCharUrlSafe_Params IsCharUrlSafe_Params;
+	memset(&IsCharUrlSafe_Params, 0, sizeof(IsCharUrlSafe_Params));
+	memcpy_s(&IsCharUrlSafe_Params.Char, sizeof(IsCharUrlSafe_Params.Char), &Char, sizeof(Char));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsCharUrlSafe, &IsCharUrlSafe_Params, nullptr);
+
+	return IsCharUrlSafe_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsPathValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Path                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsPathValid(class FString Path)
+{
+	static UFunction* uFnIsPathValid = nullptr;
+
+	if (!uFnIsPathValid)
+	{
+		uFnIsPathValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsPathValid");
+	}
+
+	UURLValidator_X_execIsPathValid_Params IsPathValid_Params;
+	memset(&IsPathValid_Params, 0, sizeof(IsPathValid_Params));
+	memcpy_s(&IsPathValid_Params.Path, sizeof(IsPathValid_Params.Path), &Path, sizeof(Path));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsPathValid, &IsPathValid_Params, nullptr);
+
+	return IsPathValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsAlpha
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsAlpha(class FString Char)
+{
+	static UFunction* uFnIsAlpha = nullptr;
+
+	if (!uFnIsAlpha)
+	{
+		uFnIsAlpha = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsAlpha");
+	}
+
+	UURLValidator_X_execIsAlpha_Params IsAlpha_Params;
+	memset(&IsAlpha_Params, 0, sizeof(IsAlpha_Params));
+	memcpy_s(&IsAlpha_Params.Char, sizeof(IsAlpha_Params.Char), &Char, sizeof(Char));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsAlpha, &IsAlpha_Params, nullptr);
+
+	return IsAlpha_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsHexChar
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsHexChar(class FString Char)
+{
+	static UFunction* uFnIsHexChar = nullptr;
+
+	if (!uFnIsHexChar)
+	{
+		uFnIsHexChar = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsHexChar");
+	}
+
+	UURLValidator_X_execIsHexChar_Params IsHexChar_Params;
+	memset(&IsHexChar_Params, 0, sizeof(IsHexChar_Params));
+	memcpy_s(&IsHexChar_Params.Char, sizeof(IsHexChar_Params.Char), &Char, sizeof(Char));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsHexChar, &IsHexChar_Params, nullptr);
+
+	return IsHexChar_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsHostnameValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Host                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsHostnameValid(class FString Host)
+{
+	static UFunction* uFnIsHostnameValid = nullptr;
+
+	if (!uFnIsHostnameValid)
+	{
+		uFnIsHostnameValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsHostnameValid");
+	}
+
+	UURLValidator_X_execIsHostnameValid_Params IsHostnameValid_Params;
+	memset(&IsHostnameValid_Params, 0, sizeof(IsHostnameValid_Params));
+	memcpy_s(&IsHostnameValid_Params.Host, sizeof(IsHostnameValid_Params.Host), &Host, sizeof(Host));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsHostnameValid, &IsHostnameValid_Params, nullptr);
+
+	return IsHostnameValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsHostnameAndPortValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  HostnameAndPort                (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsHostnameAndPortValid(class FString HostnameAndPort)
+{
+	static UFunction* uFnIsHostnameAndPortValid = nullptr;
+
+	if (!uFnIsHostnameAndPortValid)
+	{
+		uFnIsHostnameAndPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsHostnameAndPortValid");
+	}
+
+	UURLValidator_X_execIsHostnameAndPortValid_Params IsHostnameAndPortValid_Params;
+	memset(&IsHostnameAndPortValid_Params, 0, sizeof(IsHostnameAndPortValid_Params));
+	memcpy_s(&IsHostnameAndPortValid_Params.HostnameAndPort, sizeof(IsHostnameAndPortValid_Params.HostnameAndPort), &HostnameAndPort, sizeof(HostnameAndPort));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsHostnameAndPortValid, &IsHostnameAndPortValid_Params, nullptr);
+
+	return IsHostnameAndPortValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.AreAllHex
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Str                            (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::AreAllHex(class FString Str)
+{
+	static UFunction* uFnAreAllHex = nullptr;
+
+	if (!uFnAreAllHex)
+	{
+		uFnAreAllHex = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreAllHex");
+	}
+
+	UURLValidator_X_execAreAllHex_Params AreAllHex_Params;
+	memset(&AreAllHex_Params, 0, sizeof(AreAllHex_Params));
+	memcpy_s(&AreAllHex_Params.Str, sizeof(AreAllHex_Params.Str), &Str, sizeof(Str));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreAllHex, &AreAllHex_Params, nullptr);
+
+	return AreAllHex_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsIPv6GroupValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  GroupStr                       (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsIPv6GroupValid(class FString GroupStr)
+{
+	static UFunction* uFnIsIPv6GroupValid = nullptr;
+
+	if (!uFnIsIPv6GroupValid)
+	{
+		uFnIsIPv6GroupValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv6GroupValid");
+	}
+
+	UURLValidator_X_execIsIPv6GroupValid_Params IsIPv6GroupValid_Params;
+	memset(&IsIPv6GroupValid_Params, 0, sizeof(IsIPv6GroupValid_Params));
+	memcpy_s(&IsIPv6GroupValid_Params.GroupStr, sizeof(IsIPv6GroupValid_Params.GroupStr), &GroupStr, sizeof(GroupStr));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv6GroupValid, &IsIPv6GroupValid_Params, nullptr);
+
+	return IsIPv6GroupValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.AreAllIPv6GroupsValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// TArray<class FString>          GroupsArray                    (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::AreAllIPv6GroupsValid(TArray<class FString> GroupsArray)
+{
+	static UFunction* uFnAreAllIPv6GroupsValid = nullptr;
+
+	if (!uFnAreAllIPv6GroupsValid)
+	{
+		uFnAreAllIPv6GroupsValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreAllIPv6GroupsValid");
+	}
+
+	UURLValidator_X_execAreAllIPv6GroupsValid_Params AreAllIPv6GroupsValid_Params;
+	memset(&AreAllIPv6GroupsValid_Params, 0, sizeof(AreAllIPv6GroupsValid_Params));
+	memcpy_s(&AreAllIPv6GroupsValid_Params.GroupsArray, sizeof(AreAllIPv6GroupsValid_Params.GroupsArray), &GroupsArray, sizeof(GroupsArray));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreAllIPv6GroupsValid, &AreAllIPv6GroupsValid_Params, nullptr);
+
+	return AreAllIPv6GroupsValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsIPv6AddressValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Host                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsIPv6AddressValid(class FString Host)
+{
+	static UFunction* uFnIsIPv6AddressValid = nullptr;
+
+	if (!uFnIsIPv6AddressValid)
+	{
+		uFnIsIPv6AddressValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv6AddressValid");
+	}
+
+	UURLValidator_X_execIsIPv6AddressValid_Params IsIPv6AddressValid_Params;
+	memset(&IsIPv6AddressValid_Params, 0, sizeof(IsIPv6AddressValid_Params));
+	memcpy_s(&IsIPv6AddressValid_Params.Host, sizeof(IsIPv6AddressValid_Params.Host), &Host, sizeof(Host));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv6AddressValid, &IsIPv6AddressValid_Params, nullptr);
+
+	return IsIPv6AddressValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsIPv6AndPortValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  HostAndPort                    (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsIPv6AndPortValid(class FString HostAndPort)
+{
+	static UFunction* uFnIsIPv6AndPortValid = nullptr;
+
+	if (!uFnIsIPv6AndPortValid)
+	{
+		uFnIsIPv6AndPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv6AndPortValid");
+	}
+
+	UURLValidator_X_execIsIPv6AndPortValid_Params IsIPv6AndPortValid_Params;
+	memset(&IsIPv6AndPortValid_Params, 0, sizeof(IsIPv6AndPortValid_Params));
+	memcpy_s(&IsIPv6AndPortValid_Params.HostAndPort, sizeof(IsIPv6AndPortValid_Params.HostAndPort), &HostAndPort, sizeof(HostAndPort));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv6AndPortValid, &IsIPv6AndPortValid_Params, nullptr);
+
+	return IsIPv6AndPortValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsDigit
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsDigit(class FString Char)
+{
+	static UFunction* uFnIsDigit = nullptr;
+
+	if (!uFnIsDigit)
+	{
+		uFnIsDigit = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsDigit");
+	}
+
+	UURLValidator_X_execIsDigit_Params IsDigit_Params;
+	memset(&IsDigit_Params, 0, sizeof(IsDigit_Params));
+	memcpy_s(&IsDigit_Params.Char, sizeof(IsDigit_Params.Char), &Char, sizeof(Char));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsDigit, &IsDigit_Params, nullptr);
+
+	return IsDigit_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.AreAllDigits
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Str                            (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::AreAllDigits(class FString Str)
+{
+	static UFunction* uFnAreAllDigits = nullptr;
+
+	if (!uFnAreAllDigits)
+	{
+		uFnAreAllDigits = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreAllDigits");
+	}
+
+	UURLValidator_X_execAreAllDigits_Params AreAllDigits_Params;
+	memset(&AreAllDigits_Params, 0, sizeof(AreAllDigits_Params));
+	memcpy_s(&AreAllDigits_Params.Str, sizeof(AreAllDigits_Params.Str), &Str, sizeof(Str));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreAllDigits, &AreAllDigits_Params, nullptr);
+
+	return AreAllDigits_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsPortValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  PortStr                        (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsPortValid(class FString PortStr)
+{
+	static UFunction* uFnIsPortValid = nullptr;
+
+	if (!uFnIsPortValid)
+	{
+		uFnIsPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsPortValid");
+	}
+
+	UURLValidator_X_execIsPortValid_Params IsPortValid_Params;
+	memset(&IsPortValid_Params, 0, sizeof(IsPortValid_Params));
+	memcpy_s(&IsPortValid_Params.PortStr, sizeof(IsPortValid_Params.PortStr), &PortStr, sizeof(PortStr));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsPortValid, &IsPortValid_Params, nullptr);
+
+	return IsPortValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsIPv4OctetValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  OctetStr                       (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsIPv4OctetValid(class FString OctetStr)
+{
+	static UFunction* uFnIsIPv4OctetValid = nullptr;
+
+	if (!uFnIsIPv4OctetValid)
+	{
+		uFnIsIPv4OctetValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv4OctetValid");
+	}
+
+	UURLValidator_X_execIsIPv4OctetValid_Params IsIPv4OctetValid_Params;
+	memset(&IsIPv4OctetValid_Params, 0, sizeof(IsIPv4OctetValid_Params));
+	memcpy_s(&IsIPv4OctetValid_Params.OctetStr, sizeof(IsIPv4OctetValid_Params.OctetStr), &OctetStr, sizeof(OctetStr));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv4OctetValid, &IsIPv4OctetValid_Params, nullptr);
+
+	return IsIPv4OctetValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsIPv4AddressValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Host                           (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsIPv4AddressValid(class FString Host)
+{
+	static UFunction* uFnIsIPv4AddressValid = nullptr;
+
+	if (!uFnIsIPv4AddressValid)
+	{
+		uFnIsIPv4AddressValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv4AddressValid");
+	}
+
+	UURLValidator_X_execIsIPv4AddressValid_Params IsIPv4AddressValid_Params;
+	memset(&IsIPv4AddressValid_Params, 0, sizeof(IsIPv4AddressValid_Params));
+	memcpy_s(&IsIPv4AddressValid_Params.Host, sizeof(IsIPv4AddressValid_Params.Host), &Host, sizeof(Host));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv4AddressValid, &IsIPv4AddressValid_Params, nullptr);
+
+	return IsIPv4AddressValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsIPv4AndPortValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  HostAndPort                    (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsIPv4AndPortValid(class FString HostAndPort)
+{
+	static UFunction* uFnIsIPv4AndPortValid = nullptr;
+
+	if (!uFnIsIPv4AndPortValid)
+	{
+		uFnIsIPv4AndPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv4AndPortValid");
+	}
+
+	UURLValidator_X_execIsIPv4AndPortValid_Params IsIPv4AndPortValid_Params;
+	memset(&IsIPv4AndPortValid_Params, 0, sizeof(IsIPv4AndPortValid_Params));
+	memcpy_s(&IsIPv4AndPortValid_Params.HostAndPort, sizeof(IsIPv4AndPortValid_Params.HostAndPort), &HostAndPort, sizeof(HostAndPort));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv4AndPortValid, &IsIPv4AndPortValid_Params, nullptr);
+
+	return IsIPv4AndPortValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.HostLooksLikeIPv4
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  HostAndPort                    (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::HostLooksLikeIPv4(class FString HostAndPort)
+{
+	static UFunction* uFnHostLooksLikeIPv4 = nullptr;
+
+	if (!uFnHostLooksLikeIPv4)
+	{
+		uFnHostLooksLikeIPv4 = UFunction::FindFunction("Function ProjectX.URLValidator_X.HostLooksLikeIPv4");
+	}
+
+	UURLValidator_X_execHostLooksLikeIPv4_Params HostLooksLikeIPv4_Params;
+	memset(&HostLooksLikeIPv4_Params, 0, sizeof(HostLooksLikeIPv4_Params));
+	memcpy_s(&HostLooksLikeIPv4_Params.HostAndPort, sizeof(HostLooksLikeIPv4_Params.HostAndPort), &HostAndPort, sizeof(HostAndPort));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnHostLooksLikeIPv4, &HostLooksLikeIPv4_Params, nullptr);
+
+	return HostLooksLikeIPv4_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsSchemeValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  Scheme                         (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsSchemeValid(class FString Scheme)
+{
+	static UFunction* uFnIsSchemeValid = nullptr;
+
+	if (!uFnIsSchemeValid)
+	{
+		uFnIsSchemeValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsSchemeValid");
+	}
+
+	UURLValidator_X_execIsSchemeValid_Params IsSchemeValid_Params;
+	memset(&IsSchemeValid_Params, 0, sizeof(IsSchemeValid_Params));
+	memcpy_s(&IsSchemeValid_Params.Scheme, sizeof(IsSchemeValid_Params.Scheme), &Scheme, sizeof(Scheme));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsSchemeValid, &IsSchemeValid_Params, nullptr);
+
+	return IsSchemeValid_Params.ReturnValue;
+};
+
+// Function ProjectX.URLValidator_X.IsURLValid
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class FString                  URL                            (CPF_Parm | CPF_NeedCtorLink)
+
+bool UURLValidator_X::IsURLValid(class FString URL)
+{
+	static UFunction* uFnIsURLValid = nullptr;
+
+	if (!uFnIsURLValid)
+	{
+		uFnIsURLValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsURLValid");
+	}
+
+	UURLValidator_X_execIsURLValid_Params IsURLValid_Params;
+	memset(&IsURLValid_Params, 0, sizeof(IsURLValid_Params));
+	memcpy_s(&IsURLValid_Params.URL, sizeof(IsURLValid_Params.URL), &URL, sizeof(URL));
+
+	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsURLValid, &IsURLValid_Params, nullptr);
+
+	return IsURLValid_Params.ReturnValue;
+};
+
 // Function ProjectX.DebugDrawer_X.DrawHeader
 // [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
@@ -82879,6 +84087,30 @@ class URPC_UpdateLeaderboard_X* URPC_UpdateLeaderboard_X::SetUpdates(TArray<stru
 	return SetUpdates_Params.ReturnValue;
 };
 
+// Function ProjectX.WordFilterConfig_X.AllowMatureLanguageForUsage
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// EWordFilterUsage               Usage                          (CPF_Parm)
+
+bool UWordFilterConfig_X::AllowMatureLanguageForUsage(EWordFilterUsage Usage)
+{
+	static UFunction* uFnAllowMatureLanguageForUsage = nullptr;
+
+	if (!uFnAllowMatureLanguageForUsage)
+	{
+		uFnAllowMatureLanguageForUsage = UFunction::FindFunction("Function ProjectX.WordFilterConfig_X.AllowMatureLanguageForUsage");
+	}
+
+	UWordFilterConfig_X_execAllowMatureLanguageForUsage_Params AllowMatureLanguageForUsage_Params;
+	memset(&AllowMatureLanguageForUsage_Params, 0, sizeof(AllowMatureLanguageForUsage_Params));
+	memcpy_s(&AllowMatureLanguageForUsage_Params.Usage, sizeof(AllowMatureLanguageForUsage_Params.Usage), &Usage, sizeof(Usage));
+
+	this->ProcessEvent(uFnAllowMatureLanguageForUsage, &AllowMatureLanguageForUsage_Params, nullptr);
+
+	return AllowMatureLanguageForUsage_Params.ReturnValue;
+};
+
 // Function ProjectX.UserBugReportComponent_X.Start
 // [0x00020000] (FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
@@ -84283,6 +85515,30 @@ class URPC_PartyChat_X* URPC_PartyChat_X::SetText(class FString InText)
 	this->ProcessEvent(uFnSetText, &SetText_Params, nullptr);
 
 	return SetText_Params.ReturnValue;
+};
+
+// Function ProjectX.RPC_SignedPartyChat_X.SetSignedMessageData
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// class URPC_SignedPartyChat_X*  ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+// class USignedMessageObject_X*  InMessageData                  (CPF_Parm)
+
+class URPC_SignedPartyChat_X* URPC_SignedPartyChat_X::SetSignedMessageData(class USignedMessageObject_X* InMessageData)
+{
+	static UFunction* uFnSetSignedMessageData = nullptr;
+
+	if (!uFnSetSignedMessageData)
+	{
+		uFnSetSignedMessageData = UFunction::FindFunction("Function ProjectX.RPC_SignedPartyChat_X.SetSignedMessageData");
+	}
+
+	URPC_SignedPartyChat_X_execSetSignedMessageData_Params SetSignedMessageData_Params;
+	memset(&SetSignedMessageData_Params, 0, sizeof(SetSignedMessageData_Params));
+	memcpy_s(&SetSignedMessageData_Params.InMessageData, sizeof(SetSignedMessageData_Params.InMessageData), &InMessageData, sizeof(InMessageData));
+
+	this->ProcessEvent(uFnSetSignedMessageData, &SetSignedMessageData_Params, nullptr);
+
+	return SetSignedMessageData_Params.ReturnValue;
 };
 
 // Function ProjectX.RPC_PartyChangeOwner_X.SetNewOwnerId
@@ -87073,6 +88329,32 @@ void USmoothDynamicValue_X::eventConstruct()
 	this->ProcessEvent(uFnConstruct, &Construct_Params, nullptr);
 };
 
+// Function ProjectX.StringUtil_X.SplitStringIntoMaxSizePieces
+// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// TArray<class FString>          ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+// class FString                  OriginalString                 (CPF_Parm | CPF_NeedCtorLink)
+// int32_t                        MaxStringSize                  (CPF_Parm)
+
+TArray<class FString> UStringUtil_X::SplitStringIntoMaxSizePieces(class FString OriginalString, int32_t MaxStringSize)
+{
+	static UFunction* uFnSplitStringIntoMaxSizePieces = nullptr;
+
+	if (!uFnSplitStringIntoMaxSizePieces)
+	{
+		uFnSplitStringIntoMaxSizePieces = UFunction::FindFunction("Function ProjectX.StringUtil_X.SplitStringIntoMaxSizePieces");
+	}
+
+	UStringUtil_X_execSplitStringIntoMaxSizePieces_Params SplitStringIntoMaxSizePieces_Params;
+	memset(&SplitStringIntoMaxSizePieces_Params, 0, sizeof(SplitStringIntoMaxSizePieces_Params));
+	memcpy_s(&SplitStringIntoMaxSizePieces_Params.OriginalString, sizeof(SplitStringIntoMaxSizePieces_Params.OriginalString), &OriginalString, sizeof(OriginalString));
+	memcpy_s(&SplitStringIntoMaxSizePieces_Params.MaxStringSize, sizeof(SplitStringIntoMaxSizePieces_Params.MaxStringSize), &MaxStringSize, sizeof(MaxStringSize));
+
+	UStringUtil_X::StaticClass()->ProcessEvent(uFnSplitStringIntoMaxSizePieces, &SplitStringIntoMaxSizePieces_Params, nullptr);
+
+	return SplitStringIntoMaxSizePieces_Params.ReturnValue;
+};
+
 // Function ProjectX.StringUtil_X.IsStringEmptyOrWhiteSpace
 // [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
@@ -87448,534 +88730,6 @@ void UUdpLanServer_X::eventConstruct()
 	memset(&Construct_Params, 0, sizeof(Construct_Params));
 
 	this->ProcessEvent(uFnConstruct, &Construct_Params, nullptr);
-};
-
-// Function ProjectX.URLValidator_X.AreCharsUrlSafe
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Str                            (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::AreCharsUrlSafe(class FString Str)
-{
-	static UFunction* uFnAreCharsUrlSafe = nullptr;
-
-	if (!uFnAreCharsUrlSafe)
-	{
-		uFnAreCharsUrlSafe = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreCharsUrlSafe");
-	}
-
-	UURLValidator_X_execAreCharsUrlSafe_Params AreCharsUrlSafe_Params;
-	memset(&AreCharsUrlSafe_Params, 0, sizeof(AreCharsUrlSafe_Params));
-	memcpy_s(&AreCharsUrlSafe_Params.Str, sizeof(AreCharsUrlSafe_Params.Str), &Str, sizeof(Str));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreCharsUrlSafe, &AreCharsUrlSafe_Params, nullptr);
-
-	return AreCharsUrlSafe_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsQueryValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Query                          (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsQueryValid(class FString Query)
-{
-	static UFunction* uFnIsQueryValid = nullptr;
-
-	if (!uFnIsQueryValid)
-	{
-		uFnIsQueryValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsQueryValid");
-	}
-
-	UURLValidator_X_execIsQueryValid_Params IsQueryValid_Params;
-	memset(&IsQueryValid_Params, 0, sizeof(IsQueryValid_Params));
-	memcpy_s(&IsQueryValid_Params.Query, sizeof(IsQueryValid_Params.Query), &Query, sizeof(Query));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsQueryValid, &IsQueryValid_Params, nullptr);
-
-	return IsQueryValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsCharUrlSafe
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsCharUrlSafe(class FString Char)
-{
-	static UFunction* uFnIsCharUrlSafe = nullptr;
-
-	if (!uFnIsCharUrlSafe)
-	{
-		uFnIsCharUrlSafe = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsCharUrlSafe");
-	}
-
-	UURLValidator_X_execIsCharUrlSafe_Params IsCharUrlSafe_Params;
-	memset(&IsCharUrlSafe_Params, 0, sizeof(IsCharUrlSafe_Params));
-	memcpy_s(&IsCharUrlSafe_Params.Char, sizeof(IsCharUrlSafe_Params.Char), &Char, sizeof(Char));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsCharUrlSafe, &IsCharUrlSafe_Params, nullptr);
-
-	return IsCharUrlSafe_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsPathValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Path                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsPathValid(class FString Path)
-{
-	static UFunction* uFnIsPathValid = nullptr;
-
-	if (!uFnIsPathValid)
-	{
-		uFnIsPathValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsPathValid");
-	}
-
-	UURLValidator_X_execIsPathValid_Params IsPathValid_Params;
-	memset(&IsPathValid_Params, 0, sizeof(IsPathValid_Params));
-	memcpy_s(&IsPathValid_Params.Path, sizeof(IsPathValid_Params.Path), &Path, sizeof(Path));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsPathValid, &IsPathValid_Params, nullptr);
-
-	return IsPathValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsAlpha
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsAlpha(class FString Char)
-{
-	static UFunction* uFnIsAlpha = nullptr;
-
-	if (!uFnIsAlpha)
-	{
-		uFnIsAlpha = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsAlpha");
-	}
-
-	UURLValidator_X_execIsAlpha_Params IsAlpha_Params;
-	memset(&IsAlpha_Params, 0, sizeof(IsAlpha_Params));
-	memcpy_s(&IsAlpha_Params.Char, sizeof(IsAlpha_Params.Char), &Char, sizeof(Char));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsAlpha, &IsAlpha_Params, nullptr);
-
-	return IsAlpha_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsHexChar
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsHexChar(class FString Char)
-{
-	static UFunction* uFnIsHexChar = nullptr;
-
-	if (!uFnIsHexChar)
-	{
-		uFnIsHexChar = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsHexChar");
-	}
-
-	UURLValidator_X_execIsHexChar_Params IsHexChar_Params;
-	memset(&IsHexChar_Params, 0, sizeof(IsHexChar_Params));
-	memcpy_s(&IsHexChar_Params.Char, sizeof(IsHexChar_Params.Char), &Char, sizeof(Char));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsHexChar, &IsHexChar_Params, nullptr);
-
-	return IsHexChar_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsHostnameValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Host                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsHostnameValid(class FString Host)
-{
-	static UFunction* uFnIsHostnameValid = nullptr;
-
-	if (!uFnIsHostnameValid)
-	{
-		uFnIsHostnameValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsHostnameValid");
-	}
-
-	UURLValidator_X_execIsHostnameValid_Params IsHostnameValid_Params;
-	memset(&IsHostnameValid_Params, 0, sizeof(IsHostnameValid_Params));
-	memcpy_s(&IsHostnameValid_Params.Host, sizeof(IsHostnameValid_Params.Host), &Host, sizeof(Host));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsHostnameValid, &IsHostnameValid_Params, nullptr);
-
-	return IsHostnameValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsHostnameAndPortValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  HostnameAndPort                (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsHostnameAndPortValid(class FString HostnameAndPort)
-{
-	static UFunction* uFnIsHostnameAndPortValid = nullptr;
-
-	if (!uFnIsHostnameAndPortValid)
-	{
-		uFnIsHostnameAndPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsHostnameAndPortValid");
-	}
-
-	UURLValidator_X_execIsHostnameAndPortValid_Params IsHostnameAndPortValid_Params;
-	memset(&IsHostnameAndPortValid_Params, 0, sizeof(IsHostnameAndPortValid_Params));
-	memcpy_s(&IsHostnameAndPortValid_Params.HostnameAndPort, sizeof(IsHostnameAndPortValid_Params.HostnameAndPort), &HostnameAndPort, sizeof(HostnameAndPort));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsHostnameAndPortValid, &IsHostnameAndPortValid_Params, nullptr);
-
-	return IsHostnameAndPortValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.AreAllHex
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Str                            (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::AreAllHex(class FString Str)
-{
-	static UFunction* uFnAreAllHex = nullptr;
-
-	if (!uFnAreAllHex)
-	{
-		uFnAreAllHex = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreAllHex");
-	}
-
-	UURLValidator_X_execAreAllHex_Params AreAllHex_Params;
-	memset(&AreAllHex_Params, 0, sizeof(AreAllHex_Params));
-	memcpy_s(&AreAllHex_Params.Str, sizeof(AreAllHex_Params.Str), &Str, sizeof(Str));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreAllHex, &AreAllHex_Params, nullptr);
-
-	return AreAllHex_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsIPv6GroupValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  GroupStr                       (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsIPv6GroupValid(class FString GroupStr)
-{
-	static UFunction* uFnIsIPv6GroupValid = nullptr;
-
-	if (!uFnIsIPv6GroupValid)
-	{
-		uFnIsIPv6GroupValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv6GroupValid");
-	}
-
-	UURLValidator_X_execIsIPv6GroupValid_Params IsIPv6GroupValid_Params;
-	memset(&IsIPv6GroupValid_Params, 0, sizeof(IsIPv6GroupValid_Params));
-	memcpy_s(&IsIPv6GroupValid_Params.GroupStr, sizeof(IsIPv6GroupValid_Params.GroupStr), &GroupStr, sizeof(GroupStr));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv6GroupValid, &IsIPv6GroupValid_Params, nullptr);
-
-	return IsIPv6GroupValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.AreAllIPv6GroupsValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// TArray<class FString>          GroupsArray                    (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::AreAllIPv6GroupsValid(TArray<class FString> GroupsArray)
-{
-	static UFunction* uFnAreAllIPv6GroupsValid = nullptr;
-
-	if (!uFnAreAllIPv6GroupsValid)
-	{
-		uFnAreAllIPv6GroupsValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreAllIPv6GroupsValid");
-	}
-
-	UURLValidator_X_execAreAllIPv6GroupsValid_Params AreAllIPv6GroupsValid_Params;
-	memset(&AreAllIPv6GroupsValid_Params, 0, sizeof(AreAllIPv6GroupsValid_Params));
-	memcpy_s(&AreAllIPv6GroupsValid_Params.GroupsArray, sizeof(AreAllIPv6GroupsValid_Params.GroupsArray), &GroupsArray, sizeof(GroupsArray));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreAllIPv6GroupsValid, &AreAllIPv6GroupsValid_Params, nullptr);
-
-	return AreAllIPv6GroupsValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsIPv6AddressValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Host                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsIPv6AddressValid(class FString Host)
-{
-	static UFunction* uFnIsIPv6AddressValid = nullptr;
-
-	if (!uFnIsIPv6AddressValid)
-	{
-		uFnIsIPv6AddressValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv6AddressValid");
-	}
-
-	UURLValidator_X_execIsIPv6AddressValid_Params IsIPv6AddressValid_Params;
-	memset(&IsIPv6AddressValid_Params, 0, sizeof(IsIPv6AddressValid_Params));
-	memcpy_s(&IsIPv6AddressValid_Params.Host, sizeof(IsIPv6AddressValid_Params.Host), &Host, sizeof(Host));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv6AddressValid, &IsIPv6AddressValid_Params, nullptr);
-
-	return IsIPv6AddressValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsIPv6AndPortValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  HostAndPort                    (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsIPv6AndPortValid(class FString HostAndPort)
-{
-	static UFunction* uFnIsIPv6AndPortValid = nullptr;
-
-	if (!uFnIsIPv6AndPortValid)
-	{
-		uFnIsIPv6AndPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv6AndPortValid");
-	}
-
-	UURLValidator_X_execIsIPv6AndPortValid_Params IsIPv6AndPortValid_Params;
-	memset(&IsIPv6AndPortValid_Params, 0, sizeof(IsIPv6AndPortValid_Params));
-	memcpy_s(&IsIPv6AndPortValid_Params.HostAndPort, sizeof(IsIPv6AndPortValid_Params.HostAndPort), &HostAndPort, sizeof(HostAndPort));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv6AndPortValid, &IsIPv6AndPortValid_Params, nullptr);
-
-	return IsIPv6AndPortValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsDigit
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Char                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsDigit(class FString Char)
-{
-	static UFunction* uFnIsDigit = nullptr;
-
-	if (!uFnIsDigit)
-	{
-		uFnIsDigit = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsDigit");
-	}
-
-	UURLValidator_X_execIsDigit_Params IsDigit_Params;
-	memset(&IsDigit_Params, 0, sizeof(IsDigit_Params));
-	memcpy_s(&IsDigit_Params.Char, sizeof(IsDigit_Params.Char), &Char, sizeof(Char));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsDigit, &IsDigit_Params, nullptr);
-
-	return IsDigit_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.AreAllDigits
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Str                            (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::AreAllDigits(class FString Str)
-{
-	static UFunction* uFnAreAllDigits = nullptr;
-
-	if (!uFnAreAllDigits)
-	{
-		uFnAreAllDigits = UFunction::FindFunction("Function ProjectX.URLValidator_X.AreAllDigits");
-	}
-
-	UURLValidator_X_execAreAllDigits_Params AreAllDigits_Params;
-	memset(&AreAllDigits_Params, 0, sizeof(AreAllDigits_Params));
-	memcpy_s(&AreAllDigits_Params.Str, sizeof(AreAllDigits_Params.Str), &Str, sizeof(Str));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnAreAllDigits, &AreAllDigits_Params, nullptr);
-
-	return AreAllDigits_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsPortValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  PortStr                        (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsPortValid(class FString PortStr)
-{
-	static UFunction* uFnIsPortValid = nullptr;
-
-	if (!uFnIsPortValid)
-	{
-		uFnIsPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsPortValid");
-	}
-
-	UURLValidator_X_execIsPortValid_Params IsPortValid_Params;
-	memset(&IsPortValid_Params, 0, sizeof(IsPortValid_Params));
-	memcpy_s(&IsPortValid_Params.PortStr, sizeof(IsPortValid_Params.PortStr), &PortStr, sizeof(PortStr));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsPortValid, &IsPortValid_Params, nullptr);
-
-	return IsPortValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsIPv4OctetValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  OctetStr                       (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsIPv4OctetValid(class FString OctetStr)
-{
-	static UFunction* uFnIsIPv4OctetValid = nullptr;
-
-	if (!uFnIsIPv4OctetValid)
-	{
-		uFnIsIPv4OctetValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv4OctetValid");
-	}
-
-	UURLValidator_X_execIsIPv4OctetValid_Params IsIPv4OctetValid_Params;
-	memset(&IsIPv4OctetValid_Params, 0, sizeof(IsIPv4OctetValid_Params));
-	memcpy_s(&IsIPv4OctetValid_Params.OctetStr, sizeof(IsIPv4OctetValid_Params.OctetStr), &OctetStr, sizeof(OctetStr));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv4OctetValid, &IsIPv4OctetValid_Params, nullptr);
-
-	return IsIPv4OctetValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsIPv4AddressValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Host                           (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsIPv4AddressValid(class FString Host)
-{
-	static UFunction* uFnIsIPv4AddressValid = nullptr;
-
-	if (!uFnIsIPv4AddressValid)
-	{
-		uFnIsIPv4AddressValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv4AddressValid");
-	}
-
-	UURLValidator_X_execIsIPv4AddressValid_Params IsIPv4AddressValid_Params;
-	memset(&IsIPv4AddressValid_Params, 0, sizeof(IsIPv4AddressValid_Params));
-	memcpy_s(&IsIPv4AddressValid_Params.Host, sizeof(IsIPv4AddressValid_Params.Host), &Host, sizeof(Host));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv4AddressValid, &IsIPv4AddressValid_Params, nullptr);
-
-	return IsIPv4AddressValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsIPv4AndPortValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  HostAndPort                    (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsIPv4AndPortValid(class FString HostAndPort)
-{
-	static UFunction* uFnIsIPv4AndPortValid = nullptr;
-
-	if (!uFnIsIPv4AndPortValid)
-	{
-		uFnIsIPv4AndPortValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsIPv4AndPortValid");
-	}
-
-	UURLValidator_X_execIsIPv4AndPortValid_Params IsIPv4AndPortValid_Params;
-	memset(&IsIPv4AndPortValid_Params, 0, sizeof(IsIPv4AndPortValid_Params));
-	memcpy_s(&IsIPv4AndPortValid_Params.HostAndPort, sizeof(IsIPv4AndPortValid_Params.HostAndPort), &HostAndPort, sizeof(HostAndPort));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsIPv4AndPortValid, &IsIPv4AndPortValid_Params, nullptr);
-
-	return IsIPv4AndPortValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.HostLooksLikeIPv4
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  HostAndPort                    (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::HostLooksLikeIPv4(class FString HostAndPort)
-{
-	static UFunction* uFnHostLooksLikeIPv4 = nullptr;
-
-	if (!uFnHostLooksLikeIPv4)
-	{
-		uFnHostLooksLikeIPv4 = UFunction::FindFunction("Function ProjectX.URLValidator_X.HostLooksLikeIPv4");
-	}
-
-	UURLValidator_X_execHostLooksLikeIPv4_Params HostLooksLikeIPv4_Params;
-	memset(&HostLooksLikeIPv4_Params, 0, sizeof(HostLooksLikeIPv4_Params));
-	memcpy_s(&HostLooksLikeIPv4_Params.HostAndPort, sizeof(HostLooksLikeIPv4_Params.HostAndPort), &HostAndPort, sizeof(HostAndPort));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnHostLooksLikeIPv4, &HostLooksLikeIPv4_Params, nullptr);
-
-	return HostLooksLikeIPv4_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsSchemeValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  Scheme                         (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsSchemeValid(class FString Scheme)
-{
-	static UFunction* uFnIsSchemeValid = nullptr;
-
-	if (!uFnIsSchemeValid)
-	{
-		uFnIsSchemeValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsSchemeValid");
-	}
-
-	UURLValidator_X_execIsSchemeValid_Params IsSchemeValid_Params;
-	memset(&IsSchemeValid_Params, 0, sizeof(IsSchemeValid_Params));
-	memcpy_s(&IsSchemeValid_Params.Scheme, sizeof(IsSchemeValid_Params.Scheme), &Scheme, sizeof(Scheme));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsSchemeValid, &IsSchemeValid_Params, nullptr);
-
-	return IsSchemeValid_Params.ReturnValue;
-};
-
-// Function ProjectX.URLValidator_X.IsURLValid
-// [0x00022003] (FUNC_Final | FUNC_Defined | FUNC_Static | FUNC_Public | FUNC_AllFlags)
-// Parameter Info:
-// bool                           ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
-// class FString                  URL                            (CPF_Parm | CPF_NeedCtorLink)
-
-bool UURLValidator_X::IsURLValid(class FString URL)
-{
-	static UFunction* uFnIsURLValid = nullptr;
-
-	if (!uFnIsURLValid)
-	{
-		uFnIsURLValid = UFunction::FindFunction("Function ProjectX.URLValidator_X.IsURLValid");
-	}
-
-	UURLValidator_X_execIsURLValid_Params IsURLValid_Params;
-	memset(&IsURLValid_Params, 0, sizeof(IsURLValid_Params));
-	memcpy_s(&IsURLValid_Params.URL, sizeof(IsURLValid_Params.URL), &URL, sizeof(URL));
-
-	UURLValidator_X::StaticClass()->ProcessEvent(uFnIsURLValid, &IsURLValid_Params, nullptr);
-
-	return IsURLValid_Params.ReturnValue;
 };
 
 /*

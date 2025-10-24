@@ -273,29 +273,6 @@ class FString UOnlineSubsystemCommonImpl::eventGetPlayerNicknameFromIndex(int32_
 	return GetPlayerNicknameFromIndex_Params.ReturnValue;
 };
 
-// Function IpDrv.OnlineSubsystemCommonImpl.OnPlayerCountryRetrieved
-// [0x00120000] (FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
-// Parameter Info:
-// struct FUniqueNetId            PlayerID                       (CPF_Parm | CPF_NeedCtorLink)
-// class FString                  Country                        (CPF_Parm | CPF_NeedCtorLink)
-
-void UOnlineSubsystemCommonImpl::OnPlayerCountryRetrieved(struct FUniqueNetId PlayerID, class FString Country)
-{
-	static UFunction* uFnOnPlayerCountryRetrieved = nullptr;
-
-	if (!uFnOnPlayerCountryRetrieved)
-	{
-		uFnOnPlayerCountryRetrieved = UFunction::FindFunction("Function IpDrv.OnlineSubsystemCommonImpl.OnPlayerCountryRetrieved");
-	}
-
-	UOnlineSubsystemCommonImpl_execOnPlayerCountryRetrieved_Params OnPlayerCountryRetrieved_Params;
-	memset(&OnPlayerCountryRetrieved_Params, 0, sizeof(OnPlayerCountryRetrieved_Params));
-	memcpy_s(&OnPlayerCountryRetrieved_Params.PlayerID, sizeof(OnPlayerCountryRetrieved_Params.PlayerID), &PlayerID, sizeof(PlayerID));
-	memcpy_s(&OnPlayerCountryRetrieved_Params.Country, sizeof(OnPlayerCountryRetrieved_Params.Country), &Country, sizeof(Country));
-
-	this->ProcessEvent(uFnOnPlayerCountryRetrieved, &OnPlayerCountryRetrieved_Params, nullptr);
-};
-
 // Function IpDrv.OnlineSubsystemCommonImpl.OnSanitizeStringComplete
 // [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
 // Parameter Info:

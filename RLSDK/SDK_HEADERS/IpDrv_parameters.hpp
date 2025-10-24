@@ -104,14 +104,6 @@ struct UOnlineSubsystemCommonImpl_eventGetPlayerNicknameFromIndex_Params
 	class FString                                      ReturnValue;                                      		// 0x0008 (0x0010) [0x0000000000400580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
 };
 
-// Function IpDrv.OnlineSubsystemCommonImpl.OnPlayerCountryRetrieved
-// [0x00120000] 
-struct UOnlineSubsystemCommonImpl_execOnPlayerCountryRetrieved_Params
-{
-	struct FUniqueNetId                                PlayerID;                                         		// 0x0000 (0x0048) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	class FString                                      Country;                                          		// 0x0048 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-};
-
 // Function IpDrv.OnlineSubsystemCommonImpl.OnSanitizeStringComplete
 // [0x00120001] 
 struct UOnlineSubsystemCommonImpl_execOnSanitizeStringComplete_Params
