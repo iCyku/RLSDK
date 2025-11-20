@@ -2276,16 +2276,15 @@ public:
 	uint32_t                                           bPlatformAuthTicketFailed_Switch : 1;          // 0x0128 (0x0004) [0x0000004000002000] [0x00000004] (CPF_Transient)
 	uint32_t                                           bSkipAuth : 1;                                 // 0x0128 (0x0004) [0x0001004000000000] [0x00000008] 
 	uint32_t                                           bLastChanceAuthBan : 1;                        // 0x0128 (0x0004) [0x0000004000002000] [0x00000010] (CPF_Transient)
-	uint32_t                                           bLoginProcessStarted : 1;                      // 0x0128 (0x0004) [0x0000000000000000] [0x00000020] 
 	uint8_t                                           UnknownData00[0x4];                            // 0x012C (0x0004) MISSED OFFSET
 	class UError*                                      AuthLoginError;                                // 0x0130 (0x0008) [0x0000004000000000]               
 	class UBanMessage_X*                               BanMessage;                                    // 0x0138 (0x0008) [0x0000004000002000] (CPF_Transient)
 	class FString                                      EncryptedAuthTicket;                           // 0x0140 (0x0010) [0x0000004000402000] (CPF_Transient | CPF_NeedCtorLink)
 	class FString                                      EpicAuthTicket;                                // 0x0150 (0x0010) [0x0000004000402000] (CPF_Transient | CPF_NeedCtorLink)
 	int32_t                                            AuthRequestFailureMax;                         // 0x0160 (0x0004) [0x0000000000004000] (CPF_Config)  
-	int32_t                                            AuthRequestRetryTime;                          // 0x0164 (0x0004) [0x0000000000000002] (CPF_Const)   
-	int32_t                                            AuthRequestFailureCount;                       // 0x0168 (0x0004) [0x0000000000002000] (CPF_Transient)
-	uint8_t                                           UnknownData01[0x4];                            // 0x016C (0x0004) MISSED OFFSET
+	int32_t                                            AuthReloginTime;                               // 0x0164 (0x0004) [0x0000000000004000] (CPF_Config)  
+	int32_t                                            AuthRequestRetryTime;                          // 0x0168 (0x0004) [0x0000000000000002] (CPF_Const)   
+	int32_t                                            AuthRequestFailureCount;                       // 0x016C (0x0004) [0x0000000000002000] (CPF_Transient)
 	class FString                                      AuthenticatedName;                             // 0x0170 (0x0010) [0x0000004000402000] (CPF_Transient | CPF_NeedCtorLink)
 	class UEpicLogin_X*                                EpicLogin;                                     // 0x0180 (0x0008) [0x0000008000000000]               
 	class UError*                                      PrimaryAccountNotSetError;                     // 0x0188 (0x0008) [0x0000000000000000]               
@@ -2323,10 +2322,10 @@ public:
 	void SetPlatformAuthTicketFailed_Switch(bool bNewValue);
 	bool RequiresEpicAuthTicket();
 	bool RequiresAuthTicket();
-	void ReLogin();
+	void ReLogin(bool optionalBCleanUpConsecutiveAuthFailures);
 	void Logout();
 	void SetAuthLoginError(class UError* E);
-	void UpdateLoginState();
+	void UpdateLoginState(bool optional_);
 	class UError* GetAuthLoginError();
 	void UpdateAuthLoginError();
 	void HandlePsyNetLoginChanged(class UOnlinePlayerAuthentication_X* Auth);
@@ -5097,13 +5096,14 @@ public:
 	void HandleWebSocketStartConnectFail(class UPsyNetMessengerWebSocket_X* WS);
 	void UpdateConnectionState();
 	void ClearAuthDisabledError();
-	void SetAuthDisabledError(class UError* Error);
+	void SetAuthDisabledError(class UError* Error, bool optionalBIgnoreRetryCooldown);
 	void ConditionalSetAuthRetryDelay(class FString Service, class UError* Error);
 	void HandleErrorRPC(class URPCQueue_X* InQueue, class URPC_X* InRPC, class UError* Error);
 	bool IsEnabled();
 	void UpdateDisabledError(class UErrorType* Type, bool bIsError, class UError*& Error);
 	void eventAddDisabledError(class UError* Error);
-	void RemoveDisabledError(class UError* Error);
+	void RemoveDisabledError(class UError* Error, bool optionalBCleanUpConsecutiveAuthFailures);
+	void ResetTimersAndFailureCount();
 	EFlushResult Flush(float TimeoutSeconds);
 	class URPC_X* QueueRPC(class URPC_X* RPC);
 	class URPC_X* RPC(class UClass* RPCClass);
@@ -6122,6 +6122,7 @@ public:
 		return uClassPointer;
 	};
 
+	void __OnlineGame_X__OnInit_0x1(class ULegalConfig_X* LegalConfig);
 	void PrintDebugInfo(class UDebugDrawer* Drawer);
 	bool IsMatureLanguageFiltered();
 	class UOnlinePlayer_X* GetOnlinePlayerFromPlayerId(struct FUniqueNetId PlayerID);
@@ -6257,6 +6258,7 @@ public:
 	void eventDDoSAttackDetected(TArray<class FString> ConnectionIPs);
 	void ClearDDoSAttackEvent();
 	void SubscribeToDDoSAttackEvent();
+	TArray<class FString> GetNetDriverStableConnections();
 	class URPC_RecordMatch_X* SendRecordMatchRPC();
 	void ReportMatch();
 	void HandleTrackerPlayerRemoved(class UServerPlayerTracker_X* Tracker, struct FUniqueNetId PlayerID);
@@ -17314,6 +17316,28 @@ public:
 
 };
 
+// Class ProjectX.LegalConfig_X
+// 0x0010 (0x0078 - 0x0088)
+class ULegalConfig_X : public UOnlineConfig_X
+{
+public:
+	class FString                                      EULAOfflineFolder;                             // 0x0078 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+
+public:
+	static UClass* StaticClass()
+	{
+		static UClass* uClassPointer = nullptr;
+
+		if (!uClassPointer)
+		{
+			uClassPointer = UObject::FindClass("Class ProjectX.LegalConfig_X");
+		}
+
+		return uClassPointer;
+	};
+
+};
+
 // Class ProjectX.LocalCacheTests_X
 // 0x0010 (0x0060 - 0x0070)
 class ULocalCacheTests_X : public UObject
@@ -17480,6 +17504,30 @@ public:
 	};
 
 	struct FPsyNetBeaconReservation GetReservation();
+};
+
+// Class ProjectX.MatchInfoWebService_X
+// 0x0008 (0x0080 - 0x0088)
+class UMatchInfoWebService_X : public UWebApplication
+{
+public:
+	class UOnlineGameDedicatedServer_X*                DedicatedServer;                               // 0x0080 (0x0008) [0x0000800000000000]               
+
+public:
+	static UClass* StaticClass()
+	{
+		static UClass* uClassPointer = nullptr;
+
+		if (!uClassPointer)
+		{
+			uClassPointer = UObject::FindClass("Class ProjectX.MatchInfoWebService_X");
+		}
+
+		return uClassPointer;
+	};
+
+	void eventQuery(class UWebRequest* Request, class UWebResponse* Response);
+	void Init();
 };
 
 // Class ProjectX.MatchLog_X

@@ -16931,14 +16931,13 @@ public:
 };
 
 // Class TAGame.SonyPricingInfo_TA
-// 0x0070 (0x0060 - 0x00D0)
+// 0x0018 (0x0060 - 0x0078)
 class USonyPricingInfo_TA : public UObject
 {
 public:
 	uint32_t                                           Success : 1;                                   // 0x0060 (0x0004) [0x0000000000000000] [0x00000001] 
 	uint8_t                                           UnknownData00[0x4];                            // 0x0064 (0x0004) MISSED OFFSET
-	TArray<struct FSonyInputs>                         SONY_INPUTS;                                   // 0x0068 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
-	struct FSonyMetadataStruct                         MetaData;                                      // 0x0078 (0x0058) [0x0000000000402000] (CPF_Transient | CPF_NeedCtorLink)
+	TArray<struct FBaseInput>                          SONY_INPUTS;                                   // 0x0068 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 
 public:
 	static UClass* StaticClass()
@@ -29648,11 +29647,12 @@ public:
 };
 
 // Class TAGame.GameInfo_Soccar_TA
-// 0x0010 (0x0558 - 0x0568)
+// 0x0018 (0x0558 - 0x0570)
 class AGameInfo_Soccar_TA : public AGameInfo_TA
 {
 public:
 	TArray<struct FGameEventData>                      GameEventArchetypes;                           // 0x0558 (0x0010) [0x0000000000400001] (CPF_Edit | CPF_NeedCtorLink)
+	class AWebServer*                                  GameInfoWebServer;                             // 0x0568 (0x0008) [0x0000000000000000]               
 
 public:
 	static UClass* StaticClass()
@@ -32188,7 +32188,7 @@ public:
 };
 
 // Class TAGame.GFxData_EpicLogin_TA
-// 0x00D8 (0x0098 - 0x0170)
+// 0x00E0 (0x0098 - 0x0178)
 class UGFxData_EpicLogin_TA : public UGFxDataSingleton_X
 {
 public:
@@ -32199,17 +32199,18 @@ public:
 	uint32_t                                           bInCabinedMode : 1;                            // 0x00C0 (0x0004) [0x0000000040000000] [0x00000002] (CPF_EditInlineNotify)
 	uint32_t                                           bConnectionLost : 1;                           // 0x00C0 (0x0004) [0x0000000040000000] [0x00000004] (CPF_EditInlineNotify)
 	uint8_t                                           UnknownData00[0x4];                            // 0x00C4 (0x0004) MISSED OFFSET
-	class FString                                      SetDOBErrorMessage;                            // 0x00C8 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      SetParentEmailErrorMessage;                    // 0x00D8 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      ConfirmDisplayNameErrorMessage;                // 0x00E8 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      UnsupportedCorrectiveActionURL;                // 0x00F8 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      EpicPlayerName;                                // 0x0108 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      ParentalControlsURL;                           // 0x0118 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      ActivateURL;                                   // 0x0128 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      AccountURL;                                    // 0x0138 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      TOSURL;                                        // 0x0148 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class FString                                      PrivacyPolicyURL;                              // 0x0158 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	class UEpicConfig_X*                               EpicConfig;                                    // 0x0168 (0x0008) [0x0000804000000000]               
+	class UGFxModal_X*                                 EGSFailedToConnectModal;                       // 0x00C8 (0x0008) [0x0000000000002000] (CPF_Transient)
+	class FString                                      SetDOBErrorMessage;                            // 0x00D0 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      SetParentEmailErrorMessage;                    // 0x00E0 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      ConfirmDisplayNameErrorMessage;                // 0x00F0 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      UnsupportedCorrectiveActionURL;                // 0x0100 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      EpicPlayerName;                                // 0x0110 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      ParentalControlsURL;                           // 0x0120 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      ActivateURL;                                   // 0x0130 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      AccountURL;                                    // 0x0140 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      TOSURL;                                        // 0x0150 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class FString                                      PrivacyPolicyURL;                              // 0x0160 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	class UEpicConfig_X*                               EpicConfig;                                    // 0x0170 (0x0008) [0x0000804000000000]               
 
 public:
 	static UClass* StaticClass()
@@ -32270,6 +32271,7 @@ public:
 	void OnSkippedEpicAccountLinkScreen();
 	void CheckForLoginErrors();
 	void HandleLoggedIn();
+	void HandleModalClosed(class UGFxModal_X* Modal);
 	void HandleLoginError(class UEpicLogin_X* EpicLogin, class UErrorType* Error);
 	void HandleConfigChanged();
 	class UEpicLogin_X* GetEpicLogin();
@@ -32452,7 +32454,7 @@ public:
 };
 
 // Class TAGame.GFxShell_TA
-// 0x0190 (0x0130 - 0x02C0)
+// 0x0198 (0x0130 - 0x02C8)
 class UGFxShell_TA : public UGFxShell_X
 {
 public:
@@ -32461,8 +32463,9 @@ public:
 	class UGFxData_System_TA*                          SystemData;                                    // 0x0140 (0x0008) [0x0000004000002000] (CPF_Transient)
 	class UGFxData_LocalPlayer_TA*                     LocalPlayerData;                               // 0x0148 (0x0008) [0x0000004000002000] (CPF_Transient)
 	uint32_t                                           bEnableFocusDebugger : 1;                      // 0x0150 (0x0004) [0x0000000040000000] [0x00000001] (CPF_EditInlineNotify)
-	uint32_t                                           bDisableStartupMovies : 1;                     // 0x0150 (0x0004) [0x0000000040000000] [0x00000002] (CPF_EditInlineNotify)
-	uint32_t                                           bAllowOnlineStorageResyncModal : 1;            // 0x0150 (0x0004) [0x0000000000004002] [0x00000004] (CPF_Const | CPF_Config)
+	uint32_t                                           bShowToS : 1;                                  // 0x0150 (0x0004) [0x0000000040000000] [0x00000002] (CPF_EditInlineNotify)
+	uint32_t                                           bDisableStartupMovies : 1;                     // 0x0150 (0x0004) [0x0000000040000000] [0x00000004] (CPF_EditInlineNotify)
+	uint32_t                                           bAllowOnlineStorageResyncModal : 1;            // 0x0150 (0x0004) [0x0000000000004002] [0x00000008] (CPF_Const | CPF_Config)
 	uint8_t                                           UnknownData00[0x4];                            // 0x0154 (0x0004) MISSED OFFSET
 	class FString                                      EOSReconnectMessage;                           // 0x0158 (0x0010) [0x0000000000408002] (CPF_Const | CPF_Localized | CPF_NeedCtorLink)
 	class FString                                      EOSNotConnectedMessage;                        // 0x0168 (0x0010) [0x0000000000408002] (CPF_Const | CPF_Localized | CPF_NeedCtorLink)
@@ -32485,12 +32488,13 @@ public:
 	float                                              LastPsyNetReconnectTime;                       // 0x0260 (0x0004) [0x0000000000002000] (CPF_Transient)
 	uint8_t                                           UnknownData02[0x4];                            // 0x0264 (0x0004) MISSED OFFSET
 	class UGFxModal_X*                                 ModalKick;                                     // 0x0268 (0x0008) [0x0000000000002000] (CPF_Transient)
-	class FString                                      BuildEdition;                                  // 0x0270 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
-	int32_t                                            MAX_CLIENT_OFFSET;                             // 0x0280 (0x0004) [0x0000000000000002] (CPF_Const)   
-	uint8_t                                           UnknownData03[0x4];                            // 0x0284 (0x0004) MISSED OFFSET
-	class UEOSVoiceManager_TA*                         VoiceManager;                                  // 0x0288 (0x0008) [0x0001800000000000]               
-	struct FScriptDelegate                             __EventModalOpened__Delegate;                  // 0x0290 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
-	struct FScriptDelegate                             __EventModalClosed__Delegate;                  // 0x02A8 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	class UGFxModal_X*                                 EGSReconnectModal;                             // 0x0270 (0x0008) [0x0000000000002000] (CPF_Transient)
+	class FString                                      BuildEdition;                                  // 0x0278 (0x0010) [0x0000000040400000] (CPF_NeedCtorLink | CPF_EditInlineNotify)
+	int32_t                                            MAX_CLIENT_OFFSET;                             // 0x0288 (0x0004) [0x0000000000000002] (CPF_Const)   
+	uint8_t                                           UnknownData03[0x4];                            // 0x028C (0x0004) MISSED OFFSET
+	class UEOSVoiceManager_TA*                         VoiceManager;                                  // 0x0290 (0x0008) [0x0001800000000000]               
+	struct FScriptDelegate                             __EventModalOpened__Delegate;                  // 0x0298 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventModalClosed__Delegate;                  // 0x02B0 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 
 public:
 	static UClass* StaticClass()
@@ -32505,6 +32509,7 @@ public:
 		return uClassPointer;
 	};
 
+	void __GFxShell_TA__OnStart_0x1(class UEulaConfig_TA* InConfig);
 	void __GFxShell_TA__HandleOnlinePlayerStorageSyncError_0x2(class UGFxModal_X* _);
 	void __GFxShell_TA__HandleOnlinePlayerStorageSyncError_0x1(class UGFxModal_X* _);
 	void __GFxShell_TA__HandleSaveDataLoaded_0x1(class UOnlineStorageSyncManager_TA* _, class UAsyncTask* Task);
@@ -50205,7 +50210,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Basketball_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Basketball_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -50312,7 +50317,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Breakout_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Breakout_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -61019,6 +61024,7 @@ class UEulaConfig_TA : public UOnlineConfig_X
 public:
 	uint32_t                                           bRequiresAcceptance : 1;                       // 0x0078 (0x0004) [0x0000000000000001] [0x00000001] (CPF_Edit)
 	uint32_t                                           bAllowEulaReset : 1;                           // 0x0078 (0x0004) [0x0000000000000001] [0x00000002] (CPF_Edit)
+	uint32_t                                           bShowToS : 1;                                  // 0x0078 (0x0004) [0x0000000000000001] [0x00000004] (CPF_Edit)
 	uint8_t                                           UnknownData00[0x4];                            // 0x007C (0x0004) MISSED OFFSET
 	TArray<EOnlinePlatform>                            ExcludedPlatforms;                             // 0x0080 (0x0010) [0x0000000000400001] (CPF_Edit | CPF_NeedCtorLink)
 	TArray<int32_t>                                    IgnoredHashIds;                                // 0x0090 (0x0010) [0x0000000000400001] (CPF_Edit | CPF_NeedCtorLink)
@@ -63703,7 +63709,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Football_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Football_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63724,7 +63730,7 @@ public:
 };
 
 // Class TAGame.GameInfo_FTE_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_FTE_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63746,7 +63752,7 @@ public:
 };
 
 // Class TAGame.GameInfo_GameEditor_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_GameEditor_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63882,7 +63888,7 @@ public:
 };
 
 // Class TAGame.GameInfo_GodBall_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_GodBall_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63903,7 +63909,7 @@ public:
 };
 
 // Class TAGame.GameInfo_HeatseekerTerritory_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_HeatseekerTerritory_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63924,7 +63930,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Hockey_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Hockey_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63945,7 +63951,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Hops_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Hops_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63966,7 +63972,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Items_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Items_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -63987,7 +63993,7 @@ public:
 };
 
 // Class TAGame.GameInfo_KeepUp_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_KeepUp_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64008,7 +64014,7 @@ public:
 };
 
 // Class TAGame.GameInfo_KnockOut_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_KnockOut_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64029,7 +64035,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_AprilFool_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_AprilFool_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64050,7 +64056,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_BeachBall_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_BeachBall_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64071,7 +64077,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_BoomerBall_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_BoomerBall_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64092,7 +64098,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_Demolition_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_Demolition_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64113,7 +64119,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_DropshotRumble_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_DropshotRumble_TA : public AGameInfo_Breakout_TA
 {
 public:
@@ -64134,7 +64140,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_Eggstra_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_Eggstra_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64155,7 +64161,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_GForce_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_GForce_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64176,7 +64182,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_Moonball_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_Moonball_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64197,7 +64203,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_Pinball_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_Pinball_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64218,7 +64224,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_SpeedDemon_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_SpeedDemon_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64239,7 +64245,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_SpikeRush_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_SpikeRush_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64260,7 +64266,7 @@ public:
 };
 
 // Class TAGame.GameInfo_LTM_SuperCube_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_LTM_SuperCube_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64281,7 +64287,7 @@ public:
 };
 
 // Class TAGame.GameInfo_MagnusFutball_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_MagnusFutball_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64329,7 +64335,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Possession_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Possession_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64417,7 +64423,7 @@ public:
 };
 
 // Class TAGame.GameInfo_SnowDayTerritory_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_SnowDayTerritory_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64438,7 +64444,7 @@ public:
 };
 
 // Class TAGame.GameInfo_SpikeDrop_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_SpikeDrop_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64459,7 +64465,7 @@ public:
 };
 
 // Class TAGame.GameInfo_Territory_TA
-// 0x0000 (0x0568 - 0x0568)
+// 0x0000 (0x0570 - 0x0570)
 class AGameInfo_Territory_TA : public AGameInfo_Soccar_TA
 {
 public:
@@ -64480,11 +64486,11 @@ public:
 };
 
 // Class TAGame.GameInfo_TrainingEditor_TA
-// 0x0004 (0x0568 - 0x056C)
+// 0x0004 (0x0570 - 0x0574)
 class AGameInfo_TrainingEditor_TA : public AGameInfo_GameEditor_TA
 {
 public:
-	uint32_t                                           bCanExportMatinee : 1;                         // 0x0568 (0x0004) [0x0001000000002000] [0x00000001] (CPF_Transient)
+	uint32_t                                           bCanExportMatinee : 1;                         // 0x0570 (0x0004) [0x0001000000002000] [0x00000001] (CPF_Transient)
 
 public:
 	static UClass* StaticClass()
@@ -64525,11 +64531,11 @@ public:
 };
 
 // Class TAGame.GameInfo_Tutorial_TA
-// 0x0004 (0x0568 - 0x056C)
+// 0x0004 (0x0570 - 0x0574)
 class AGameInfo_Tutorial_TA : public AGameInfo_Soccar_TA
 {
 public:
-	uint32_t                                           bAutoEntered : 1;                              // 0x0568 (0x0004) [0x0000000000000000] [0x00000001] 
+	uint32_t                                           bAutoEntered : 1;                              // 0x0570 (0x0004) [0x0000000000000000] [0x00000001] 
 
 public:
 	static UClass* StaticClass()
@@ -71378,7 +71384,7 @@ public:
 };
 
 // Class TAGame.GFxData_ReplayViewer_TA
-// 0x00A0 (0x0098 - 0x0138)
+// 0x00B8 (0x0098 - 0x0150)
 class UGFxData_ReplayViewer_TA : public UGFxDataSingleton_X
 {
 public:
@@ -71404,6 +71410,7 @@ public:
 	class UGFxModal_X*                                 ModalProcessing;                               // 0x0100 (0x0008) [0x0000000000002000] (CPF_Transient)
 	struct FScriptDelegate                             __EventHudVisibilityUpdated__Delegate;         // 0x0108 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 	struct FScriptDelegate                             __EventInitDone__Delegate;                     // 0x0120 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventFocusCarUpdated__Delegate;              // 0x0138 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 
 public:
 	static UClass* StaticClass()
@@ -71444,6 +71451,7 @@ public:
 	void InitCameraModes();
 	void UpdateReplayData();
 	void SetReplay(class UReplay_TA* InReplay);
+	void EventFocusCarUpdated(class FString FocusCar);
 	void EventInitDone();
 	void EventHudVisibilityUpdated();
 };

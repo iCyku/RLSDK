@@ -1467,6 +1467,14 @@ struct FLocOverride
 	class FString                                      Package;                                       // 0x0030 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 };
 
+// ScriptStruct ProjectX.MatchInfoWebService_X.MatchInfoJson
+// 0x0020
+struct FMatchInfoJson
+{
+	class FString                                      Guid;                                          // 0x0000 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+	TArray<class FString>                              ip_addresses;                                  // 0x0010 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
+};
+
 // ScriptStruct ProjectX.MatchPlayerData_X.MatchSkillUpdate
 // 0x0024
 struct FMatchSkillUpdate

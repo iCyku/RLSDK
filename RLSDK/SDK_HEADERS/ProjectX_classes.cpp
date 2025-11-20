@@ -10953,10 +10953,11 @@ bool UOnlinePlayerAuthentication_X::RequiresAuthTicket()
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.ReLogin
-// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// [0x00024003] (FUNC_Final | FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
+// bool                           bCleanUpConsecutiveAuthFailures (CPF_OptionalParm | CPF_Parm)
 
-void UOnlinePlayerAuthentication_X::ReLogin()
+void UOnlinePlayerAuthentication_X::ReLogin(bool bCleanUpConsecutiveAuthFailures)
 {
 	static UFunction* uFnReLogin = nullptr;
 
@@ -10967,6 +10968,7 @@ void UOnlinePlayerAuthentication_X::ReLogin()
 
 	UOnlinePlayerAuthentication_X_execReLogin_Params ReLogin_Params;
 	memset(&ReLogin_Params, 0, sizeof(ReLogin_Params));
+	ReLogin_Params.bCleanUpConsecutiveAuthFailures = bCleanUpConsecutiveAuthFailures;
 
 	this->ProcessEvent(uFnReLogin, &ReLogin_Params, nullptr);
 };
@@ -11012,10 +11014,11 @@ void UOnlinePlayerAuthentication_X::SetAuthLoginError(class UError* E)
 };
 
 // Function ProjectX.OnlinePlayerAuthentication_X.UpdateLoginState
-// [0x00080002] (FUNC_Defined | FUNC_Protected | FUNC_AllFlags)
+// [0x00084002] (FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Protected | FUNC_AllFlags)
 // Parameter Info:
+// bool                           _                              (CPF_OptionalParm | CPF_Parm)
 
-void UOnlinePlayerAuthentication_X::UpdateLoginState()
+void UOnlinePlayerAuthentication_X::UpdateLoginState(bool _)
 {
 	static UFunction* uFnUpdateLoginState = nullptr;
 
@@ -11026,6 +11029,7 @@ void UOnlinePlayerAuthentication_X::UpdateLoginState()
 
 	UOnlinePlayerAuthentication_X_execUpdateLoginState_Params UpdateLoginState_Params;
 	memset(&UpdateLoginState_Params, 0, sizeof(UpdateLoginState_Params));
+	UpdateLoginState_Params._ = _;
 
 	this->ProcessEvent(uFnUpdateLoginState, &UpdateLoginState_Params, nullptr);
 };
@@ -23589,11 +23593,12 @@ void UPsyNetConnection_X::ClearAuthDisabledError()
 };
 
 // Function ProjectX.PsyNetConnection_X.SetAuthDisabledError
-// [0x00040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_AllFlags)
+// [0x00044003] (FUNC_Final | FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Private | FUNC_AllFlags)
 // Parameter Info:
 // class UError*                  Error                          (CPF_Parm)
+// bool                           bIgnoreRetryCooldown           (CPF_OptionalParm | CPF_Parm)
 
-void UPsyNetConnection_X::SetAuthDisabledError(class UError* Error)
+void UPsyNetConnection_X::SetAuthDisabledError(class UError* Error, bool bIgnoreRetryCooldown)
 {
 	static UFunction* uFnSetAuthDisabledError = nullptr;
 
@@ -23605,6 +23610,7 @@ void UPsyNetConnection_X::SetAuthDisabledError(class UError* Error)
 	UPsyNetConnection_X_execSetAuthDisabledError_Params SetAuthDisabledError_Params;
 	memset(&SetAuthDisabledError_Params, 0, sizeof(SetAuthDisabledError_Params));
 	memcpy_s(&SetAuthDisabledError_Params.Error, sizeof(SetAuthDisabledError_Params.Error), &Error, sizeof(Error));
+	SetAuthDisabledError_Params.bIgnoreRetryCooldown = bIgnoreRetryCooldown;
 
 	this->ProcessEvent(uFnSetAuthDisabledError, &SetAuthDisabledError_Params, nullptr);
 };
@@ -23728,11 +23734,12 @@ void UPsyNetConnection_X::eventAddDisabledError(class UError* Error)
 };
 
 // Function ProjectX.PsyNetConnection_X.RemoveDisabledError
-// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// [0x00024003] (FUNC_Final | FUNC_Defined | FUNC_NoExport | FUNC_OptionalParm | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
 // class UError*                  Error                          (CPF_Parm)
+// bool                           bCleanUpConsecutiveAuthFailures (CPF_OptionalParm | CPF_Parm)
 
-void UPsyNetConnection_X::RemoveDisabledError(class UError* Error)
+void UPsyNetConnection_X::RemoveDisabledError(class UError* Error, bool bCleanUpConsecutiveAuthFailures)
 {
 	static UFunction* uFnRemoveDisabledError = nullptr;
 
@@ -23744,8 +23751,28 @@ void UPsyNetConnection_X::RemoveDisabledError(class UError* Error)
 	UPsyNetConnection_X_execRemoveDisabledError_Params RemoveDisabledError_Params;
 	memset(&RemoveDisabledError_Params, 0, sizeof(RemoveDisabledError_Params));
 	memcpy_s(&RemoveDisabledError_Params.Error, sizeof(RemoveDisabledError_Params.Error), &Error, sizeof(Error));
+	RemoveDisabledError_Params.bCleanUpConsecutiveAuthFailures = bCleanUpConsecutiveAuthFailures;
 
 	this->ProcessEvent(uFnRemoveDisabledError, &RemoveDisabledError_Params, nullptr);
+};
+
+// Function ProjectX.PsyNetConnection_X.ResetTimersAndFailureCount
+// [0x00020003] (FUNC_Final | FUNC_Defined | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+
+void UPsyNetConnection_X::ResetTimersAndFailureCount()
+{
+	static UFunction* uFnResetTimersAndFailureCount = nullptr;
+
+	if (!uFnResetTimersAndFailureCount)
+	{
+		uFnResetTimersAndFailureCount = UFunction::FindFunction("Function ProjectX.PsyNetConnection_X.ResetTimersAndFailureCount");
+	}
+
+	UPsyNetConnection_X_execResetTimersAndFailureCount_Params ResetTimersAndFailureCount_Params;
+	memset(&ResetTimersAndFailureCount_Params, 0, sizeof(ResetTimersAndFailureCount_Params));
+
+	this->ProcessEvent(uFnResetTimersAndFailureCount, &ResetTimersAndFailureCount_Params, nullptr);
 };
 
 // Function ProjectX.PsyNetConnection_X.Flush
@@ -28218,6 +28245,27 @@ void UOnlineGame_Base_X::EventInternetConnectionChanged(bool bConnected)
 	this->ProcessEvent(uFnEventInternetConnectionChanged, &EventInternetConnectionChanged_Params, nullptr);
 };
 
+// Function ProjectX.OnlineGame_X.__OnlineGame_X__OnInit_0x1
+// [0x40040003] (FUNC_Final | FUNC_Defined | FUNC_Private | FUNC_Lambda | FUNC_AllFlags)
+// Parameter Info:
+// class ULegalConfig_X*          LegalConfig                    (CPF_Parm)
+
+void UOnlineGame_X::__OnlineGame_X__OnInit_0x1(class ULegalConfig_X* LegalConfig)
+{
+	static UFunction* uFn__OnlineGame_X__OnInit_0x1 = nullptr;
+
+	if (!uFn__OnlineGame_X__OnInit_0x1)
+	{
+		uFn__OnlineGame_X__OnInit_0x1 = UFunction::FindFunction("Function ProjectX.OnlineGame_X.__OnlineGame_X__OnInit_0x1");
+	}
+
+	UOnlineGame_X_exec__OnlineGame_X__OnInit_0x1_Params __OnlineGame_X__OnInit_0x1_Params;
+	memset(&__OnlineGame_X__OnInit_0x1_Params, 0, sizeof(__OnlineGame_X__OnInit_0x1_Params));
+	memcpy_s(&__OnlineGame_X__OnInit_0x1_Params.LegalConfig, sizeof(__OnlineGame_X__OnInit_0x1_Params.LegalConfig), &LegalConfig, sizeof(LegalConfig));
+
+	this->ProcessEvent(uFn__OnlineGame_X__OnInit_0x1, &__OnlineGame_X__OnInit_0x1_Params, nullptr);
+};
+
 // Function ProjectX.OnlineGame_X.PrintDebugInfo
 // [0x400020102] (FUNC_Defined | FUNC_Simulated | FUNC_Public | FUNC_NetValidate | FUNC_AllFlags)
 // Parameter Info:
@@ -29273,6 +29321,30 @@ void UOnlineGameDedicatedServer_X::SubscribeToDDoSAttackEvent()
 	uFnSubscribeToDDoSAttackEvent->FunctionFlags &= ~0x400;
 	this->ProcessEvent(uFnSubscribeToDDoSAttackEvent, &SubscribeToDDoSAttackEvent_Params, nullptr);
 	uFnSubscribeToDDoSAttackEvent->FunctionFlags |= 0x400;
+};
+
+// Function ProjectX.OnlineGameDedicatedServer_X.GetNetDriverStableConnections
+// [0x00020401] (FUNC_Final | FUNC_Native | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// TArray<class FString>          ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
+
+TArray<class FString> UOnlineGameDedicatedServer_X::GetNetDriverStableConnections()
+{
+	static UFunction* uFnGetNetDriverStableConnections = nullptr;
+
+	if (!uFnGetNetDriverStableConnections)
+	{
+		uFnGetNetDriverStableConnections = UFunction::FindFunction("Function ProjectX.OnlineGameDedicatedServer_X.GetNetDriverStableConnections");
+	}
+
+	UOnlineGameDedicatedServer_X_execGetNetDriverStableConnections_Params GetNetDriverStableConnections_Params;
+	memset(&GetNetDriverStableConnections_Params, 0, sizeof(GetNetDriverStableConnections_Params));
+
+	uFnGetNetDriverStableConnections->FunctionFlags &= ~0x400;
+	this->ProcessEvent(uFnGetNetDriverStableConnections, &GetNetDriverStableConnections_Params, nullptr);
+	uFnGetNetDriverStableConnections->FunctionFlags |= 0x400;
+
+	return GetNetDriverStableConnections_Params.ReturnValue;
 };
 
 // Function ProjectX.OnlineGameDedicatedServer_X.SendRecordMatchRPC
@@ -77237,6 +77309,48 @@ struct FPsyNetBeaconReservation UMatchInfoMessage_X::GetReservation()
 	this->ProcessEvent(uFnGetReservation, &GetReservation_Params, nullptr);
 
 	return GetReservation_Params.ReturnValue;
+};
+
+// Function ProjectX.MatchInfoWebService_X.Query
+// [0x400820802] (FUNC_Defined | FUNC_Event | FUNC_Public | FUNC_HasDefaults | FUNC_NetValidate | FUNC_AllFlags)
+// Parameter Info:
+// class UWebRequest*             Request                        (CPF_Parm)
+// class UWebResponse*            Response                       (CPF_Parm)
+
+void UMatchInfoWebService_X::eventQuery(class UWebRequest* Request, class UWebResponse* Response)
+{
+	static UFunction* uFnQuery = nullptr;
+
+	if (!uFnQuery)
+	{
+		uFnQuery = UFunction::FindFunction("Function ProjectX.MatchInfoWebService_X.Query");
+	}
+
+	UMatchInfoWebService_X_eventQuery_Params Query_Params;
+	memset(&Query_Params, 0, sizeof(Query_Params));
+	memcpy_s(&Query_Params.Request, sizeof(Query_Params.Request), &Request, sizeof(Request));
+	memcpy_s(&Query_Params.Response, sizeof(Query_Params.Response), &Response, sizeof(Response));
+
+	this->ProcessEvent(uFnQuery, &Query_Params, nullptr);
+};
+
+// Function ProjectX.MatchInfoWebService_X.Init
+// [0x400020002] (FUNC_Defined | FUNC_Public | FUNC_NetValidate | FUNC_AllFlags)
+// Parameter Info:
+
+void UMatchInfoWebService_X::Init()
+{
+	static UFunction* uFnInit = nullptr;
+
+	if (!uFnInit)
+	{
+		uFnInit = UFunction::FindFunction("Function ProjectX.MatchInfoWebService_X.Init");
+	}
+
+	UMatchInfoWebService_X_execInit_Params Init_Params;
+	memset(&Init_Params, 0, sizeof(Init_Params));
+
+	this->ProcessEvent(uFnInit, &Init_Params, nullptr);
 };
 
 // Function ProjectX.MatchLog_X.ConditionalSendWebRequest
