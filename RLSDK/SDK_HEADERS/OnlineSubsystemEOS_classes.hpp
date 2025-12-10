@@ -112,7 +112,7 @@ public:
 };
 
 // Class OnlineSubsystemEOS.OnlineSubsystemEOS
-// 0x0360 (0x03C0 - 0x0720)
+// 0x0378 (0x03C0 - 0x0738)
 class UOnlineSubsystemEOS : public UOnlineSubsystemCommonImpl
 {
 public:
@@ -170,6 +170,7 @@ public:
 	struct FScriptDelegate                             __EventCryptoKeyCreated__Delegate;             // 0x06D8 (0x0018) [0x0001000000400000] (CPF_NeedCtorLink)
 	struct FScriptDelegate                             __EventTextMessageSigned__Delegate;            // 0x06F0 (0x0018) [0x0001000000400000] (CPF_NeedCtorLink)
 	struct FScriptDelegate                             __EventTextMessageValidated__Delegate;         // 0x0708 (0x0018) [0x0001000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __OnCaptureAvailabilityChange__Delegate;       // 0x0720 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 
 public:
 	static UClass* StaticClass()
@@ -184,6 +185,9 @@ public:
 		return uClassPointer;
 	};
 
+	void ClearCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate);
+	void AddCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate);
+	void OnCaptureAvailabilityChange(bool bCaptureAllowed);
 	void EventTextMessageValidated(bool bMessageValid, int32_t RequestID);
 	void EventTextMessageSigned(class FString Signature, int32_t RequestID);
 	void EventCryptoKeyCreated(class FString EpicAccountId, class FString PublicKey);

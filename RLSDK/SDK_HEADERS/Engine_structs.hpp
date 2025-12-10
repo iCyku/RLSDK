@@ -1524,6 +1524,7 @@ struct FTextureGroupContainer
 	uint32_t                                           TEXTUREGROUP_Terrain_Weightmap : 1;            // 0x0000 (0x0004) [0x0000000000000003] [0x02000000] (CPF_Edit | CPF_Const)
 	uint32_t                                           TEXTUREGROUP_ImageBasedReflection : 1;         // 0x0000 (0x0004) [0x0000000000000003] [0x04000000] (CPF_Edit | CPF_Const)
 	uint32_t                                           TEXTUREGROUP_Bokeh : 1;                        // 0x0000 (0x0004) [0x0000000000000003] [0x08000000] (CPF_Edit | CPF_Const)
+	uint32_t                                           TEXTUREGROUP_Pitch : 1;                        // 0x0000 (0x0004) [0x0000000000000003] [0x10000000] (CPF_Edit | CPF_Const)
 };
 
 // ScriptStruct Engine.Texture2D.Texture2DMipMap

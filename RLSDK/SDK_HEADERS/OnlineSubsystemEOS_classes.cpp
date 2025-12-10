@@ -21,6 +21,69 @@
 # ========================================================================================= #
 */
 
+// Function OnlineSubsystemEOS.OnlineSubsystemEOS.ClearCaptureAvailabilityChangeDelegate
+// [0x00020001] (FUNC_Final | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// struct FScriptDelegate         CaptureAvailabilityDelegate    (CPF_Parm | CPF_NeedCtorLink)
+
+void UOnlineSubsystemEOS::ClearCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate)
+{
+	static UFunction* uFnClearCaptureAvailabilityChangeDelegate = nullptr;
+
+	if (!uFnClearCaptureAvailabilityChangeDelegate)
+	{
+		uFnClearCaptureAvailabilityChangeDelegate = UFunction::FindFunction("Function OnlineSubsystemEOS.OnlineSubsystemEOS.ClearCaptureAvailabilityChangeDelegate");
+	}
+
+	UOnlineSubsystemEOS_execClearCaptureAvailabilityChangeDelegate_Params ClearCaptureAvailabilityChangeDelegate_Params;
+	memset(&ClearCaptureAvailabilityChangeDelegate_Params, 0, sizeof(ClearCaptureAvailabilityChangeDelegate_Params));
+	memcpy_s(&ClearCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate, sizeof(ClearCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate), &CaptureAvailabilityDelegate, sizeof(CaptureAvailabilityDelegate));
+
+	this->ProcessEvent(uFnClearCaptureAvailabilityChangeDelegate, &ClearCaptureAvailabilityChangeDelegate_Params, nullptr);
+};
+
+// Function OnlineSubsystemEOS.OnlineSubsystemEOS.AddCaptureAvailabilityChangeDelegate
+// [0x00020001] (FUNC_Final | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// struct FScriptDelegate         CaptureAvailabilityDelegate    (CPF_Parm | CPF_NeedCtorLink)
+
+void UOnlineSubsystemEOS::AddCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate)
+{
+	static UFunction* uFnAddCaptureAvailabilityChangeDelegate = nullptr;
+
+	if (!uFnAddCaptureAvailabilityChangeDelegate)
+	{
+		uFnAddCaptureAvailabilityChangeDelegate = UFunction::FindFunction("Function OnlineSubsystemEOS.OnlineSubsystemEOS.AddCaptureAvailabilityChangeDelegate");
+	}
+
+	UOnlineSubsystemEOS_execAddCaptureAvailabilityChangeDelegate_Params AddCaptureAvailabilityChangeDelegate_Params;
+	memset(&AddCaptureAvailabilityChangeDelegate_Params, 0, sizeof(AddCaptureAvailabilityChangeDelegate_Params));
+	memcpy_s(&AddCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate, sizeof(AddCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate), &CaptureAvailabilityDelegate, sizeof(CaptureAvailabilityDelegate));
+
+	this->ProcessEvent(uFnAddCaptureAvailabilityChangeDelegate, &AddCaptureAvailabilityChangeDelegate_Params, nullptr);
+};
+
+// Function OnlineSubsystemEOS.OnlineSubsystemEOS.OnCaptureAvailabilityChange
+// [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
+// Parameter Info:
+// bool                           bCaptureAllowed                (CPF_Parm)
+
+void UOnlineSubsystemEOS::OnCaptureAvailabilityChange(bool bCaptureAllowed)
+{
+	static UFunction* uFnOnCaptureAvailabilityChange = nullptr;
+
+	if (!uFnOnCaptureAvailabilityChange)
+	{
+		uFnOnCaptureAvailabilityChange = UFunction::FindFunction("Function OnlineSubsystemEOS.OnlineSubsystemEOS.OnCaptureAvailabilityChange");
+	}
+
+	UOnlineSubsystemEOS_execOnCaptureAvailabilityChange_Params OnCaptureAvailabilityChange_Params;
+	memset(&OnCaptureAvailabilityChange_Params, 0, sizeof(OnCaptureAvailabilityChange_Params));
+	OnCaptureAvailabilityChange_Params.bCaptureAllowed = bCaptureAllowed;
+
+	this->ProcessEvent(uFnOnCaptureAvailabilityChange, &OnCaptureAvailabilityChange_Params, nullptr);
+};
+
 // Function OnlineSubsystemEOS.OnlineSubsystemEOS.EventTextMessageValidated
 // [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
 // Parameter Info:
@@ -4672,7 +4735,7 @@ bool UOnlinePlayerInterfaceEOS::HideKeyboardUI(uint8_t LocalUserNum)
 };
 
 // Function OnlineSubsystemEOS.OnlinePlayerInterfaceEOS.GetPlayerCountry
-// [0x00020001] (FUNC_Final | FUNC_Public | FUNC_AllFlags)
+// [0x00020401] (FUNC_Final | FUNC_Native | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
 // class FString                  ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm | CPF_NeedCtorLink)
 // uint8_t                        LocalUserNum                   (CPF_Parm)
@@ -4690,7 +4753,9 @@ class FString UOnlinePlayerInterfaceEOS::GetPlayerCountry(uint8_t LocalUserNum)
 	memset(&GetPlayerCountry_Params, 0, sizeof(GetPlayerCountry_Params));
 	memcpy_s(&GetPlayerCountry_Params.LocalUserNum, sizeof(GetPlayerCountry_Params.LocalUserNum), &LocalUserNum, sizeof(LocalUserNum));
 
+	uFnGetPlayerCountry->FunctionFlags &= ~0x400;
 	this->ProcessEvent(uFnGetPlayerCountry, &GetPlayerCountry_Params, nullptr);
+	uFnGetPlayerCountry->FunctionFlags |= 0x400;
 
 	return GetPlayerCountry_Params.ReturnValue;
 };

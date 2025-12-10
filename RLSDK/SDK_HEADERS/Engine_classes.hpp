@@ -1078,7 +1078,8 @@ enum class ETextureGroup : uint8_t
 	TEXTUREGROUP_Terrain_Weightmap                     = 25,
 	TEXTUREGROUP_ImageBasedReflection                  = 26,
 	TEXTUREGROUP_Bokeh                                 = 27,
-	TEXTUREGROUP_END                                   = 28
+	TEXTUREGROUP_Pitch                                 = 28,
+	TEXTUREGROUP_END                                   = 29
 };
 
 // Enum Engine.Texture.TextureMipGenSettings
@@ -8292,27 +8293,27 @@ public:
 	uint8_t                                           UnknownData00[0x3];                            // 0x009D (0x0003) MISSED OFFSET
 	float                                              MaxCaptureTime;                                // 0x00A0 (0x0004) [0x0000000000000001] (CPF_Edit)    
 	float                                              CaptureTimeRemaining;                          // 0x00A4 (0x0004) [0x0000000000002002] (CPF_Const | CPF_Transient)
-	uint32_t                                           bEnabled : 1;                                  // 0x00A8 (0x0004) [0x0000000000000001] [0x00000001] (CPF_Edit)
-	uint32_t                                           bEnablePostProcess : 1;                        // 0x00A8 (0x0004) [0x0000000000000001] [0x00000002] (CPF_Edit)
-	uint32_t                                           bEnableFog : 1;                                // 0x00A8 (0x0004) [0x0000000000000001] [0x00000004] (CPF_Edit)
-	uint32_t                                           bUseMainScenePostProcessSettings : 1;          // 0x00A8 (0x0004) [0x0000000000000001] [0x00000008] (CPF_Edit)
-	uint32_t                                           bSkipUpdateIfTextureUsersOccluded : 1;         // 0x00A8 (0x0004) [0x0000000000000001] [0x00000010] (CPF_Edit)
-	uint32_t                                           bSkipUpdateIfOwnerOccluded : 1;                // 0x00A8 (0x0004) [0x0000000000000001] [0x00000020] (CPF_Edit)
-	uint32_t                                           bSkipRenderingDepthPrepass : 1;                // 0x00A8 (0x0004) [0x0000000000000001] [0x00000040] (CPF_Edit)
-	struct FColor                                      ClearColor;                                    // 0x00AC (0x0004) [0x0000000000000001] (CPF_Edit)    
-	ESceneCaptureViewMode                              ViewMode;                                      // 0x00B0 (0x0001) [0x0000000000000001] (CPF_Edit)    
-	ESceneCapturePostMethod                            PostMethod;                                    // 0x00B1 (0x0001) [0x0000000000000001] (CPF_Edit)    
-	uint8_t                                           UnknownData01[0x2];                            // 0x00B2 (0x0002) MISSED OFFSET
-	int32_t                                            SceneLOD;                                      // 0x00B4 (0x0004) [0x0000000000000001] (CPF_Edit)    
-	int32_t                                            CubemapDesaturationAmount;                     // 0x00B8 (0x0004) [0x0000000000000001] (CPF_Edit)    
-	float                                              CubemapSeamlessRoughness;                      // 0x00BC (0x0004) [0x0000000000000001] (CPF_Edit)    
-	float                                              FrameRate;                                     // 0x00C0 (0x0004) [0x0000000000000003] (CPF_Edit | CPF_Const)
-	uint8_t                                           UnknownData02[0x4];                            // 0x00C4 (0x0004) MISSED OFFSET
+	int32_t                                            TotalRenderFrames;                             // 0x00A8 (0x0004) [0x0000000000002000] (CPF_Transient)
+	uint32_t                                           bEnabled : 1;                                  // 0x00AC (0x0004) [0x0000000000000001] [0x00000001] (CPF_Edit)
+	uint32_t                                           bEnablePostProcess : 1;                        // 0x00AC (0x0004) [0x0000000000000001] [0x00000002] (CPF_Edit)
+	uint32_t                                           bEnableFog : 1;                                // 0x00AC (0x0004) [0x0000000000000001] [0x00000004] (CPF_Edit)
+	uint32_t                                           bUseMainScenePostProcessSettings : 1;          // 0x00AC (0x0004) [0x0000000000000001] [0x00000008] (CPF_Edit)
+	uint32_t                                           bSkipUpdateIfTextureUsersOccluded : 1;         // 0x00AC (0x0004) [0x0000000000000001] [0x00000010] (CPF_Edit)
+	uint32_t                                           bSkipUpdateIfOwnerOccluded : 1;                // 0x00AC (0x0004) [0x0000000000000001] [0x00000020] (CPF_Edit)
+	uint32_t                                           bSkipRenderingDepthPrepass : 1;                // 0x00AC (0x0004) [0x0000000000000001] [0x00000040] (CPF_Edit)
+	struct FColor                                      ClearColor;                                    // 0x00B0 (0x0004) [0x0000000000000001] (CPF_Edit)    
+	ESceneCaptureViewMode                              ViewMode;                                      // 0x00B4 (0x0001) [0x0000000000000001] (CPF_Edit)    
+	ESceneCapturePostMethod                            PostMethod;                                    // 0x00B5 (0x0001) [0x0000000000000001] (CPF_Edit)    
+	uint8_t                                           UnknownData01[0x2];                            // 0x00B6 (0x0002) MISSED OFFSET
+	int32_t                                            SceneLOD;                                      // 0x00B8 (0x0004) [0x0000000000000001] (CPF_Edit)    
+	int32_t                                            CubemapDesaturationAmount;                     // 0x00BC (0x0004) [0x0000000000000001] (CPF_Edit)    
+	float                                              CubemapSeamlessRoughness;                      // 0x00C0 (0x0004) [0x0000000000000001] (CPF_Edit)    
+	float                                              FrameRate;                                     // 0x00C4 (0x0004) [0x0000000000000003] (CPF_Edit | CPF_Const)
 	class UPostProcessChain*                           PostProcess;                                   // 0x00C8 (0x0008) [0x0000000000000001] (CPF_Edit)    
 	float                                              MaxUpdateDist;                                 // 0x00D0 (0x0004) [0x0000000000000001] (CPF_Edit)    
 	float                                              MaxViewDistanceOverride;                       // 0x00D4 (0x0004) [0x0000000000000001] (CPF_Edit)    
 	float                                              MaxStreamingUpdateDist;                        // 0x00D8 (0x0004) [0x0000000000000001] (CPF_Edit)    
-	uint8_t                                           UnknownData03[0x4];                            // 0x00DC (0x0004) MISSED OFFSET
+	uint8_t                                           UnknownData02[0x4];                            // 0x00DC (0x0004) MISSED OFFSET
 	struct FPointer                                    CaptureInfo;                                   // 0x00E0 (0x0008) [0x0000000000003002] (CPF_Const | CPF_Native | CPF_Transient)
 	struct FPointer                                    ViewState;                                     // 0x00E8 (0x0008) [0x0000000000003002] (CPF_Const | CPF_Native | CPF_Transient)
 	TArray<struct FPointer>                            PostProcessProxies;                            // 0x00F0 (0x0010) [0x0000000001203002] (CPF_Const | CPF_Native | CPF_Transient)
@@ -12352,11 +12353,11 @@ public:
 };
 
 // Class Engine.Model
-// 0x0D30 (0x0060 - 0x0D90)
+// 0x0D50 (0x0060 - 0x0DB0)
 class UModel : public UObject
 {
 public:
-	uint8_t                                           UnknownData00[0xD30];                          // 0x0060 (0x0D30) MISSED OFFSET
+	uint8_t                                           UnknownData00[0xD50];                          // 0x0060 (0x0D50) MISSED OFFSET
 
 public:
 	static UClass* StaticClass()
@@ -12417,7 +12418,7 @@ public:
 };
 
 // Class Engine.NetDriver
-// 0x0238 (0x0068 - 0x02A0)
+// 0x0230 (0x0068 - 0x0298)
 class UNetDriver : public USubsystem
 {
 public:
@@ -12446,7 +12447,7 @@ public:
 	TArray<class FString>                              DownloadManagers;                              // 0x0158 (0x0010) [0x0000000000404000] (CPF_Config | CPF_NeedCtorLink)
 	uint8_t                                           UnknownData04[0xA8];                           // 0x0168 (0x00A8) MISSED OFFSET
 	class FString                                      NetConnectionClassName;                        // 0x0210 (0x0010) [0x0000000000404000] (CPF_Config | CPF_NeedCtorLink)
-	uint8_t                                           UnknownData05[0x80];                           // 0x0220 (0x0080) MISSED OFFSET
+	uint8_t                                           UnknownData05[0x78];                           // 0x0220 (0x0078) MISSED OFFSET
 
 public:
 	static UClass* StaticClass()
@@ -12464,18 +12465,18 @@ public:
 };
 
 // Class Engine.DemoRecDriver
-// 0x00F8 (0x02A0 - 0x0398)
+// 0x00F8 (0x0298 - 0x0390)
 class UDemoRecDriver : public UNetDriver
 {
 public:
-	uint8_t                                           UnknownData00[0x30];                           // 0x02A0 (0x0030) MISSED OFFSET
-	class FString                                      DemoSpectatorClass;                            // 0x02D0 (0x0010) [0x0000000000404000] (CPF_Config | CPF_NeedCtorLink)
-	uint8_t                                           UnknownData01[0xA0];                           // 0x02E0 (0x00A0) MISSED OFFSET
-	int32_t                                            MaxRewindPoints;                               // 0x0380 (0x0004) [0x0000000000004000] (CPF_Config)  
-	uint8_t                                           UnknownData02[0x4];                            // 0x0384 (0x0004) MISSED OFFSET
-	float                                              RewindPointInterval;                           // 0x0388 (0x0004) [0x0000000000004000] (CPF_Config)  
-	int32_t                                            NumRecentRewindPoints;                         // 0x038C (0x0004) [0x0000000000004000] (CPF_Config)  
-	uint8_t                                           UnknownData03[0x8];                            // 0x0390 (0x0008) MISSED OFFSET
+	uint8_t                                           UnknownData00[0x30];                           // 0x0298 (0x0030) MISSED OFFSET
+	class FString                                      DemoSpectatorClass;                            // 0x02C8 (0x0010) [0x0000000000404000] (CPF_Config | CPF_NeedCtorLink)
+	uint8_t                                           UnknownData01[0xA0];                           // 0x02D8 (0x00A0) MISSED OFFSET
+	int32_t                                            MaxRewindPoints;                               // 0x0378 (0x0004) [0x0000000000004000] (CPF_Config)  
+	uint8_t                                           UnknownData02[0x4];                            // 0x037C (0x0004) MISSED OFFSET
+	float                                              RewindPointInterval;                           // 0x0380 (0x0004) [0x0000000000004000] (CPF_Config)  
+	int32_t                                            NumRecentRewindPoints;                         // 0x0384 (0x0004) [0x0000000000004000] (CPF_Config)  
+	uint8_t                                           UnknownData03[0x8];                            // 0x0388 (0x0008) MISSED OFFSET
 
 public:
 	static UClass* StaticClass()
@@ -14537,7 +14538,7 @@ public:
 };
 
 // Class Engine.GameViewportClient
-// 0x01E0 (0x0068 - 0x0248)
+// 0x01F8 (0x0068 - 0x0260)
 class UGameViewportClient : public UScriptViewportClient
 {
 public:
@@ -14579,11 +14580,12 @@ public:
 	struct FScriptDelegate                             __HandleInputKey__Delegate;                    // 0x0188 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 	struct FScriptDelegate                             __HandleInputAxis__Delegate;                   // 0x01A0 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 	struct FScriptDelegate                             __HandleInputChar__Delegate;                   // 0x01B8 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
-	struct FScriptDelegate                             __EventScaleformEnabledChanged__Delegate;      // 0x01D0 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
-	struct FScriptDelegate                             __EventGamepadInputAPIChanged__Delegate;       // 0x01E8 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
-	struct FScriptDelegate                             __EventGamepadConnectionStatusChanged__Delegate;// 0x0200 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
-	struct FScriptDelegate                             __EventGampadConnected__Delegate;              // 0x0218 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
-	struct FScriptDelegate                             __EventGampadDisconnected__Delegate;           // 0x0230 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventScreenDraggedOnNewScreen__Delegate;     // 0x01D0 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventScaleformEnabledChanged__Delegate;      // 0x01E8 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventGamepadInputAPIChanged__Delegate;       // 0x0200 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventGamepadConnectionStatusChanged__Delegate;// 0x0218 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventGampadConnected__Delegate;              // 0x0230 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventGampadDisconnected__Delegate;           // 0x0248 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 
 public:
 	static UClass* StaticClass()
@@ -14659,6 +14661,7 @@ public:
 	void EventGamepadConnectionStatusChanged(class UGameViewportClient* GVC, int32_t ControllerId, bool bConnected);
 	void EventGamepadInputAPIChanged(class UGameViewportClient* GVC, int32_t ControllerId, EInputAPI InputAPI);
 	void EventScaleformEnabledChanged(class UGameViewportClient* GVC);
+	void EventScreenDraggedOnNewScreen(int32_t NewWidth, int32_t NewHeight);
 	bool HandleInputChar(int32_t ControllerId, class FString Unicode);
 	bool HandleInputAxis(int32_t ControllerId, struct FName Key, float delta, float DeltaTime, bool bGamepad);
 	bool HandleInputKey(int32_t ControllerId, struct FName Key, EInputEvent EventType, float AmountDepressed, bool optionalBGamepad);
@@ -14898,11 +14901,11 @@ public:
 };
 
 // Class Engine.ShadowMap1D
-// 0x0058 (0x0060 - 0x00B8)
+// 0x0068 (0x0060 - 0x00C8)
 class UShadowMap1D : public UObject
 {
 public:
-	uint8_t                                           UnknownData00[0x58];                           // 0x0060 (0x0058) MISSED OFFSET
+	uint8_t                                           UnknownData00[0x68];                           // 0x0060 (0x0068) MISSED OFFSET
 
 public:
 	static UClass* StaticClass()
@@ -15220,6 +15223,7 @@ public:
 		return uClassPointer;
 	};
 
+	void WaitForMipLevelsToStream(float MaxWaitSeconds);
 	class UMaterialInstance* GetOrCreateInstance();
 	void SetForceMipLevelsToBeResident(bool OverrideForceMiplevelsToBeResident, bool bForceMiplevelsToBeResidentValue, float ForceDuration, int32_t optionalCinematicTextureGroups);
 	bool GetMobileVectorParameterValue(struct FName ParameterName, struct FLinearColor& OutValue);
@@ -15887,11 +15891,11 @@ public:
 };
 
 // Class Engine.World
-// 0x0360 (0x0060 - 0x03C0)
+// 0x0358 (0x0060 - 0x03B8)
 class UWorld : public UObject
 {
 public:
-	uint8_t                                           UnknownData00[0x360];                          // 0x0060 (0x0360) MISSED OFFSET
+	uint8_t                                           UnknownData00[0x358];                          // 0x0060 (0x0358) MISSED OFFSET
 
 public:
 	static UClass* StaticClass()
@@ -45122,6 +45126,9 @@ public:
 		return uClassPointer;
 	};
 
+	void ClearCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate);
+	void AddCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate);
+	void OnCaptureAvailabilityChange(bool bCaptureAllowed);
 	void ClearPlayerSigningOutDelegate(struct FScriptDelegate InDelegate);
 	void AddPlayerSigningOutDelegate(struct FScriptDelegate InDelegate);
 	void OnPlayerSigningOut(uint8_t LocalUserNum);

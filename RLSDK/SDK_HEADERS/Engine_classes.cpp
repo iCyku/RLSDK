@@ -51999,6 +51999,29 @@ void UGameViewportClient::EventScaleformEnabledChanged(class UGameViewportClient
 	this->ProcessEvent(uFnEventScaleformEnabledChanged, &EventScaleformEnabledChanged_Params, nullptr);
 };
 
+// Function Engine.GameViewportClient.EventScreenDraggedOnNewScreen
+// [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
+// Parameter Info:
+// int32_t                        NewWidth                       (CPF_Parm)
+// int32_t                        NewHeight                      (CPF_Parm)
+
+void UGameViewportClient::EventScreenDraggedOnNewScreen(int32_t NewWidth, int32_t NewHeight)
+{
+	static UFunction* uFnEventScreenDraggedOnNewScreen = nullptr;
+
+	if (!uFnEventScreenDraggedOnNewScreen)
+	{
+		uFnEventScreenDraggedOnNewScreen = UFunction::FindFunction("Function Engine.GameViewportClient.EventScreenDraggedOnNewScreen");
+	}
+
+	UGameViewportClient_execEventScreenDraggedOnNewScreen_Params EventScreenDraggedOnNewScreen_Params;
+	memset(&EventScreenDraggedOnNewScreen_Params, 0, sizeof(EventScreenDraggedOnNewScreen_Params));
+	memcpy_s(&EventScreenDraggedOnNewScreen_Params.NewWidth, sizeof(EventScreenDraggedOnNewScreen_Params.NewWidth), &NewWidth, sizeof(NewWidth));
+	memcpy_s(&EventScreenDraggedOnNewScreen_Params.NewHeight, sizeof(EventScreenDraggedOnNewScreen_Params.NewHeight), &NewHeight, sizeof(NewHeight));
+
+	this->ProcessEvent(uFnEventScreenDraggedOnNewScreen, &EventScreenDraggedOnNewScreen_Params, nullptr);
+};
+
 // Function Engine.GameViewportClient.HandleInputChar
 // [0x00120001] (FUNC_Final | FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
 // Parameter Info:
@@ -53671,6 +53694,29 @@ float USurface::GetSurfaceWidth()
 	uFnGetSurfaceWidth->FunctionFlags |= 0x400;
 
 	return GetSurfaceWidth_Params.ReturnValue;
+};
+
+// Function Engine.MaterialInterface.WaitForMipLevelsToStream
+// [0x00020401] (FUNC_Final | FUNC_Native | FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// float                          MaxWaitSeconds                 (CPF_Parm)
+
+void UMaterialInterface::WaitForMipLevelsToStream(float MaxWaitSeconds)
+{
+	static UFunction* uFnWaitForMipLevelsToStream = nullptr;
+
+	if (!uFnWaitForMipLevelsToStream)
+	{
+		uFnWaitForMipLevelsToStream = UFunction::FindFunction("Function Engine.MaterialInterface.WaitForMipLevelsToStream");
+	}
+
+	UMaterialInterface_execWaitForMipLevelsToStream_Params WaitForMipLevelsToStream_Params;
+	memset(&WaitForMipLevelsToStream_Params, 0, sizeof(WaitForMipLevelsToStream_Params));
+	memcpy_s(&WaitForMipLevelsToStream_Params.MaxWaitSeconds, sizeof(WaitForMipLevelsToStream_Params.MaxWaitSeconds), &MaxWaitSeconds, sizeof(MaxWaitSeconds));
+
+	uFnWaitForMipLevelsToStream->FunctionFlags &= ~0x400;
+	this->ProcessEvent(uFnWaitForMipLevelsToStream, &WaitForMipLevelsToStream_Params, nullptr);
+	uFnWaitForMipLevelsToStream->FunctionFlags |= 0x400;
 };
 
 // Function Engine.MaterialInterface.GetOrCreateInstance
@@ -109271,6 +109317,69 @@ void UOnlinePurchaseInterface::EventGetAppPriceInfoComplete(struct FName AppName
 	memcpy_s(&EventGetAppPriceInfoComplete_Params.DiscountPercentage, sizeof(EventGetAppPriceInfoComplete_Params.DiscountPercentage), &DiscountPercentage, sizeof(DiscountPercentage));
 
 	this->ProcessEvent(uFnEventGetAppPriceInfoComplete, &EventGetAppPriceInfoComplete_Params, nullptr);
+};
+
+// Function Engine.OnlineSystemInterface.ClearCaptureAvailabilityChangeDelegate
+// [0x00020000] (FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// struct FScriptDelegate         CaptureAvailabilityDelegate    (CPF_Parm | CPF_NeedCtorLink)
+
+void UOnlineSystemInterface::ClearCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate)
+{
+	static UFunction* uFnClearCaptureAvailabilityChangeDelegate = nullptr;
+
+	if (!uFnClearCaptureAvailabilityChangeDelegate)
+	{
+		uFnClearCaptureAvailabilityChangeDelegate = UFunction::FindFunction("Function Engine.OnlineSystemInterface.ClearCaptureAvailabilityChangeDelegate");
+	}
+
+	UOnlineSystemInterface_execClearCaptureAvailabilityChangeDelegate_Params ClearCaptureAvailabilityChangeDelegate_Params;
+	memset(&ClearCaptureAvailabilityChangeDelegate_Params, 0, sizeof(ClearCaptureAvailabilityChangeDelegate_Params));
+	memcpy_s(&ClearCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate, sizeof(ClearCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate), &CaptureAvailabilityDelegate, sizeof(CaptureAvailabilityDelegate));
+
+	this->ProcessEvent(uFnClearCaptureAvailabilityChangeDelegate, &ClearCaptureAvailabilityChangeDelegate_Params, nullptr);
+};
+
+// Function Engine.OnlineSystemInterface.AddCaptureAvailabilityChangeDelegate
+// [0x00020000] (FUNC_Public | FUNC_AllFlags)
+// Parameter Info:
+// struct FScriptDelegate         CaptureAvailabilityDelegate    (CPF_Parm | CPF_NeedCtorLink)
+
+void UOnlineSystemInterface::AddCaptureAvailabilityChangeDelegate(struct FScriptDelegate CaptureAvailabilityDelegate)
+{
+	static UFunction* uFnAddCaptureAvailabilityChangeDelegate = nullptr;
+
+	if (!uFnAddCaptureAvailabilityChangeDelegate)
+	{
+		uFnAddCaptureAvailabilityChangeDelegate = UFunction::FindFunction("Function Engine.OnlineSystemInterface.AddCaptureAvailabilityChangeDelegate");
+	}
+
+	UOnlineSystemInterface_execAddCaptureAvailabilityChangeDelegate_Params AddCaptureAvailabilityChangeDelegate_Params;
+	memset(&AddCaptureAvailabilityChangeDelegate_Params, 0, sizeof(AddCaptureAvailabilityChangeDelegate_Params));
+	memcpy_s(&AddCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate, sizeof(AddCaptureAvailabilityChangeDelegate_Params.CaptureAvailabilityDelegate), &CaptureAvailabilityDelegate, sizeof(CaptureAvailabilityDelegate));
+
+	this->ProcessEvent(uFnAddCaptureAvailabilityChangeDelegate, &AddCaptureAvailabilityChangeDelegate_Params, nullptr);
+};
+
+// Function Engine.OnlineSystemInterface.OnCaptureAvailabilityChange
+// [0x00120000] (FUNC_Public | FUNC_Delegate | FUNC_AllFlags)
+// Parameter Info:
+// bool                           bCaptureAllowed                (CPF_Parm)
+
+void UOnlineSystemInterface::OnCaptureAvailabilityChange(bool bCaptureAllowed)
+{
+	static UFunction* uFnOnCaptureAvailabilityChange = nullptr;
+
+	if (!uFnOnCaptureAvailabilityChange)
+	{
+		uFnOnCaptureAvailabilityChange = UFunction::FindFunction("Function Engine.OnlineSystemInterface.OnCaptureAvailabilityChange");
+	}
+
+	UOnlineSystemInterface_execOnCaptureAvailabilityChange_Params OnCaptureAvailabilityChange_Params;
+	memset(&OnCaptureAvailabilityChange_Params, 0, sizeof(OnCaptureAvailabilityChange_Params));
+	OnCaptureAvailabilityChange_Params.bCaptureAllowed = bCaptureAllowed;
+
+	this->ProcessEvent(uFnOnCaptureAvailabilityChange, &OnCaptureAvailabilityChange_Params, nullptr);
 };
 
 // Function Engine.OnlineSystemInterface.ClearPlayerSigningOutDelegate

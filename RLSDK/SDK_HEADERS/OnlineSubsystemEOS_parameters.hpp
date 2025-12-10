@@ -21,6 +21,27 @@
 # ========================================================================================= #
 */
 
+// Function OnlineSubsystemEOS.OnlineSubsystemEOS.ClearCaptureAvailabilityChangeDelegate
+// [0x00020001] 
+struct UOnlineSubsystemEOS_execClearCaptureAvailabilityChangeDelegate_Params
+{
+	struct FScriptDelegate                             CaptureAvailabilityDelegate;                      		// 0x0000 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
+// Function OnlineSubsystemEOS.OnlineSubsystemEOS.AddCaptureAvailabilityChangeDelegate
+// [0x00020001] 
+struct UOnlineSubsystemEOS_execAddCaptureAvailabilityChangeDelegate_Params
+{
+	struct FScriptDelegate                             CaptureAvailabilityDelegate;                      		// 0x0000 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
+// Function OnlineSubsystemEOS.OnlineSubsystemEOS.OnCaptureAvailabilityChange
+// [0x00120001] 
+struct UOnlineSubsystemEOS_execOnCaptureAvailabilityChange_Params
+{
+	uint32_t                                           bCaptureAllowed : 1;                              		// 0x0000 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
+};
+
 // Function OnlineSubsystemEOS.OnlineSubsystemEOS.EventTextMessageValidated
 // [0x00120001] 
 struct UOnlineSubsystemEOS_execEventTextMessageValidated_Params
@@ -1555,7 +1576,7 @@ struct UOnlinePlayerInterfaceEOS_execHideKeyboardUI_Params
 };
 
 // Function OnlineSubsystemEOS.OnlinePlayerInterfaceEOS.GetPlayerCountry
-// [0x00020001] 
+// [0x00020401] 
 struct UOnlinePlayerInterfaceEOS_execGetPlayerCountry_Params
 {
 	uint8_t                                            LocalUserNum;                                     		// 0x0000 (0x0001) [0x0000000000000080] (CPF_Parm)    
