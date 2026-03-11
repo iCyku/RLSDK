@@ -3445,6 +3445,13 @@ struct UEngine_execUseSecurePackets_Params
 	uint32_t                                           ReturnValue : 1;                                  		// 0x0000 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 };
 
+// Function Engine.GameEngine.EventTravelMapNotFound
+// [0x00120001] 
+struct UGameEngine_execEventTravelMapNotFound_Params
+{
+	class FString                                      MapName;                                          		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
 // Function Engine.GameEngine.HasSecondaryScreenActive
 // [0x00022401] 
 struct UGameEngine_execHasSecondaryScreenActive_Params
@@ -9784,23 +9791,6 @@ struct APlayerController_eventNotifyDirectorControl_Params
 {
 	uint32_t                                           bNowControlling : 1;                              		// 0x0000 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
 	class USeqAct_Interp*                              CurrentMatinee;                                   		// 0x0008 (0x0008) [0x0000000000000080] (CPF_Parm)    
-};
-
-// Function Engine.PlayerController.ServerUnmutePlayer
-// [0x002208C2] 
-struct APlayerController_eventServerUnmutePlayer_Params
-{
-	struct FUniqueNetId                                PlayerNetId;                                      		// 0x0000 (0x0048) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	// class APlayerController*                           Other;                                            		// 0x0048 (0x0008) [0x0000000000000000]               
-	// int32_t                                            RemoveIndex;                                      		// 0x0050 (0x0004) [0x0000000000000000]               
-};
-
-// Function Engine.PlayerController.ServerMutePlayer
-// [0x002208C2] 
-struct APlayerController_eventServerMutePlayer_Params
-{
-	struct FUniqueNetId                                PlayerNetId;                                      		// 0x0000 (0x0048) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
-	// class APlayerController*                           Other;                                            		// 0x0048 (0x0008) [0x0000000000000000]               
 };
 
 // Function Engine.PlayerController.GameplayUnmutePlayer
@@ -17144,6 +17134,13 @@ struct UGameViewportClient_execDebugSetUISystemEnabled_Params
 {
 	uint32_t                                           bOldUISystemActive : 1;                           		// 0x0000 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
 	uint32_t                                           bGFxUISystemActive : 1;                           		// 0x0004 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
+};
+
+// Function Engine.GameViewportClient.SetEnableHighContrastMode
+// [0x00020401] 
+struct UGameViewportClient_execSetEnableHighContrastMode_Params
+{
+	uint32_t                                           bInEnable : 1;                                    		// 0x0000 (0x0004) [0x0000000000000080] [0x00000001] (CPF_Parm)
 };
 
 // Function Engine.GameViewportClient.IsScaleformEnabled
@@ -37018,18 +37015,19 @@ struct UOnlineSystemInterface_execOpenStoreForItemsAsync_Params
 	struct FScriptDelegate                             Callback;                                         		// 0x0018 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 };
 
-// Function Engine.OnlineSystemInterface.OnStorePurchaseCompleteDelegate
-// [0x00120000] 
-struct UOnlineSystemInterface_execOnStorePurchaseCompleteDelegate_Params
-{
-};
-
 // Function Engine.OnlineSystemInterface.OpenStoreForItems
 // [0x00020000] 
 struct UOnlineSystemInterface_execOpenStoreForItems_Params
 {
 	uint8_t                                            LocalUserNum;                                     		// 0x0000 (0x0001) [0x0000000000000080] (CPF_Parm)    
 	TArray<class FString>                              Targets;                                          		// 0x0008 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FScriptDelegate                             Callback;                                         		// 0x0018 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
+// Function Engine.OnlineSystemInterface.OnStorePurchaseCompleteDelegate
+// [0x00120000] 
+struct UOnlineSystemInterface_execOnStorePurchaseCompleteDelegate_Params
+{
 };
 
 // Function Engine.OnlineSystemInterface.OpenStoreForDLC
@@ -37117,10 +37115,11 @@ struct UOnlineSystemInterface_execAddUserOrphanedDelegate_Params
 };
 
 // Function Engine.OnlineSystemInterface.OnUserOrphaned
-// [0x00120000] 
+// [0x00124000] 
 struct UOnlineSystemInterface_execOnUserOrphaned_Params
 {
 	uint8_t                                            ControllerId;                                     		// 0x0000 (0x0001) [0x0000000000000080] (CPF_Parm)    
+	uint32_t                                           bOrphanedByControllerDisconnection : 1;           		// 0x0004 (0x0004) [0x0000000000000090] [0x00000001] (CPF_OptionalParm | CPF_Parm)
 };
 
 // Function Engine.OnlineSystemInterface.ClearControllerChangeDelegate
@@ -38095,6 +38094,22 @@ struct UUserCloudFileCloudSaveSystemDataBlobStore_execGetDataBlobCallbackDelegat
 	class FString                                      BlobName;                                         		// 0x0018 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 	TArray<uint8_t>                                    DataBlob;                                         		// 0x0028 (0x0010) [0x0000000000400182] (CPF_Const | CPF_Parm | CPF_OutParm | CPF_NeedCtorLink)
 	class FString                                      Error;                                            		// 0x0038 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+};
+
+// Function Engine.ContentAuthorizationTokenInterface.GetContentAuthorizationToken
+// [0x00422000] 
+struct UContentAuthorizationTokenInterface_execGetContentAuthorizationToken_Params
+{
+	class FString                                      Nonce;                                            		// 0x0000 (0x0010) [0x0000000000400182] (CPF_Const | CPF_Parm | CPF_OutParm | CPF_NeedCtorLink)
+	struct FScriptDelegate                             Callback;                                         		// 0x0010 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	uint32_t                                           ReturnValue : 1;                                  		// 0x0028 (0x0004) [0x0000000000000580] [0x00000001] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
+};
+
+// Function Engine.ContentAuthorizationTokenInterface.EventGetCATComplete
+// [0x00120000] 
+struct UContentAuthorizationTokenInterface_execEventGetCATComplete_Params
+{
+	class FString                                      Token;                                            		// 0x0000 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 };
 
 /*

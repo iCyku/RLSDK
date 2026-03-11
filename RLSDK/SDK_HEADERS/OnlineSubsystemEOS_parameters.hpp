@@ -258,18 +258,13 @@ struct UOnlineSubsystemEOS_execOpenStoreForItemsAsync_Params
 	struct FScriptDelegate                             OnStorePurchaseCompleteDelegate;                  		// 0x0018 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 };
 
-// Function OnlineSubsystemEOS.OnlineSubsystemEOS.OnStorePurchaseCompleteDelegate
-// [0x00120001] 
-struct UOnlineSubsystemEOS_execOnStorePurchaseCompleteDelegate_Params
-{
-};
-
 // Function OnlineSubsystemEOS.OnlineSubsystemEOS.OpenStoreForItems
 // [0x00020401] 
 struct UOnlineSubsystemEOS_execOpenStoreForItems_Params
 {
 	uint8_t                                            LocalUserNum;                                     		// 0x0000 (0x0001) [0x0000000000000080] (CPF_Parm)    
 	TArray<class FString>                              Targets;                                          		// 0x0008 (0x0010) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
+	struct FScriptDelegate                             OnStorePurchaseCompleteDelegate;                  		// 0x0018 (0x0018) [0x0000000000400080] (CPF_Parm | CPF_NeedCtorLink)
 };
 
 // Function OnlineSubsystemEOS.OnlineSubsystemEOS.OpenStoreForDLC
@@ -278,6 +273,12 @@ struct UOnlineSubsystemEOS_execOpenStoreForDLC_Params
 {
 	uint8_t                                            LocalUserNum;                                     		// 0x0000 (0x0001) [0x0000000000000080] (CPF_Parm)    
 	struct FName                                       DLC;                                              		// 0x0004 (0x0008) [0x0000000000000080] (CPF_Parm)    
+};
+
+// Function OnlineSubsystemEOS.OnlineSubsystemEOS.OnStorePurchaseCompleteDelegate
+// [0x00120001] 
+struct UOnlineSubsystemEOS_execOnStorePurchaseCompleteDelegate_Params
+{
 };
 
 // Function OnlineSubsystemEOS.OnlineSubsystemEOS.OpenErrorDialog
@@ -4175,6 +4176,18 @@ struct UOnlineVoiceInterfaceEOS_execSetLocalPlayerRegisteredStatus_Params
 {
 	class FString                                      PlatformId;                                       		// 0x0000 (0x0010) [0x0000000000400182] (CPF_Const | CPF_Parm | CPF_OutParm | CPF_NeedCtorLink)
 	uint32_t                                           bRegister : 1;                                    		// 0x0010 (0x0004) [0x0000000000000082] [0x00000001] (CPF_Const | CPF_Parm)
+};
+
+// Function OnlineSubsystemEOS.OnlineVoiceInterfaceEOS.OnQueryOutputDevicesFinished
+// [0x00040401] 
+struct UOnlineVoiceInterfaceEOS_execOnQueryOutputDevicesFinished_Params
+{
+};
+
+// Function OnlineSubsystemEOS.OnlineVoiceInterfaceEOS.OnQueryInputDevicesFinished
+// [0x00040401] 
+struct UOnlineVoiceInterfaceEOS_execOnQueryInputDevicesFinished_Params
+{
 };
 
 // Function OnlineSubsystemEOS.OnlineVoiceInterfaceEOS.CacheOutputAudioDevices

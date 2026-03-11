@@ -238,16 +238,13 @@ enum class EPhysics : uint8_t
 	PHYS_END                                           = 14
 };
 
-// Enum Engine.Actor.EForceMode
-enum class EForceMode : uint8_t
+// Enum Engine.Actor.EHighContrastRenderingID
+enum class EHighContrastRenderingID : uint8_t
 {
-	ForceMode_Force                                    = 0,
-	ForceMode_Impulse                                  = 1,
-	ForceMode_Velocity                                 = 2,
-	ForceMode_SmoothImpulse                            = 3,
-	ForceMode_SmoothVelocity                           = 4,
-	ForceMode_Acceleration                             = 5,
-	ForceMode_END                                      = 6
+	HighContrastRenderingID_Team0                      = 0,
+	HighContrastRenderingID_Team1                      = 1,
+	HighContrastRenderingID_Neutral                    = 2,
+	HighContrastRenderingID_END                        = 3
 };
 
 // Enum Engine.Actor.ECollisionType
@@ -295,6 +292,28 @@ enum class ENetRole : uint8_t
 	ROLE_AutonomousProxy                               = 2,
 	ROLE_Authority                                     = 3,
 	ROLE_END                                           = 4
+};
+
+// Enum Engine.Actor.EHighContrastRenderingMode
+enum class EHighContrastRenderingMode : uint8_t
+{
+	HighContrastRenderingMode_Disabled                 = 0,
+	HighContrastRenderingMode_WorldAndHighContrastPass = 1,
+	HighContrastRenderingMode_OnlyHighContrastPass     = 2,
+	HighContrastRenderingMode_AcceptsHighContrastDecals = 3,
+	HighContrastRenderingMode_END                      = 4
+};
+
+// Enum Engine.Actor.EForceMode
+enum class EForceMode : uint8_t
+{
+	ForceMode_Force                                    = 0,
+	ForceMode_Impulse                                  = 1,
+	ForceMode_Velocity                                 = 2,
+	ForceMode_SmoothImpulse                            = 3,
+	ForceMode_SmoothVelocity                           = 4,
+	ForceMode_Acceleration                             = 5,
+	ForceMode_END                                      = 6
 };
 
 // Enum Engine.PrimitiveComponent.GJKResult
@@ -3633,15 +3652,16 @@ public:
 	struct FVector                                     DrawScale3D;                                   // 0x00AC (0x000C) [0x0000000200000003] (CPF_Edit | CPF_Const)
 	struct FVector                                     PrePivot;                                      // 0x00B8 (0x000C) [0x0000000000000003] (CPF_Edit | CPF_Const)
 	struct FColor                                      EditorIconColor;                               // 0x00C4 (0x0004) [0x0000000800000001] (CPF_Edit)    
-	struct FRenderCommandFence                         DetachFence;                                   // 0x00C8 (0x0004) [0x0000000000001002] (CPF_Const | CPF_Native)
-	float                                              CustomTimeDilation;                            // 0x00CC (0x0004) [0x0000000000000000]               
-	EPhysics                                           Physics;                                       // 0x00D0 (0x0001) [0x0000000000000023] (CPF_Edit | CPF_Const | CPF_Net)
-	ENetRole                                           RemoteRole;                                    // 0x00D1 (0x0001) [0x0000000000000020] (CPF_Net)     
-	ENetRole                                           Role;                                          // 0x00D2 (0x0001) [0x0000000000000020] (CPF_Net)     
-	ECollisionType                                     CollisionType;                                 // 0x00D3 (0x0001) [0x0000000000002003] (CPF_Edit | CPF_Const | CPF_Transient)
-	ECollisionType                                     ReplicatedCollisionType;                       // 0x00D4 (0x0001) [0x0000000000002020] (CPF_Net | CPF_Transient)
-	ETickingGroup                                      TickGroup;                                     // 0x00D5 (0x0001) [0x0000000000000002] (CPF_Const)   
-	uint8_t                                           UnknownData00[0x2];                            // 0x00D6 (0x0002) MISSED OFFSET
+	EHighContrastRenderingMode                         HighContrastRenderingMode;                     // 0x00C8 (0x0001) [0x0000000000000001] (CPF_Edit)    
+	EPhysics                                           Physics;                                       // 0x00C9 (0x0001) [0x0000000000000023] (CPF_Edit | CPF_Const | CPF_Net)
+	ENetRole                                           RemoteRole;                                    // 0x00CA (0x0001) [0x0000000000000020] (CPF_Net)     
+	ENetRole                                           Role;                                          // 0x00CB (0x0001) [0x0000000000000020] (CPF_Net)     
+	ECollisionType                                     CollisionType;                                 // 0x00CC (0x0001) [0x0000000000002003] (CPF_Edit | CPF_Const | CPF_Transient)
+	ECollisionType                                     ReplicatedCollisionType;                       // 0x00CD (0x0001) [0x0000000000002020] (CPF_Net | CPF_Transient)
+	ETickingGroup                                      TickGroup;                                     // 0x00CE (0x0001) [0x0000000000000002] (CPF_Const)   
+	uint8_t                                           UnknownData00[0x1];                            // 0x00CF (0x0001) MISSED OFFSET
+	struct FRenderCommandFence                         DetachFence;                                   // 0x00D0 (0x0004) [0x0000000000001002] (CPF_Const | CPF_Native)
+	float                                              CustomTimeDilation;                            // 0x00D4 (0x0004) [0x0000000000000000]               
 	class AActor*                                      Owner;                                         // 0x00D8 (0x0008) [0x0000000000000022] (CPF_Const | CPF_Net)
 	class AActor*                                      Base;                                          // 0x00E0 (0x0008) [0x0000000000000023] (CPF_Edit | CPF_Const | CPF_Net)
 	TArray<struct FTimerData>                          Timers;                                        // 0x00E8 (0x0010) [0x0000000000400002] (CPF_Const | CPF_NeedCtorLink)
@@ -4808,7 +4828,7 @@ public:
 };
 
 // Class Engine.GameEngine
-// 0x01F0 (0x0958 - 0x0B48)
+// 0x0208 (0x0958 - 0x0B60)
 class UGameEngine : public UEngine
 {
 public:
@@ -4847,6 +4867,7 @@ public:
 	TArray<struct FFullyLoadedPackagesInfo>            PackagesToFullyLoad;                           // 0x0B18 (0x0010) [0x0000000000400000] (CPF_NeedCtorLink)
 	TArray<struct FNamedNetDriver>                     NamedNetDrivers;                               // 0x0B28 (0x0010) [0x0000000000402002] (CPF_Const | CPF_Transient | CPF_NeedCtorLink)
 	TArray<struct FAnimTag>                            AnimTags;                                      // 0x0B38 (0x0010) [0x0000000000404000] (CPF_Config | CPF_NeedCtorLink)
+	struct FScriptDelegate                             __EventTravelMapNotFound__Delegate;            // 0x0B48 (0x0018) [0x0000000000400000] (CPF_NeedCtorLink)
 
 public:
 	static UClass* StaticClass()
@@ -4861,6 +4882,7 @@ public:
 		return uClassPointer;
 	};
 
+	void EventTravelMapNotFound(class FString MapName);
 	static bool HasSecondaryScreenActive();
 	static class UDownloadableContentManager* GetDLCManager();
 	static class UDownloadableContentEnumerator* GetDLCEnumerator();
@@ -7649,10 +7671,11 @@ public:
 	ESceneDepthPriorityGroup                           DepthPriorityGroup;                            // 0x0184 (0x0001) [0x0000000000000003] (CPF_Edit | CPF_Const)
 	ESceneDepthPriorityGroup                           ViewOwnerDepthPriorityGroup;                   // 0x0185 (0x0001) [0x0000000000000002] (CPF_Const)   
 	EDetailMode                                        DetailMode;                                    // 0x0186 (0x0001) [0x0000000000000003] (CPF_Edit | CPF_Const)
-	ERBCollisionChannel                                RBChannel;                                     // 0x0187 (0x0001) [0x0000000000000003] (CPF_Edit | CPF_Const)
-	uint8_t                                            RBDominanceGroup;                              // 0x0188 (0x0001) [0x0000000000000001] (CPF_Edit)    
-	uint8_t                                            PreviewEnvironmentShadowing;                   // 0x0189 (0x0001) [0x0000000000000000]               
-	uint8_t                                           UnknownData02[0x2];                            // 0x018A (0x0002) MISSED OFFSET
+	EHighContrastRenderingMode                         HighContrastRenderingMode;                     // 0x0187 (0x0001) [0x0000000000000001] (CPF_Edit)    
+	EHighContrastRenderingID                           HighContrastRenderingID;                       // 0x0188 (0x0001) [0x0000000000000001] (CPF_Edit)    
+	ERBCollisionChannel                                RBChannel;                                     // 0x0189 (0x0001) [0x0000000000000003] (CPF_Edit | CPF_Const)
+	uint8_t                                            RBDominanceGroup;                              // 0x018A (0x0001) [0x0000000000000001] (CPF_Edit)    
+	uint8_t                                            PreviewEnvironmentShadowing;                   // 0x018B (0x0001) [0x0000000000000000]               
 	uint32_t                                           bUseViewOwnerDepthPriorityGroup : 1;           // 0x018C (0x0004) [0x0000000000000002] [0x00000001] (CPF_Const)
 	uint32_t                                           bOnlyBlockActorMovement : 1;                   // 0x018C (0x0004) [0x0000000000000002] [0x00000002] (CPF_Const)
 	uint32_t                                           bAllowCullDistanceVolume : 1;                  // 0x018C (0x0004) [0x0000000000000003] [0x00000004] (CPF_Edit | CPF_Const)
@@ -7713,7 +7736,7 @@ public:
 	uint32_t                                           bAllowShadowFade : 1;                          // 0x0190 (0x0004) [0x0000000000000000] [0x02000000] 
 	uint32_t                                           bSupportedOnMobile : 1;                        // 0x0190 (0x0004) [0x0000000000000000] [0x04000000] 
 	uint32_t                                           bWasSNFiltered : 1;                            // 0x0190 (0x0004) [0x0000000000003002] [0x08000000] (CPF_Const | CPF_Native | CPF_Transient)
-	uint8_t                                           UnknownData03[0x4];                            // 0x0194 (0x0004) MISSED OFFSET
+	uint8_t                                           UnknownData02[0x4];                            // 0x0194 (0x0004) MISSED OFFSET
 	TArray<int32_t>                                    OctreeNodes;                                   // 0x0198 (0x0010) [0x0000000000003002] (CPF_Const | CPF_Native | CPF_Transient)
 	TArray<EOnlinePlatform>                            AlwaysShowInSelectedPlatforms;                 // 0x01A8 (0x0010) [0x0000000000400001] (CPF_Edit | CPF_NeedCtorLink)
 	int32_t                                            TranslucencySortPriority;                      // 0x01B8 (0x0004) [0x0000000000000001] (CPF_Edit)    
@@ -7721,7 +7744,7 @@ public:
 	struct FLightingChannelContainer                   LightingChannels;                              // 0x01C0 (0x0004) [0x0000000000000003] (CPF_Edit | CPF_Const)
 	uint32_t                                           bHideInLowEffectsIntensity : 1;                // 0x01C4 (0x0004) [0x0000000000000003] [0x00000001] (CPF_Edit | CPF_Const)
 	struct FRBCollisionChannelContainer                RBCollideWithChannels;                         // 0x01C8 (0x0004) [0x0000000000000003] (CPF_Edit | CPF_Const)
-	uint8_t                                           UnknownData04[0x4];                            // 0x01CC (0x0004) MISSED OFFSET
+	uint8_t                                           UnknownData03[0x4];                            // 0x01CC (0x0004) MISSED OFFSET
 	class UPhysicalMaterial*                           PhysMaterialOverride;                          // 0x01D0 (0x0008) [0x0000000000000003] (CPF_Edit | CPF_Const)
 	class URB_BodyInstance*                            BodyInstance;                                  // 0x01D8 (0x0008) [0x0000000000201002] (CPF_Const | CPF_Native)
 	struct FMatrix                                     CachedParentToWorld;                           // 0x01E0 (0x0040) [0x0000000000003002] (CPF_Const | CPF_Native | CPF_Transient)
@@ -10010,8 +10033,6 @@ public:
 	bool IsShowingSubtitles();
 	void SetShowSubtitles(bool bValue);
 	void eventNotifyDirectorControl(bool bNowControlling, class USeqAct_Interp* CurrentMatinee);
-	void eventServerUnmutePlayer(struct FUniqueNetId PlayerNetId);
-	void eventServerMutePlayer(struct FUniqueNetId PlayerNetId);
 	void GameplayUnmutePlayer(struct FUniqueNetId PlayerNetId);
 	void GameplayMutePlayer(struct FUniqueNetId PlayerNetId);
 	void eventClientUnmutePlayer(struct FUniqueNetId PlayerNetId);
@@ -14602,6 +14623,7 @@ public:
 
 	void eventSetHardwareMouseCursorVisibility(bool bIsVisible);
 	void DebugSetUISystemEnabled(bool bOldUISystemActive, bool bGFxUISystemActive);
+	void SetEnableHighContrastMode(bool bInEnable);
 	bool IsScaleformEnabled();
 	void DisableScaleform();
 	void EnableScaleform();
@@ -45161,8 +45183,8 @@ public:
 	bool AnyPlayerChatRestricted();
 	void InitializeTrophyAPI();
 	void OpenStoreForItemsAsync(uint8_t LocalUserNum, TArray<class FString> Targets, struct FScriptDelegate Callback);
+	void OpenStoreForItems(uint8_t LocalUserNum, TArray<class FString> Targets, struct FScriptDelegate Callback);
 	void OnStorePurchaseCompleteDelegate();
-	void OpenStoreForItems(uint8_t LocalUserNum, TArray<class FString> Targets);
 	void OpenStoreForDLC(uint8_t LocalUserNum, struct FName DLC);
 	void OpenErrorDialog(uint8_t LocalUserNum, EPS4ErrorDialog ErrorCode);
 	void OpenPS4DisplayMode(uint8_t LocalUserNum, EPS4DisplayMode DisplayMode, TArray<class FString> optionalTargets, int32_t optionalServiceLabel);
@@ -45174,7 +45196,7 @@ public:
 	void OnUserRestored(uint8_t ControllerId);
 	void ClearUserOrphanedDelegate(struct FScriptDelegate UserOrphanedDelegate);
 	void AddUserOrphanedDelegate(struct FScriptDelegate UserOrphanedDelegate);
-	void OnUserOrphaned(uint8_t ControllerId);
+	void OnUserOrphaned(uint8_t ControllerId, bool optionalBOrphanedByControllerDisconnection);
 	void ClearControllerChangeDelegate(struct FScriptDelegate ControllerChangeDelegate);
 	void AddControllerChangeDelegate(struct FScriptDelegate ControllerChangeDelegate);
 	void OnControllerChange(int32_t ControllerId, bool bIsConnected);
@@ -47027,6 +47049,29 @@ public:
 		return uClassPointer;
 	};
 
+};
+
+// Class Engine.ContentAuthorizationTokenInterface
+// 0x0000 (0x0060 - 0x0060)
+class UContentAuthorizationTokenInterface : public UInterface
+{
+public:
+
+public:
+	static UClass* StaticClass()
+	{
+		static UClass* uClassPointer = nullptr;
+
+		if (!uClassPointer)
+		{
+			uClassPointer = UObject::FindClass("Class Engine.ContentAuthorizationTokenInterface");
+		}
+
+		return uClassPointer;
+	};
+
+	static bool GetContentAuthorizationToken(struct FScriptDelegate Callback, class FString& Nonce);
+	void EventGetCATComplete(class FString Token);
 };
 
 /*

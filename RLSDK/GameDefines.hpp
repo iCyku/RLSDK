@@ -168,9 +168,9 @@ enum EObjectFlags
 */
 
 // GObjects
-#define GObjects_Offset		(uintptr_t)0x023ED5B8
+#define GObjects_Offset		(uintptr_t)0x02401690
 // GNames
-#define GNames_Offset		(uintptr_t)0x023ED570
+#define GNames_Offset		(uintptr_t)0x02401648
 
 /*
 # ========================================================================================= #

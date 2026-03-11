@@ -10315,32 +10315,32 @@ uint64_t UObject::QMax(uint64_t A, uint64_t B)
 	return QMax_Params.ReturnValue;
 };
 
-// Function Core.Object.QSubtract
+// Function Core.Object.QSubtractNoUnderflow
 // [0x00022401] (FUNC_Final | FUNC_Native | FUNC_Static | FUNC_Public | FUNC_AllFlags)
 // Parameter Info:
 // uint64_t                       ReturnValue                    (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 // uint64_t                       A                              (CPF_Parm)
 // uint64_t                       B                              (CPF_Parm)
 
-uint64_t UObject::QSubtract(uint64_t A, uint64_t B)
+uint64_t UObject::QSubtractNoUnderflow(uint64_t A, uint64_t B)
 {
-	static UFunction* uFnQSubtract = nullptr;
+	static UFunction* uFnQSubtractNoUnderflow = nullptr;
 
-	if (!uFnQSubtract)
+	if (!uFnQSubtractNoUnderflow)
 	{
-		uFnQSubtract = UFunction::FindFunction("Function Core.Object.QSubtract");
+		uFnQSubtractNoUnderflow = UFunction::FindFunction("Function Core.Object.QSubtractNoUnderflow");
 	}
 
-	UObject_execQSubtract_Params QSubtract_Params;
-	memset(&QSubtract_Params, 0, sizeof(QSubtract_Params));
-	QSubtract_Params.A = A;
-	QSubtract_Params.B = B;
+	UObject_execQSubtractNoUnderflow_Params QSubtractNoUnderflow_Params;
+	memset(&QSubtractNoUnderflow_Params, 0, sizeof(QSubtractNoUnderflow_Params));
+	QSubtractNoUnderflow_Params.A = A;
+	QSubtractNoUnderflow_Params.B = B;
 
-	uFnQSubtract->FunctionFlags &= ~0x400;
-	UObject::StaticClass()->ProcessEvent(uFnQSubtract, &QSubtract_Params, nullptr);
-	uFnQSubtract->FunctionFlags |= 0x400;
+	uFnQSubtractNoUnderflow->FunctionFlags &= ~0x400;
+	UObject::StaticClass()->ProcessEvent(uFnQSubtractNoUnderflow, &QSubtractNoUnderflow_Params, nullptr);
+	uFnQSubtractNoUnderflow->FunctionFlags |= 0x400;
 
-	return QSubtract_Params.ReturnValue;
+	return QSubtractNoUnderflow_Params.ReturnValue;
 };
 
 // Function Core.Object.NotEqual_QWordInt

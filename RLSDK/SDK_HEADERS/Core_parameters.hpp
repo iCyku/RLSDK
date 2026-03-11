@@ -3268,9 +3268,9 @@ struct UObject_execQMax_Params
 	uint64_t                                           ReturnValue;                                      		// 0x0010 (0x0008) [0x0000000000000580] (CPF_Parm | CPF_OutParm | CPF_ReturnParm)
 };
 
-// Function Core.Object.QSubtract
+// Function Core.Object.QSubtractNoUnderflow
 // [0x00022401] 
-struct UObject_execQSubtract_Params
+struct UObject_execQSubtractNoUnderflow_Params
 {
 	uint64_t                                           A;                                                		// 0x0000 (0x0008) [0x0000000000000080] (CPF_Parm)    
 	uint64_t                                           B;                                                		// 0x0008 (0x0008) [0x0000000000000080] (CPF_Parm)    
